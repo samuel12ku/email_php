@@ -1,0 +1,446 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Sora;
+  /* Creamos un gradiente más ancho de lo normal para poder "que se mueva el fondo" */
+  background: linear-gradient(135deg, #39A900, #007832, #005c1e, #39A900 100%);
+  background-size: 400% 400%;
+  animation: gradiente-movimiento 10s ease-in-out infinite;
+  padding: 30px 10px;
+  min-height: 100vh;
+}
+
+/* Animación del gradiente */
+@keyframes gradiente-movimiento {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.form-contenedor {
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgb(255, 253, 253);
+  padding: 30px 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1a4d1a;
+  font-size: 1.8rem;
+}
+
+.form-grupo {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 2px solid #d1d1d1;
+  border-radius: 10px;
+  resize: vertical;
+}
+
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: #8fe79b;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #38ee28;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
+}
+
+.form-navegacion {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 25px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.form-navegacion button,
+a.btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #5da530, #38ee28);
+  color: white;
+  border: none;
+  padding: 14px 30px;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(93, 165, 48, 0.3);
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+a.btn {
+  margin-bottom: 40px;
+}
+
+.form-navegacion button {
+  margin-top: 10px;
+}
+
+.form-navegacion button:hover,
+a.btn:hover {
+  background: linear-gradient(135deg, #4bb322, #30da10);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(72, 163, 33, 0.4);
+}
+
+.form-navegacion button:active,
+a.btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 4px 10px rgba(72, 163, 33, 0.3);
+}
+
+.subir-archivo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.custom-subir-archivo {
+  display: inline-block;
+  background-color: #5da530;
+  color: white;
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(93, 165, 48, 0.3);
+  text-align: center;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.custom-subir-archivo:hover {
+  background-color: #3e9a60;
+}
+
+.subir-archivo input[type="file"] {
+  display: none;
+}
+
+#file-name,
+#imagen-nombre {
+  margin-left: 10px;
+  font-style: italic;
+  color: #444;
+}
+
+.preview-imagen {
+  margin-top: 10px;
+}
+
+.preview-imagen img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* --- RESPONSIVE PARA TABLET --- */
+/* @media (max-width: 900px) {
+  .form-contenedor {
+    width: 99vw;
+    max-width: 99vw;
+    padding: 22px 2vw 22px 2vw;
+    margin: 18px auto;
+    border-radius: 17px;
+  }
+  h2 {
+    font-size: 1.35rem;
+  }
+  label {
+    font-size: 1.08rem;
+  }
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 1.07rem;
+    padding: 14px;
+    border-radius: 11px;
+  }
+  .form-navegacion {
+    justify-content: center !important;
+    flex-direction: row;
+    gap: 14px;
+    margin-top: 22px;
+  }
+  .form-navegacion button,
+  a.btn {
+    min-width: 150px;
+    width: auto;
+    font-size: 1.05rem;
+    padding: 16px 20px;
+    border-radius: 10px;
+  }
+  .custom-subir-archivo {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    height: auto;
+    overflow-x: hidden;
+  }
+  .form-contenedor {
+    width: 99vw;
+    max-width: 100vw;
+    padding: 18px 2vw 24px 2vw;
+    border-radius: 13px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.10);
+    margin: 0 auto;
+  }
+  h2 {
+    font-size: 1.18rem;
+    margin-bottom: 13px;
+  }
+  label {
+    font-size: 1rem;
+  }
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 1.05rem;
+    padding: 12px;
+    border-radius: 8px;
+  }
+  .form-navegacion {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center !important;
+    gap: 13px;
+    margin-top: 17px;
+  }
+  .form-navegacion button,
+  a.btn {
+    width: 100%;
+    max-width: 400px;
+    font-size: 1.03rem;
+    padding: 14px 0;
+    border-radius: 8px;
+  }
+  .custom-subir-archivo {
+    font-size: 0.98rem;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+  }
+  .form-grupo {
+    margin-bottom: 13px;
+  }
+}
+
+@media (max-width: 400px) {
+  .form-contenedor {
+    padding: 9px 1vw 15px 1vw;
+    border-radius: 9px;
+  }
+  h2 {
+    font-size: 0.95rem;
+  }
+  label {
+    font-size: 0.85rem;
+  }
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 0.9rem;
+    padding: 8px;
+    border-radius: 7px;
+  }
+  .form-navegacion button,
+  a.btn {
+    font-size: 0.92rem;
+    padding: 11px 0;
+    border-radius: 7px;
+  }
+}
+/* --- RESPONSIVE PARA TABLET --- */
+@media (max-width: 900px) {
+  body {
+    padding: 0 !important;
+    min-height: 100vh;
+  }
+  .form-contenedor {
+    width: 99vw;
+    max-width: 99vw;
+    padding: 32px 3vw 32px 3vw;
+    margin: 0 auto 0 auto;
+    border-radius: 17px;
+  }
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 18px;
+  }
+  label {
+    font-size: 1.13rem;
+  }
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 1.12rem;
+    padding: 16px;
+    border-radius: 12px;
+  }
+  .form-navegacion {
+    flex-direction: row;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 18px;
+    margin-top: 25px;
+    width: 100%;
+  }
+  .form-navegacion button,
+  a.btn {
+    min-width: 160px;
+    font-size: 1.08rem;
+    padding: 18px 0;
+    border-radius: 11px;
+    width: 40vw;
+    max-width: 250px;
+  }
+  .custom-subir-archivo {
+    font-size: 1.1rem;
+    padding: 12px 22px;
+    width: 100%;
+    text-align: center;
+    border-radius: 9px;
+  }
+}
+
+/* --- RESPONSIVE PARA TELÉFONO --- */
+@media (max-width: 600px) {
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    height: auto;
+    overflow-x: hidden;
+  }
+  .form-contenedor {
+    width: 99vw;
+    max-width: 100vw;
+    padding: 19px 2vw 26px 2vw;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.11);
+    margin: 0 auto;
+  }
+  h2 {
+    font-size: 1.22rem;
+    margin-bottom: 16px;
+  }
+  label {
+    font-size: 1.08rem;
+  }
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 1.13rem;
+    padding: 14px;
+    border-radius: 10px;
+  }
+  .form-navegacion {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center !important;
+    gap: 15px;
+    margin-top: 20px;
+    width: 100%;
+  }
+  .form-navegacion button,
+  a.btn {
+    width: 100%;
+    max-width: 430px;
+    font-size: 1.1rem;
+    padding: 16px 0;
+    border-radius: 10px;
+  }
+  .custom-subir-archivo {
+    font-size: 1.06rem;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    border-radius: 9px;
+  }
+  .form-grupo {
+    margin-bottom: 14px;
+  }
+}
+
+/* --- RESPONSIVE PARA TELÉFONO PEQUEÑO --- */
+@media (max-width: 400px) {
+  .form-contenedor {
+    padding: 13px 1vw 18px 1vw;
+    border-radius: 10px;
+  }
+  h2 {
+    font-size: 1rem;
+  }
+  label {
+    font-size: 0.92rem;
+  }
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 0.98rem;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  .form-navegacion button,
+  a.btn {
+    font-size: 0.98rem;
+    padding: 13px 0;
+    border-radius: 8px;
+  }
+} 

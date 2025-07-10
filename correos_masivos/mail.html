@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rutina de envío de correos</title>
+  <link rel="stylesheet" href="../correos_personalizados/estilos.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="form-contenedor">
+    <div class="form-grupo form-navegacion">
+      <a href="../correos_personalizados/email.html" class="btn">Ir a correos personalizados</a>
+    </div>
+    <h2>Rutina de envío de correos</h2>
+
+    <form id="correo-form">
+
+
+      <div class="form-grupo">
+        <label for="destinatario">Destinatarios (separados por coma):</label>
+        <input type="text" name="destinatario" id="destinatario" placeholder="ej: correo1@gmail.com, correo2@hotmail.com, " required>
+      </div>
+
+      <div class="form-grupo">
+        <label for="titulo">Título del mensaje:</label>
+        <input type="text" name="titulo" id="titulo" required>
+      </div>
+
+      <div class="form-grupo">
+        <label for="contenido">Contenido del mensaje:</label>
+        <textarea name="contenido" id="contenido" rows="5" required></textarea>
+      </div>
+
+    <div class="form-grupo">
+      <label for="imagen">Subir imagen para insertar en el correo:</label>
+      <div class="subir-archivo">
+        <label for="imagen" class="custom-subir-archivo">🖼️ Seleccionar imagen</label>
+        <input type="file" id="imagen" name="imagen" accept="image/*">
+        <span id="imagen-nombre">Ningún archivo seleccionado</span>
+      </div>
+      <div class="preview-imagen">
+        <img id="preview" src="" alt="Vista previa" style="display:none;">
+      </div>
+    </div>
+
+
+    <div class="form-grupo">
+        <label for="orden">Orden del contenido:</label>
+            <select name="orden" id="orden" required>
+        <option value="imagen_texto"> Imagen primero</option>
+        <option value="texto_imagen"> Texto primero</option>
+        </select>
+    </div>
+
+
+
+      <div class="form-grupo form-navegacion">
+        <button type="submit">Iniciar envío</button>
+      </div>
+    </form>
+
+    </form>
+
+    <div id="log" style="margin-top: 20px; color: #1a4d1a;"></div>
+  </div>
+
+  <script src="rutina_envio.js"></script>
+  <script src="../correos_personalizados/envio_personalizado.js"></script>
+</body>
+</html>

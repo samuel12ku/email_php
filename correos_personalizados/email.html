@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Enviar correos personalizados</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <div class="form-contenedor">
+    <div class="form-grupo form-navegacion">
+      <a href="../correos_masivos/mail.html" class="btn">Ir a correos masivos (no personalizado)</a>
+    </div>
+    <h2>Formulario de Correos Personalizados</h2>
+    <form action="email_csv.php" method="POST" enctype="multipart/form-data">
+<div class="form-grupo">
+  <label for="csv">Subir archivo CSV:</label>
+  <div class="subir-archivo">
+    <label for="csv" class="custom-subir-archivo">📂 Seleccionar archivo</label>
+    <input type="file" name="csv" id="csv" accept=".csv, .xlsx" required>
+    <span id="file-name">Ningún archivo seleccionado</span>
+  </div>
+</div>
+
+      <div class="form-grupo">
+        <label for="titulo">Título del mensaje:</label>
+        <input type="text" id="titulo" name="titulo" required>
+    </div>
+    
+    <div class="form-grupo">
+        <label for="contenido">Contenido del mensaje:</label>
+        <textarea id="contenido" name="contenido" rows="4" required></textarea>
+      </div>
+
+    <div class="form-grupo">
+      <label for="imagen">Subir imagen para insertar en el correo:</label>
+      <div class="subir-archivo">
+        <label for="imagen" class="custom-subir-archivo">🖼️ Seleccionar imagen</label>
+        <input type="file" id="imagen" name="imagen" accept="image/*">
+        <span id="imagen-nombre">Ningún archivo seleccionado</span>
+      </div>
+      <div class="preview-imagen">
+        <img id="preview" src="" alt="Vista previa" style="display:none;">
+      </div>
+    </div>
+
+      <div class="form-grupo">
+        <label for="orden">¿En qué orden quieres mostrar la imagen y el texto?</label>
+        <select id="orden" name="orden" required>
+          <option value="texto_imagen">Primero texto, luego imagen</option>
+          <option value="imagen_texto">Primero imagen, luego texto</option>
+        </select>
+      </div>
+
+      <div class="form-navegacion">
+        <button type="submit">Enviar correos</button>
+      </div>
+
+    </form>
+  </div>
+
+  <script src="envio_personalizado.js"></script>
+</body>
+</html>
