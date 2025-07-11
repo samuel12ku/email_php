@@ -23,9 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
         // correo de gmail
-        $mail->Username = 'k3vinch3nl1@gmail.com';
+        $mail->Username = 'samuelscarpetta1203@gmail.com';
         // contraseña de aplicación  
-        $mail->Password = 'qgds ykaz hlhg vmmk';
+        $mail->Password = 'ubte psxi wdyj kkoo';
         $mail->Port = 587;
 
         // Remitente y destinatario real (visible)
