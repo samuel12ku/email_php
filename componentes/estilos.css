@@ -6,17 +6,21 @@
   padding: 0;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  font-family: Sora;
-  /* Creamos un gradiente más ancho de lo normal para poder "que se mueva el fondo" */
+  font-family: 'Sora', Arial, sans-serif;
   background: linear-gradient(135deg, #39A900, #007832, #005c1e, #39A900 100%);
   background-size: 400% 400%;
   animation: gradiente-movimiento 10s ease-in-out infinite;
-  padding: 30px 10px;
+  padding: 0px; /* Elimina el hueco arriba/abajo, solo deja padding a los lados */
   min-height: 100vh;
+  margin: 0;
 }
 
-/* Animación del gradiente */
 @keyframes gradiente-movimiento {
   0% {
     background-position: 0% 50%;
@@ -28,12 +32,72 @@ body {
     background-position: 0% 50%;
   }
 }
+
+/* ========== HEADER INSTITUCIONAL SENA ========== */
+.encabezado-sena {
+  width: 100%;
+  background: rgba(255,255,255,0.97);
+  border-bottom: 2px solid #39A90030;
+  padding: 17px 0 8px 0;      /* Padding medio, da buen cuerpo */
+  box-shadow: 0 2px 12px 0 #39A90010;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.encabezado-logo-titulo {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  justify-content: flex-start;
+  grid-column: 1/2;
+  margin-left: 30px;
+}
+
+img.encabezado-logo,
+.encabezado-logo {
+  max-width: 58px;      /* Logo medio */
+  max-height: 58px;
+  background: #00000000;
+  border-radius: 11px;
+  padding: 3px;
+}
+
+.encabezado-titulo {
+  font-size: 1.25rem;   /* Título medio */
+  color: #15691d;
+  font-weight: 800;
+  letter-spacing: 0.021em;
+  margin-left: 15px;
+  line-height: 1.13;
+}
+
+.encabezado-nav-link {
+  grid-column: 2/3;
+  justify-self: center;
+  font-size: 1.21rem;
+  color: #007832;
+  text-decoration: none;
+  font-weight: 700;
+  background: transparent;
+  border-radius: 8px;
+  padding: 12px 32px;
+  transition: background 0.18s, color 0.18s;
+}
+
+/* ========== FORMULARIO Y CONTENEDOR GENERAL ========== */
+
 .form-contenedor {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 170px auto 0 auto; 
   background: rgb(255, 253, 253);
   padding: 30px 40px;
   border-radius: 20px;
+  filter: drop-shadow(0 1px 4px #60de7d48);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -73,13 +137,13 @@ textarea {
 input:hover,
 textarea:hover,
 select:hover {
-  border-color: #8fe79b;
+  border-color: #56a54e;
 }
 
 input:focus,
 textarea:focus {
   outline: none;
-  border-color: #38ee28;
+  border-color: #28a81d;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   transform: translateY(-2px);
 }
@@ -95,7 +159,7 @@ textarea:focus {
 .form-navegacion button,
 a.btn {
   display: inline-block;
-  background: linear-gradient(135deg, #5da530, #38ee28);
+  background: linear-gradient(135deg, #2faa4a, #70bb52);
   color: white;
   border: none;
   padding: 14px 30px;
@@ -119,7 +183,7 @@ a.btn {
 
 .form-navegacion button:hover,
 a.btn:hover {
-  background: linear-gradient(135deg, #4bb322, #30da10);
+  background: linear-gradient(135deg, #4bb322, #33a71c);
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(72, 163, 33, 0.4);
 }
@@ -177,133 +241,8 @@ a.btn:active {
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* --- RESPONSIVE PARA TABLET --- */
-/* @media (max-width: 900px) {
-  .form-contenedor {
-    width: 99vw;
-    max-width: 99vw;
-    padding: 22px 2vw 22px 2vw;
-    margin: 18px auto;
-    border-radius: 17px;
-  }
-  h2 {
-    font-size: 1.35rem;
-  }
-  label {
-    font-size: 1.08rem;
-  }
-  input[type="text"],
-  input[type="number"],
-  select,
-  textarea {
-    font-size: 1.07rem;
-    padding: 14px;
-    border-radius: 11px;
-  }
-  .form-navegacion {
-    justify-content: center !important;
-    flex-direction: row;
-    gap: 14px;
-    margin-top: 22px;
-  }
-  .form-navegacion button,
-  a.btn {
-    min-width: 150px;
-    width: auto;
-    font-size: 1.05rem;
-    padding: 16px 20px;
-    border-radius: 10px;
-  }
-  .custom-subir-archivo {
-    font-size: 1rem;
-    padding: 10px 20px;
-  }
-}
+/* ========== RESPONSIVE ========== */
 
-@media (max-width: 600px) {
-  html, body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    height: auto;
-    overflow-x: hidden;
-  }
-  .form-contenedor {
-    width: 99vw;
-    max-width: 100vw;
-    padding: 18px 2vw 24px 2vw;
-    border-radius: 13px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.10);
-    margin: 0 auto;
-  }
-  h2 {
-    font-size: 1.18rem;
-    margin-bottom: 13px;
-  }
-  label {
-    font-size: 1rem;
-  }
-  input[type="text"],
-  input[type="number"],
-  select,
-  textarea {
-    font-size: 1.05rem;
-    padding: 12px;
-    border-radius: 8px;
-  }
-  .form-navegacion {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center !important;
-    gap: 13px;
-    margin-top: 17px;
-  }
-  .form-navegacion button,
-  a.btn {
-    width: 100%;
-    max-width: 400px;
-    font-size: 1.03rem;
-    padding: 14px 0;
-    border-radius: 8px;
-  }
-  .custom-subir-archivo {
-    font-size: 0.98rem;
-    width: 100%;
-    padding: 10px;
-    text-align: center;
-  }
-  .form-grupo {
-    margin-bottom: 13px;
-  }
-}
-
-@media (max-width: 400px) {
-  .form-contenedor {
-    padding: 9px 1vw 15px 1vw;
-    border-radius: 9px;
-  }
-  h2 {
-    font-size: 0.95rem;
-  }
-  label {
-    font-size: 0.85rem;
-  }
-  input[type="text"],
-  input[type="number"],
-  select,
-  textarea {
-    font-size: 0.9rem;
-    padding: 8px;
-    border-radius: 7px;
-  }
-  .form-navegacion button,
-  a.btn {
-    font-size: 0.92rem;
-    padding: 11px 0;
-    border-radius: 7px;
-  }
-}
-/* --- RESPONSIVE PARA TABLET --- */
 @media (max-width: 900px) {
   body {
     padding: 0 !important;
@@ -357,7 +296,6 @@ a.btn:active {
   }
 }
 
-/* --- RESPONSIVE PARA TELÉFONO --- */
 @media (max-width: 600px) {
   html, body {
     margin: 0;
@@ -415,9 +353,27 @@ a.btn:active {
   .form-grupo {
     margin-bottom: 14px;
   }
+
+  .encabezado-sena {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    padding: 7px 0 6px 0;
+  }
+  .encabezado-logo-titulo {
+    margin-left: 0;
+    justify-content: center;
+    grid-column: 1/2;
+  }
+  .encabezado-nav-link {
+    grid-column: 1/2;
+    margin-top: 8px;
+    justify-self: center;
+  }
+  .encabezado-sena::after {
+    display: none;
+  }
 }
 
-/* --- RESPONSIVE PARA TELÉFONO PEQUEÑO --- */
 @media (max-width: 400px) {
   .form-contenedor {
     padding: 13px 1vw 18px 1vw;
@@ -443,4 +399,4 @@ a.btn:active {
     padding: 13px 0;
     border-radius: 8px;
   }
-} 
+}

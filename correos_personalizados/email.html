@@ -3,16 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <title>Enviar correos personalizados</title>
-  <link rel="stylesheet" href="estilos.css">
+  <link rel="stylesheet" href="../componentes/estilos.css">
 </head>
 <body>
+
+    <!-- Encabezado institucional -->
+  <header class="encabezado-sena">
+    <div class="encabezado-logo-titulo">
+      <a href="../dashboard.html" class="encabezado-logo-link" title="Ir al inicio">
+        <img src="../componentes/img/logosena.png" alt="Logo SENA" class="encabezado-logo">
+      </a>
+      <span class="encabezado-titulo">Envío de Correos Institucionales - SENA</span>
+    </div>
+    <nav class="encabezado-nav">
+      <a href="../dashboard.html" class="encabezado-nav-link encabezado-nav-link-inicio">Inicio</a>
+    </nav>
+  </header>
+
+  <!-- Contenedor para envíos personalizados -->
   <div class="form-contenedor">
+
+    <!-- Redirección correos masivos -->
     <div class="form-grupo form-navegacion">
       <a href="../correos_masivos/mail.html" class="btn">Ir a correos masivos (no personalizado)</a>
     </div>
+
+    <!-- Envío de lógica por formulario -->
     <h2>Formulario de Correos Personalizados</h2>
     <form action="email_csv.php" method="POST" enctype="multipart/form-data">
 <div class="form-grupo">
+
+  <!-- Subida de archivos en formato csv -->
   <label for="csv">Subir archivo CSV:</label>
   <div class="subir-archivo">
     <label for="csv" class="custom-subir-archivo">📂 Seleccionar archivo</label>
@@ -21,16 +42,20 @@
   </div>
 </div>
 
+      <!-- Asunto del mensaje -->
       <div class="form-grupo">
         <label for="titulo">Título del mensaje:</label>
         <input type="text" id="titulo" name="titulo" required>
     </div>
     
+    <!-- Cuerpo del mensaje del correo -->
     <div class="form-grupo">
         <label for="contenido">Contenido del mensaje:</label>
         <textarea id="contenido" name="contenido" rows="4" required></textarea>
       </div>
 
+
+      <!-- Subida de imagen -->
     <div class="form-grupo">
       <label for="imagen">Subir imagen para insertar en el correo:</label>
       <div class="subir-archivo">

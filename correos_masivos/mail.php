@@ -22,12 +22,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'samuelscarpetta1203@gmail.com'; // Correo de gmail
-        $mail->Password = 'ubte psxi wdyj kkoo'; // contraseña de la app
+        // correo de gmail
+        $mail->Username = 'k3vinch3nl1@gmail.com';
+        // contraseña de aplicación  
+        $mail->Password = 'qgds ykaz hlhg vmmk';
         $mail->Port = 587;
 
         // Remitente y destinatario real (visible)
-        $mail->setFrom('samuelscarpetta1203@gmail.com', 'Samuel');
+        $mail->setFrom('k3vinch3nl1@gmail.com', 'Kevin Chen Li');
         $mail->addAddress($destinatario);
 
         // HTML y codificación

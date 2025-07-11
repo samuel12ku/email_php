@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Panel de Control de Correos SENA</title>
+    <link rel="stylesheet" href="componentes/estilo_dashboard.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@100..700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Encabezado institucional -->
+    <header class="encabezado-sena">
+      <div class="encabezado-logo-titulo">
+        <a
+          href="dashboard.html"
+          class="encabezado-logo-link"
+          title="Ir al inicio"
+        >
+          <img
+            src="componentes/img/logosena.png"
+            alt="Logo SENA"
+            class="encabezado-logo"
+          />
+        </a>
+        <span class="encabezado-titulo"
+          >Envío de Correos Institucionales - SENA</span
+        >
+      </div>
+      <nav class="encabezado-nav">
+        <a
+          href="dashboard.html"
+          class="encabezado-nav-link encabezado-nav-link-inicio"
+          >Inicio</a
+        >
+      </nav>
+    </header>
+    <div class="dashboard-contenedor">
+      <div class="dashboard-header">
+        <img
+          src="componentes/img/logosena.png"
+          alt="Logo SENA"
+          class="dashboard-logo"
+        />
+        <h2>Panel de Control de Correos - SENA</h2>
+      </div>
+      <div class="dashboard-manual">
+        <strong>Uso del aplicativo</strong>
+        <ul>
+          <li>
+            Usa <b>correos masivos</b> para mensajes generales (no
+            personalizados) a muchos destinatarios simultáneamente.
+          </li>
+          <li>
+            Usa <b>correos personalizados</b> si necesitas incluir datos
+            diferentes para cada persona (nombre, documento, etc) a partir de un
+            <b><u>archivo CSV o en block de notas separadas por coma.</u></b>
+          </li>
+          <li>
+            Adjunta imágenes solo si es necesario y revisa el orden de
+            presentación (texto antes o después de la imagen).
+          </li>
+          <li>
+            Respeta la <b>imagen institucional</b>: lenguaje formal, incluye
+            logo SENA y firma corporativa cuando corresponda.
+          </li>
+          <li>
+            Consulta la
+            <a
+              href="https://www.sena.edu.co/es-co/Documents/MANUAL_IDENTIDAD_VISUAL_SENA_2024.pdf"
+              target="_blank"
+              >guía de identidad SENA</a
+            >
+            para dudas sobre colores, logos y redacción.
+          </li>
+        </ul>
+      </div>
+      <div class="dashboard-tarjetas">
+        <a class="tarjeta-interactiva" href="correos_masivos/mail.html">
+          <div class="tarjeta-icono">📨</div>
+          <div class="tarjeta-titulo">Correos Masivos</div>
+          <div class="tarjeta-desc">
+            Envía un mensaje igual a varios destinatarios.<br /><b
+              >Sin personalización</b
+            >
+          </div>
+        </a>
+        <a class="tarjeta-interactiva" href="correos_personalizados/email.html">
+          <div class="tarjeta-icono">✉️</div>
+          <div class="tarjeta-titulo">Correos Personalizados</div>
+          <div class="tarjeta-desc">
+            Envía mensajes personalizados a partir de CSV o separado por
+            comas.<br /><b>Para comunicaciones individualizadas</b>
+          </div>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>
