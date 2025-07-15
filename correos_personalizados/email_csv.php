@@ -2,7 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '../correos_masivos/vendor/autoload.php';
+require '../vendor/autoload.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_FILES['csv']) || $_FILES['csv']['error'] !== 0) {
@@ -43,10 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com'; //smtp.gmail.com
             $mail->SMTPAuth = true;
-            $mail->Username = 'correopruebas0101@gmail.com'; // Cambiar
+            $mail->Username = 'correopruebas0701@gmail.com'; // Cambiar
             
             $mail->Password = 'hplo gshr scrl fkno'; // Cambiar por tu App Password
-            $mail->Username = 'correopruebas0101@gmail.com'; // Cambiar
+            $mail->Username = 'correopruebas0701@gmail.com'; // Cambiar
             $mail->Password = 'hplo gshr scrl fkno'; // Cambiar por tu App Password
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
