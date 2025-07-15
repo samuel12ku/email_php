@@ -1,8 +1,8 @@
-Siempre que vaya a ejecutar verificar que no hayan archivos llamados como (vendor,composer.json y composer.lock)si te encuentras con esos archivos borralos y luego ingresar a la siguiente ruta en la cmd:
+Siempre que vaya a ejecutar, verificar que no hayan archivos llamados como (vendor,composer.json y composer.lock)si te encuentras con esos archivos borralos y luego ingresar a la siguiente ruta en la cmd:
 C:\xampp\htdocs\email_php\correos_masivos
 luego escribir el comando: composer require phpmailer/phpmailer
-luego verificar que en el visual se crean estas 3 cosas = (vendor,composer.json y composer.lock) una vez que le aparezca creado NO tocar e irse a email_csv.php y mail.php
-para modificar solo las lineas para cambiar el correo con el que va a enviar correos de su parte y la contraseña de aplicacion, si al ejecutar da este error
+luego verificar que en el visual se crean estas 3 cosas = (vendor,composer.json y composer.lock) una vez que le aparezca creado NO tocar nada e irse a email_csv.php y mail.php
+para modificar solo las lineas de codigo donde esta el correo con el que va a enviar correos de su parte y la contraseña de aplicacion, si al ejecutar da este error
  (✅ Correos enviados: 0
 ❌ Fallaron:
 correocualquiera@gmail.com (SMTP Error: Could not authenticate.)) fijarse si su correo este bien escrito y la contraseña de aplicacion tambien

@@ -4,6 +4,22 @@ const inputImagen = document.getElementById('imagen');
 const imagenNombre = document.getElementById('imagen-nombre');
 const preview = document.getElementById('preview');
 
+// Contador de caracteres para el contenido del mensaje
+const textarea = document.getElementById('contenido');
+const contador = document.getElementById('contador');
+const LIMITE = 700;
+
+textarea.addEventListener('input', () => {
+  const longitud = textarea.value.length;
+  contador.textContent = `${longitud} / ${LIMITE}`;
+
+  if (longitud >= LIMITE) {
+    contador.style.color = 'red';
+  } else {
+    contador.style.color = '#555';
+    }
+});
+
 inputImagen.addEventListener('change', function () {
 const file = this.files[0];
 if (file) {

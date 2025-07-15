@@ -2,7 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '../vendor/autoload.php';
+require 'vendor/autoload.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titulo = $_POST['titulo'];
@@ -20,16 +20,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         // Configuración SMTP
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
+        $mail->Host = 'smtp.office365.com'; //gmail = smtp.gmail.com, microsoft = smtp.office365.com
         $mail->SMTPAuth = true;
         // correo de gmail
-        $mail->Username = 'samuelscarpetta1203@gmail.com';
+        $mail->Username = 'correopruebas0101@outlook.com';
         // contraseña de aplicación  
-        $mail->Password = 'ubte psxi wdyj kkoo';
-        $mail->Port = 587;
+        $mail->Password = 'hplo gshr scrl fkno'; // Cambiar por tu App Password
+
+        
+        $mail->SMTPSecure = 'tls';// muy importante para que en outlook que es resabiado no llegue como spam o no deseado (⊥ esta pa microsoft)
 
         // Remitente y destinatario real (visible)
-        $mail->setFrom('k3vinch3nl1@gmail.com', 'Kevin Chen Li');
+        $mail->setFrom('correopruebas0101@outlook.com', 'admin');
         $mail->addAddress($destinatario);
 
         // HTML y codificación

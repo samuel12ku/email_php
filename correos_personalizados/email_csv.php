@@ -2,7 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '../vendor/autoload.php';
+require '../correos_masivos/vendor/autoload.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_FILES['csv']) || $_FILES['csv']['error'] !== 0) {
@@ -41,14 +41,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             // Config SMTP
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = 'smtp.gmail.com'; //smtp.gmail.com
             $mail->SMTPAuth = true;
-            $mail->Username = 'samuelscarpetta1203@gmail.com'; // Cambiar
-            $mail->Password = 'ubte psxi wdyj kkoo'; // Cambiar por tu App Password
+            $mail->Username = 'correopruebas0701@gmail.com'; // Cambiar
+            $mail->Password = 'hplo gshr scrl fkno'; // Cambiar por tu App Password
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
-            $mail->setFrom('k3vinch3nl1@gmail.com', 'Kevin Chen Li');
+            $mail->setFrom('correopruebas0101@outlook.com', 'ese hombre no lo sabe hacer');
             $mail->addAddress($correo, $nombre);
             $mail->isHTML(true);
             $mail->CharSet = 'UTF-8';
@@ -60,9 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $nombre_img = $_FILES['imagen']['name'];
                 $mime = mime_content_type($ruta);
                 $mail->addEmbeddedImage($ruta, 'imagen_cuerpo', $nombre_img, 'base64', $mime);
-            } else {
-                $mail->addEmbeddedImage('neon.jpg', 'imagen_cuerpo', 'neon.jpg', 'base64', mime_content_type('neon.jpg'));
-            }
+            } 
 
             // Procesar texto y enlaces
             $saludo_limpio = rtrim($saludo, ", \t\n\r\0\x0B");

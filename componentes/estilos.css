@@ -241,6 +241,15 @@ a.btn:active {
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
+#contador {
+  font-family: Sora, sans-serif;
+  font-size: 0.85rem;
+  text-align: right;
+  color: #555;
+  margin-top: 5px;
+}
+
+
 /* ========== RESPONSIVE ========== */
 
 @media (max-width: 900px) {

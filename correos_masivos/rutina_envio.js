@@ -1,5 +1,34 @@
 const form = document.getElementById('correo-form');
 const log = document.getElementById('log');
+// Contador de correos ingresados
+const destinatarioInput = document.getElementById('destinatario');
+const contadorCorreos = document.getElementById('contador-correos');
+
+destinatarioInput.addEventListener('input', () => {
+  const texto = destinatarioInput.value;
+    
+    // Separar por coma y limpiar espacios
+  const correos = texto.split(',')
+    .map(c => c.trim())
+    .filter(c => c.length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c));
+
+  contadorCorreos.textContent = `${correos.length} correo${correos.length === 1 ? '' : 's'}`;
+});
+// Contador de caracteres para el contenido del mensaje
+const textarea = document.getElementById('contenido');
+const contador = document.getElementById('contador');
+const LIMITE = 700;
+
+textarea.addEventListener('input', () => {
+  const longitud = textarea.value.length;
+  contador.textContent = `${longitud} / ${LIMITE}`;
+
+  if (longitud >= LIMITE) {
+    contador.style.color = 'red';
+  } else {
+    contador.style.color = '#555';
+    }
+});
 
 form.addEventListener('submit', function (e) {
   e.preventDefault();
