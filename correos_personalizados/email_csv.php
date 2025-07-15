@@ -44,11 +44,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->Host = 'smtp.gmail.com'; //smtp.gmail.com
             $mail->SMTPAuth = true;
             $mail->Username = 'correopruebas0701@gmail.com'; // Cambiar
+            
+            $mail->Password = 'hplo gshr scrl fkno'; // Cambiar por tu App Password
+            $mail->Username = 'correopruebas0701@gmail.com'; // Cambiar
             $mail->Password = 'hplo gshr scrl fkno'; // Cambiar por tu App Password
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
-            $mail->setFrom('correopruebas0101@outlook.com', 'ese hombre no lo sabe hacer');
+            // importancia 
+            $mail->AddCustomHeader("X-MSMail-Priority: High");
+            $mail->AddCustomHeader("Importance: High");
+            $mail->AddCustomHeader("X-Priority: 1");
+
+            $mail->setFrom('correopruebas0701@gmail.com', 'Correos deseados');
             $mail->addAddress($correo, $nombre);
             $mail->isHTML(true);
             $mail->CharSet = 'UTF-8';

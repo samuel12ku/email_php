@@ -23,16 +23,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->Host = 'smtp.office365.com'; //gmail = smtp.gmail.com, microsoft = smtp.office365.com
         $mail->SMTPAuth = true;
         // correo de gmail
-        $mail->Username = 'correopruebas0101@outlook.com';
+        $mail->Username = 'samuelscarpetta1203@gmail.com';
         // contraseña de aplicación  
-        $mail->Password = 'hplo gshr scrl fkno'; // Cambiar por tu App Password
-
-        
-        $mail->SMTPSecure = 'tls';// muy importante para que en outlook que es resabiado no llegue como spam o no deseado (⊥ esta pa microsoft)
-
+        $mail->Password = 'hplo gshr scrl fkno';
+        $mail->Port = 587;
+        $mail->SMTPSecure = 'tls';
         // Remitente y destinatario real (visible)
-        $mail->setFrom('correopruebas0101@outlook.com', 'admin');
+        $mail->setFrom('k3vinch3nl1@gmail.com', 'Kevin Chen Li');
         $mail->addAddress($destinatario);
+
+
+        // importancia 
+        $mail->AddCustomHeader("X-MSMail-Priority: High");
+        $mail->AddCustomHeader("Importance: High");
+        $mail->AddCustomHeader("X-Priority: 1");
 
         // HTML y codificación
         $mail->isHTML(true);    
