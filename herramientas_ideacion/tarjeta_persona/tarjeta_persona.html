@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tarjeta Persona - Fondo Emprender</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="componentes/formato_persona.css">
+</head>
+<body>
+      <header class="encabezado-sena">
+      <div class="encabezado-logo-titulo">
+        <a
+          href="../../dashboard.html"
+          class="encabezado-logo-link"
+          title="Ir al inicio"
+        >
+          <img
+            src="componentes/img/logosena.png"
+            alt="Logo SENA"
+            class="encabezado-logo"
+          />
+        </a>
+        <span class="encabezado-titulo"
+          >Herramientas Fondo Emprender - SENA</span
+        >
+      </div>
+      <nav class="encabezado-nav">
+        <a
+          href="../../dashboard.html"
+          class="encabezado-nav-link encabezado-nav-link-inicio"
+          >Inicio</a
+        >   
+      </nav>
+    </header>
+  <div class="poster-container">
+    <div class="poster-header">
+      <div class="logos">
+        <img src="componentes/img/logoFondoEmprender.svg" alt="SENA" class="logo-sena">
+      </div>
+<div class="title">
+  <strong>Fondo Emprender</strong><br>
+  <span>Tarjeta Persona</span>
+</div>
+
+    </div>
+    <form class="persona-form" autocomplete="off">
+
+  <!-- EDUCATED GUESS -->
+  <fieldset class="grupo-persona">
+    <legend>EDUCATED GUESS</legend>
+    <div class="persona-row top">
+      <div class="persona-col info">
+        <label class="field-label" for="nombre">NOMBRE</label>
+        <input type="text" id="nombre" maxlength="60" placeholder="Use un nombre realista. No use nombres de compañeros de trabajo." pattern="[a-zA-Z]" required>
+        <label class="field-label" for="descriptor">DESCRIPTOR</label>
+        <input type="text" id="descriptor" maxlength="120" placeholder="¿Qué clase de persona es? Describa lo más representativo o algo diferenciador." required>
+        <label class="field-label" for="citas">CITAS</label>
+        <textarea id="citas" rows="4" maxlength="320"  placeholder="Capture la esencia de su personaje. Escriba uno o dos comentarios como si lo dijera directamente, no olvide la forma como lo diría."></textarea>
+      </div>
+      <div class="persona-col foto">
+        <label for="foto-input" class="foto-label" id="foto-label">
+          <img id="foto-preview" src="componentes/img/usuario.png" alt="Foto o avatar">
+          <div class="foto-hint" id="foto-hint">Click aquí o arrastra una imagen</div>
+          <input type="file" id="foto-input" accept="image/*">
+        </label>
+      </div>
+    </div>
+    <div class="persona-row persona-row-block">
+      <label class="field-label" for="quien">¿QUIÉN ES?</label>
+      <textarea id="quien" rows="4" maxlength="400"
+        placeholder="Haga un bosquejo de los aspectos personales, su edad, dónde vive, en qué trabaja; qué clase de persona es. Piense en uno o más personas de esta segmentación."></textarea>
+    </div>
+  </fieldset>
+
+  <!-- ASPIRATIONAL -->
+  <fieldset class="grupo-persona">
+    <legend>ASPIRATIONAL</legend>
+    <div class="persona-row row-vertical-jobs">
+      <div class="vertical-fields-col">
+        <div>
+          <label class="field-label" for="metas">¿Qué metas tiene?</label>
+          <textarea id="metas" rows="4" maxlength="350" placeholder="¿Cuál es su motivación principal? ¿Cuáles necesidades (límites) y deseos tiene?"></textarea>
+        </div>
+        <div>
+          <label class="field-label" for="actitud">¿Qué actitud tiene?</label>
+          <textarea id="actitud" rows="4" maxlength="350" placeholder="¿Cuál es su punto de vista? ¿Qué expectativas, percepción de servicio, compañía o marca tiene? ¿Qué lo motiva para averiguar e intentar, a una tienda, o a usar un servicio?"></textarea>
+        </div>
+      </div>
+      
+    </div>
+  </fieldset>
+
+  <!-- ACTUAL -->
+  <fieldset class="grupo-persona">
+    <legend>ACTUAL</legend>
+    <div class="persona-row row-vertical-jobs">
+      <div class="vertical-fields-col">
+        <div>
+          <label class="field-label" for="comportamiento">¿Qué comportamiento tiene?</label>
+          <textarea id="comportamiento" rows="4" maxlength="350"
+            placeholder="¿Qué hace? Cuente historias sobre su comportamiento mientras usa el servicio, producto o página web. ¿Qué canales usa para las diferentes necesidades? (Internet: visitar páginas para comparar, qué utiliza, redes sociales) ¿Qué le frustra? ¿Qué le impide lograr una determinada función, servicio o producto?"></textarea>
+
+            <label class="field-label sub-label" for="modas" style="font-weight:400; font-size:0.98rem; color:#555; margin-top:6px;">
+            ¿Cuáles son sus modas, estilos de pensamiento u otros indicadores que son aplicables a esta persona?
+          </label>
+          <textarea id="modas" rows="2" maxlength="200" placeholder="Ejemplo: Usa ropa deportiva, sigue tendencias tecnológicas, pensamiento innovador..."></textarea>
+
+          <label class="field-label sub-label" for="beneficios" style="font-weight:400; font-size:0.98rem; color:#555; margin-top:6px;">
+            ¿Qué tan importante son los beneficios funcionales, emocionales o expresivos?
+          </label>
+          <textarea id="beneficios" rows="2" maxlength="200" placeholder="Importancia que le da a beneficios funcionales, emocionales o de expresión."></textarea>
+          <label class="field-label sub-label" for="beneficios" style="font-weight:400; font-size:0.98rem; color:#555; margin-top:6px;">
+            ¿Se demora en tomar decisiones?
+            Diga por qué y como lo determina usted,
+          </label>
+          <textarea id="beneficios" rows="2" maxlength="200" placeholder="Importancia que le da a beneficios funcionales, emocionales o de expresión."></textarea>
+          <label class="field-label sub-label" for="beneficios" style="font-weight:400; font-size:0.98rem; color:#555; margin-top:6px;">
+            ¿Las decisiones la toma basada en los hechos o en las emociones?
+            Diga por qué y como lo determina usted.
+          </label>
+          <textarea id="beneficios" rows="2" maxlength="200" placeholder="Importancia que le da a beneficios funcionales, emocionales o de expresión."></textarea>
+        </div>
+      </div>
+      <div class="persona-col jobs">
+        <div class="jobs-title">Jobs to be done</div>
+        <div class="jobs-field">
+          <label for="job-funcional">Funcional</label>
+          <textarea id="job-funcional" rows="2" maxlength="180" placeholder="Objetivo práctico a lograr"></textarea>
+        </div>
+        <div class="jobs-field">
+          <label for="job-emocional">Emocional</label>
+          <textarea id="job-emocional" rows="2" maxlength="180" placeholder="Estado o sentimiento a buscar"></textarea>
+        </div>
+        <div class="jobs-field">
+          <label for="job-social">Social</label>
+          <textarea id="job-social" rows="2" maxlength="180" placeholder="Reconocimiento, pertenencia, etc."></textarea>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="form-btn-row">
+  <button type="submit" class="btn-enviar">
+    Guardar Persona
+  </button>
+</div>
+
+</form>
+
+    <!-- <div class="poster-footer">
+      <p class="footer-copy">CREDIT: THE PERSONA CORE POSTER by CREATIVE COMPANION</p>
+    </div> -->
+  </div>
+  <script src="componentes/tarjeta_persona.js"></script>
+</body>
+</html>
