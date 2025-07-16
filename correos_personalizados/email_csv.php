@@ -44,9 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->Host = 'smtp.gmail.com'; //smtp.gmail.com
             $mail->SMTPAuth = true;
             $mail->Username = 'correopruebas0701@gmail.com'; // Cambiar
-            
-            $mail->Password = 'hplo gshr scrl fkno'; // Cambiar por tu App Password
-            $mail->Username = 'correopruebas0701@gmail.com'; // Cambiar
             $mail->Password = 'hplo gshr scrl fkno'; // Cambiar por tu App Password
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;

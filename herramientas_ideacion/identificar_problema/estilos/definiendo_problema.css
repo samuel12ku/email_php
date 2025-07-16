@@ -1,0 +1,156 @@
+/* Fondo y centrado */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Corbel', sans-serif;
+}
+
+.fondo-verde {
+    background: linear-gradient(-45deg, #348138, rgb(62, 179, 67), #468d46, #3e6313);
+    background-size: 400% 400%;
+    animation: gradiente-movimiento 10s ease infinite;
+
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 10px;
+}
+
+
+
+.formulario-contenedor {
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 800px;
+    width: 100%;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Logos */
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo-imagenes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo-sena {
+    height: 80px;
+    width: auto;
+    object-fit: contain;
+}
+
+.logo-fondo {
+    height: 150px;
+    width: 150px;
+    object-fit: contain;
+}
+
+.logo p {
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+
+/* Encabezado */
+h1 {
+    text-align: center;
+    color: #004d40;
+    margin-bottom: 30px;
+}
+
+/* Lista */
+ol {
+    padding-left: 20px;
+}
+
+ol li {
+    margin-bottom: 30px;
+}
+
+/* Inputs */
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.opciones {
+    margin: 10px 0;
+}
+
+.opciones label {
+    margin-right: 20px;
+    font-weight: 500;
+}
+
+/* Instrucciones */
+.instrucciones {
+    margin-top: 60px;
+    font-size: 0.95rem;
+    background-color: #e8f5e9;
+    padding: 20px;
+    border-left: 5px solid #2e7d32;
+    border-radius: 8px;
+}
+
+@keyframes gradiente-movimiento {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.introduccion {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.tabla-jobs {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.tabla-jobs th,
+.tabla-jobs td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.tabla-jobs input[type="text"] {
+    width: 100%;
+    border: none;
+    padding: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.tabla-jobs th {
+    background-color: #e8f5e9;
+    color: #004d40;
+}
+

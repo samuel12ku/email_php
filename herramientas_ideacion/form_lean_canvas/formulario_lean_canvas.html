@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>LEAN CANVAS - Formulario</title>
+  <link rel="stylesheet" href="componentes/formulario_lean_canva.css">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="form-contenedor">
+    <h2>Formulario LEAN CANVAS</h2>
+
+    <!-- Barra de progreso de 2 momentos -->
+    <div id="barra-progreso" class="barra-progreso">
+      <div id="paso1" class="paso activo">
+        <div class="paso-circulo">1</div>
+        <span class="paso-texto">Emprendedor</span>
+      </div>
+      <div class="paso-linea"></div>
+      <div id="paso2" class="paso">
+        <div class="paso-circulo">2</div>
+        <span class="paso-texto">Lean Canvas</span>
+      </div>
+    </div>
+
+    <form id="form-lean-canvas" action="/submit" method="post" enctype="application/x-www-form-urlencoded">
+      <!-- Momento 1: Información del emprendedor y su emprendimiento -->
+      <fieldset id="momento1" class="fieldset-momento1">
+        <legend>Información del emprendedor y su emprendimiento</legend>
+        <div class="form-grupo">
+          <label>Nombre del emprendedor:</label>
+          <input type="text" name="nombre_emprendedor" id="nombre_emprendedor" pattern="[a-zA-Z]{8,30}" maxlength="30" minlength="8"  placeholder="ej. Juan Pérez" tabindex="1" title="Solo se permiten letras" required>
+        </div>
+        <div class="form-grupo">
+          <label>Número de documento:</label>
+          <input type="text" name="documento_emprendedor" id="documento_emprendedor" pattern="[0-9]{8,20}" maxlength="20" minlength="8"  placeholder="ej. 1234567890" tabindex="2" required>
+        </div>
+        <div class="form-grupo">
+          <label>Nombre del proyecto:</label>
+          <input type="text" name="nombre_proyecto" pattern="[a-zA-Z]{8,30}" maxlength="30" minlength="8"  placeholder="ej. VerdeVivo" tabindex="3" required>
+        </div>
+        <div class="form-grupo form-navegacion nav-momento1">
+          <button type="button" id="siguiente" class="btn-siguiente" tabindex="4">Siguiente</button>
+        </div>
+      </fieldset>
+
+      <!-- Momento 2: Lean Canvas -->
+      <fieldset id="momento2" class="fieldset-momento2">
+        <legend>Lean Canvas</legend>
+        <div class="form-grupo">
+          <label>1. Problema o necesidad de tu modelo de negocio:</label>
+          <textarea name="problema" rows="3" placeholder="Falta de acceso a productos sostenibles y confiables, contaminación generada por el consumo masivo tradicional, falta de educación ambiental práctica para consumidores." required tabindex="5"></textarea>
+        </div>
+        <div class="form-grupo">
+          <label>2. ¿Cuál es mi solución?</label>
+          <textarea name="solucion" rows="3" placeholder="Venta de productos reutilizables, biodegradables o de bajo impacto.
+Cajas por suscripción con productos eco + contenido educativo.
+Talleres y asesorías sobre vida sustentable." required tabindex="6"></textarea>
+        </div>
+        <div class="form-grupo">
+          <label>3. Alternativas de la solución:</label>
+          <textarea name="alternativas" rows="3" placeholder="Tienda física especializada en productos eco
+Servicios de reciclaje o compostaje domiciliario
+Productos eco a gran escala en supermercados" required tabindex="7"></textarea>
+        </div>
+        <div class="form-grupo">
+          <label>4. Propuesta única de valor (concepto):</label>
+          <textarea name="valor_unico" rows="3" required tabindex="8" placeholder=" ''Sostenibilidad práctica, accesible y con impacto real.''
+VerdeVivo acompaña a las personas en su transición hacia un estilo de vida consciente a través de productos útiles, educación ambiental y comunidad."></textarea>
+        </div>
+        <div class="form-grupo">
+          <label>5. Ventaja competitiva con los demás emprendimientos</label>
+      <textarea name="ventaja" rows="3" placeholder="ej: Integra productos, contenido educativo y acompañamiento.
+Enfoque en practicidad, estética y conciencia ambiental.
+Comunicación clara, moderna y cercana; no elitista ni técnica.
+Comunidad activa y comprometida." required tabindex="9"></textarea>
+        </div>
+        <div class="form-grupo"><div class="form-grupo">
+  <label>6. a- Segmento de clientes - Usuarios:</label>
+  <textarea name="usuarios" placeholder="• Personas que utilizan el producto o servicio, pero no necesariamente lo compran directamente.
+• Ejemplo: Jóvenes adultos de entre 25 y 40 años, urbanos, interesados en sostenibilidad, buscan alternativas reales y simples para hábitos sostenibles." rows="3" required tabindex="10"></textarea>
+</div>
+<div class="form-grupo">
+  <label>6. b- Segmento de clientes - Clientes:</label>
+  <textarea name="clientes" placeholder="• Personas o entidades que compran o financian el producto o servicio.
+• Ejemplo: Padres de familia, empresas, instituciones educativas, que adquieren productos o servicios para los usuarios finales." rows="3" required tabindex="11"></textarea>
+</div>
+        <div class="form-grupo">
+          <label>7. Canales – ¿Cuál es el futuro de mi negocio?</label>
+          <textarea name="canales" placeholder="E-commerce con suscripciones automatizadas.
+Alianzas con marcas sostenibles y tiendas físicas eco-friendly.
+Redes sociales con enfoque educativo y colaborativo.
+Escalamiento hacia workshops, mentorías y kits corporativos." required tabindex="12"></textarea>
+        </div>
+        <div class="form-grupo">
+          <label>8. Fuentes de ingresos:</label>
+          <input type="text" name="ingresos" rows="3" placeholder="Venta directa de productos ecológicos.
+        Suscripción mensual a cajas sostenibles.
+        Talleres, cursos y asesorías.
+        Ventas por colaboraciones y alianzas corporativas." required tabindex="13"></input>
+        </div>
+        <div class="form-grupo">
+          <label>9. Estructura de costos:</label>
+          <textarea name="costos" rows="3" placeholder="Compra de productos eco a proveedores responsables.
+Diseño y armado de cajas por suscripción.
+Plataforma digital, logística y envíos.
+Marketing digital y creación de contenido.
+Honorarios por talleres y colaboraciones." required tabindex="14"></textarea>
+        </div>
+        <div class="form-grupo">
+          <label>10. Métricas clave:</label>
+          <textarea name="metricas" rows="3" placeholder="Tasa de suscripción y retención.
+Costo de adquisición por cliente (CAC).
+Vida útil del cliente (LTV).
+Cantidad de productos vendidos.
+Feedback y participación en la comunidad." required tabindex="15"></textarea>
+        </div>
+        <div class="form-grupo">
+          <label>11. Early adopters (clientes iniciales):</label>
+          <textarea name="early_adopters" rows="3" placeholder="Personas eco-conscientes, activistas ambientales, veganos, seguidores de vida zero waste.
+Jóvenes con valores verdes y ganas de aprender e inspirar a otros." required tabindex="16"></textarea>
+        </div>
+        <div class="form-grupo form-navegacion nav-momento2">
+          <button type="button" id="anterior" class="btn-anterior" tabindex="16">Anterior</button>
+          <button type="submit" class="btn-enviar" tabindex="17">Enviar</button>
+        </div>
+      </fieldset>
+    </form>
+
+    <script src="componentes/funciones.js"></script>
+  </div>
+</body>
+</html>

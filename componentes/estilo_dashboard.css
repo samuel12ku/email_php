@@ -269,3 +269,21 @@ img.encabezado-logo {
     padding: 18px 8px 13px 8px;
   }
 }
+
+.grupo-seccion {
+  margin-top: 30px;
+  border: 2px solid #39A90040;
+  padding: 25px 20px;
+  border-radius: 15px;
+  background: #ffffffea;
+  box-shadow: 0 4px 12px #39a90020;
+}
+
+.titulo-seccion {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #157a24;
+  padding: 0 12px;
+  margin-left: 12px;
+}
+
