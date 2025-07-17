@@ -18,7 +18,7 @@ function validarFaseActual() {
   campos.forEach(campo => {
     // Radios: al menos uno seleccionado del grupo
     if (campo.type === 'radio') {
-      const radios = fase.querySelectorAll(`input[name="${campo.name}"][required]`);
+      const radios = fase.querySelectorAll(`input[name="${campo.name}"]`);
       const algunoMarcado = Array.from(radios).some(r => r.checked);
       if (!algunoMarcado) {
         valid = false;
