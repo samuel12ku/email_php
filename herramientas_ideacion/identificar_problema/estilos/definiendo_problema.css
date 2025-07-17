@@ -178,7 +178,7 @@ ol li {
 }
 
 /* Inputs */
-input[type="text"] {
+input,textarea {
     width: 100%;
     padding: 10px;
     margin-top: 6px;
