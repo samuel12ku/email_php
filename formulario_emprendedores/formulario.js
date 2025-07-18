@@ -225,3 +225,29 @@ function mostrarPaisNacionalidad() {
 }
 
 
+function enviarFormulario() {
+  // Tomar todos los campos del formulario aunque sean multipaso
+  const form = document.querySelector("form");
+  const data = new FormData(form);
+
+  fetch('guardar_registro.php', {
+    method: 'POST',
+    body: data
+  })
+  .then(response => response.text())
+  .then(result => {
+    if(result.trim() === "OK") {
+      alert('¡Formulario guardado correctamente!');
+      form.reset();
+      // (Opcional) volver a la primera fase
+      faseActual = 0;
+      mostrarFase(faseActual);
+    } else {
+      alert('Error al guardar: ' + result);
+    }
+  })
+  .catch(error => {
+    alert('Error de conexión o servidor.');
+  });
+}
+  
