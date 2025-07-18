@@ -6,19 +6,46 @@
   <link rel="stylesheet" href="formulario_emprendedores.css" />
 </head>
 <body>
+      <!-- Encabezado institucional -->
+    <header class="encabezado-sena">
+      <div class="encabezado-logo-titulo">
+        <a
+          href="../dashboard.html"
+          class="encabezado-logo-link"
+          title="Ir al inicio"
+        >
+          <img
+            src="../componentes/img/logosena.png"
+            alt="Logo SENA"
+            class="encabezado-logo"
+          />
+        </a>
+        <span class="encabezado-titulo"
+          >Herramientas Fondo Emprender - SENA</span
+        >
+      </div>
+      <nav class="encabezado-nav">
+        <a
+          href="../dashboard.html"
+          class="encabezado-nav-link encabezado-nav-link-inicio"
+          >Inicio</a
+        >   
+      </nav>
+    </header>
 <div class="dashboard-contenedor">
   <div class="dashboard-header">
-    <img src="../componentes/img/logosena.png" alt="Logo SENA" class="dashboard-logo" />
+    <img src="../componentes/img/logoFondoEmprender.svg" alt="Logo SENA" class="dashboard-logo" />
     <h2>Registro Ruta Emprendedora - 2025</h2>
   </div>
 
   <div class="dashboard-manual">
-    <strong>2025 ORIENTACIÓN A EMPRENDEDORES<br>
-    Red Centros de Desarrollo Empresarial - Regional Valle</strong>
+    <strong><b>ORIENTACIÓN A EMPRENDEDORES 2025</b></strong><br>
+    <br><strong>Centros de Desarrollo Empresarial - Regional Valle</strong>
     <p>
       ¡Bienvenido/a Emprendedor(a)! Por favor registre su asistencia a la orientación sobre los servicios de los Centros de Desarrollo Empresarial del SENA Regional Valle. 
       Este espacio permite acceder a la <b>Ruta Emprendedora</b> y a las herramientas necesarias para fortalecer sus habilidades blandas, desarrollar competencias emprendedoras y acceder a oportunidades como participar en convocatorias Fondo Emprender de capital semilla.
     </p>
+    <br>
     <p>
       <b>CONSENTIMIENTO INFORMADO Y PROTECCIÓN DE DATOS:</b> Entiendo que mi participación consiste en el diligenciamiento del presente formulario. Reconozco que la información que suministre en el diligenciamiento de este formulario es estrictamente confidencial y no será usada para ningún otro propósito sin mi consentimiento. 
       Adicionalmente, otorgo mi autorización para que los datos personales provistos en el presente formulario sean recolectados, almacenados, usados, circulados, suprimidos y en general, sean tratados por parte del Centro de Desarrollo Empresarial virtual SENA (Ley de Protección de Datos Personales).
@@ -51,14 +78,19 @@
         <label for="municipio">4. Municipio <span style="color:red">*</span></label><br/>
         <input type="text" id="municipio" name="municipio" required class="form-control" />
       </div>
-      <div class="form-grupo">
-        <label for="pais">5. País <span style="color:red">*</span></label><br/>
-        <input type="text" id="pais" name="pais" required class="form-control" />
-      </div>
+<div class="form-grupo">
+  <label for="pais">5. País <span style="color:red">*</span></label><br/>
+  <select id="pais" name="pais" required class="form-control">
+    <option value="" disabled>-- Selecciona un país --</option>
+    <option value="" selected>-- Colombia --</option>
+    
+  </select>
+</div>
+
       <div class="form-grupo">
         <label for="tipo_id">6. Tipo de Identificación <span style="color:red">*</span></label><br/>
         <select id="tipo_id" name="tipo_id" required class="form-control">
-          <option value="">-- Selecciona una opción --</option>
+          <option value="" disabled selected>-- Selecciona una opción --</option>
           <option value="CC">Cédula de Ciudadanía (CC)</option>
           <option value="CE">Cédula de Extranjería (CE)</option>
           <option value="TI">Tarjeta de Identidad (TI)</option>
@@ -66,54 +98,65 @@
       </div>
       <div class="form-grupo">
         <label for="numero_id">7. Número de Identificación <span style="color:red">*</span></label><br/>
-        <input type="number" id="numero_id" name="numero_id" required class="form-control" />
+        <input type="tel" id="numero_id" name="numero_id" required class="form-control" />
       </div>
     </div>
 
-    <!-- FASE 3 -->
-    <div class="fase">
-      <div class="titulo-seccion">📆 Información Adicional</div>
-      <div class="form-grupo">
-        <label for="fecha_nacimiento">8. Fecha de nacimiento <span style="color:red">*</span></label><br/>
-        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required class="form-control" />
-      </div>
-      <div class="form-grupo">
-        <label for="fecha_orientacion">9. Fecha de orientación <span style="color:red">*</span></label><br/>
-        <input type="date" id="fecha_orientacion" name="fecha_orientacion" required class="form-control" />
-      </div>
-      <div class="form-grupo">
-        <label for="genero">10. Género <span style="color:red">*</span></label><br/>
-        <select id="genero" name="genero" required class="form-control">
-          <option value="">-- Selecciona --</option>
-          <option value="Mujer">Mujer</option>
-          <option value="Hombre">Hombre</option>
-          <option value="Otro">Otro</option>
-        </select>
-      </div>
-      <div class="form-grupo">
-        <label>11. Nacionalidad <span style="color:red">*</span></label><br/>
-        <label class="radio-label">
-          <input type="radio" name="nacionalidad" value="colombiano" required class="form-radio" />
-          Colombiano(a)
-        </label><br/>
-        <label class="radio-label">
-          <input type="radio" name="nacionalidad" value="otro" class="form-radio" />
-          Otro
-        </label>
-      </div>
+<!-- FASE 3 -->
+<div class="fase">
+  <div class="titulo-seccion">📆 Información Adicional</div>
+  <div class="form-grupo">
+    <label for="fecha_nacimiento">8. Fecha de nacimiento <span style="color:red">*</span></label><br/>
+    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required class="form-control" />
+  </div>
+  <div class="form-grupo">
+    <label for="fecha_orientacion">9. Fecha de orientación <span style="color:red">*</span></label><br/>
+    <input type="date" id="fecha_orientacion" name="fecha_orientacion" required class="form-control" />
+  </div>
+  <div class="form-grupo">
+    <label for="genero">10. Género <span style="color:red">*</span></label><br/>
+    <select id="genero" name="genero" required class="form-control">
+      <option value="">-- Selecciona --</option>
+      <option value="Mujer">Mujer</option>
+      <option value="Hombre">Hombre</option>
+      <option value="Otro">Otro</option>
+    </select>
+  </div>
+</div>
+
+<!-- FASE 4: NACIONALIDAD COMO FASE PROPIA -->
+<div class="fase">
+  <div class="titulo-seccion">🌎 Nacionalidad</div>
+  <div class="form-grupo">
+    <label>11. Nacionalidad <span style="color:red">*</span></label><br/>
+    <label class="radio-label">
+      <input type="radio" name="nacionalidad" value="colombiano" required class="form-radio" onchange="mostrarPaisNacionalidad()" />
+      Colombiano(a)
+    </label><br/>
+    <label class="radio-label">
+      <input type="radio" name="nacionalidad" value="otro" class="form-radio" onchange="mostrarPaisNacionalidad()" />
+      Otro
+    </label>
+    <div id="select-nacionalidad-origen" style="display:none; margin-top:10px;">
+      <label for="pais_origen" style="font-weight:400;">¿De qué país?</label><br/>
+      <select id="pais_origen" name="pais_origen" class="form-control"></select>
     </div>
+  </div>
+</div>
+
+
 
     <!-- FASE 4 -->
     <div class="fase">
       <div class="titulo-seccion">📧 Contacto y Caracterización</div>
       <div class="form-grupo">
         <label for="correo">12. Correo Electrónico <span style="color:red">*</span></label><br/>
-        <input type="email" id="correo" name="correo" required class="form-control" />
+        <input type="email" id="correo" name="correo" required class="form-control" pattern="[a-zA-Z0-9\.\-\_\]+[@]+[a-zA-Z0-9\-\_\]+[\.]+[a-zA-Z0-9]{2,}$"/>
       </div>
       <div class="form-grupo">
         <label for="clasificacion">13. Clasificación de población (si aplica)</label><br/>
         <select id="clasificacion" name="clasificacion" class="form-control">
-          <option value="">-- Selecciona una opción --</option>
+          <option value="" disabled selected>-- Selecciona una opción --</option>
           <option value="Ninguno">Ninguno</option>
           <option value="Adolescente trabajador">Adolescente trabajador</option>
           <option value="Adolescente en conflicto con la ley penal">Adolescente en conflicto con la ley penal</option>
@@ -149,7 +192,7 @@
       <div class="form-grupo">
         <label for="discapacidad">14. Si es persona en condición de discapacidad, seleccionar el tipo</label><br/>
         <select id="discapacidad" name="discapacidad" class="form-control">
-          <option value="">-- Selecciona una opción --</option>
+          <option value="" disabled selected>-- Selecciona una opción --</option>
           <option value="Ninguna">Ninguna</option>
           <option value="Auditiva">Auditiva</option>
           <option value="Cognitiva">Cognitiva</option>
@@ -163,7 +206,7 @@
       <div class="form-grupo">
         <label for="tipo_emprendedor">15. Tipo de Emprendedor <span style="color:red">*</span></label><br/>
         <select id="tipo_emprendedor" name="tipo_emprendedor" required class="form-control">
-          <option value="">-- Selecciona una opción --</option>
+          <option value="" disabled selected>-- Selecciona una opción --</option>
           <option value="Aprendiz">Aprendiz</option>
           <option value="Egresado de Otras Instituciones">Egresado de Otras Instituciones</option>
           <option value="Egresado SENA Complementaria">Egresado SENA Complementaria</option>
@@ -174,7 +217,7 @@
       <div class="form-grupo">
         <label for="nivel_formacion">16. Nivel de Formación <span style="color:red">*</span></label><br/>
         <select id="nivel_formacion" name="nivel_formacion" required class="form-control">
-          <option value="">-- Selecciona una opción --</option>
+          <option value="" disabled selected>-- Selecciona una opción --</option>
           <option value="Bachiller">Bachiller</option>
           <option value="Técnico">Técnico</option>
           <option value="Tecnólogo">Tecnólogo</option>
@@ -267,7 +310,7 @@
       <div class="form-grupo">
         <label for="centro_orientacion">22. ¿Cuál es el Centro de Desarrollo Empresarial que brinda la orientación? <span style="color:red">*</span></label><br/>
         <select id="centro_orientacion" name="centro_orientacion" required class="form-control" onchange="actualizarOrientadores()">
-          <option value="">-- Selecciona un centro --</option>
+          <option value="" disabled>-- Selecciona un centro --</option>
           <option value="CAB">Centro Agropecuario de Buga (CAB)</option>
           <option value="CBI">Centro de Biotecnología Industrial (CBI Palmira)</option>
           <option value="CDTI">Centro de Diseño Tecnológico Industrial (CDTI CALI)</option>
@@ -283,7 +326,7 @@
       <div class="form-grupo">
         <label for="orientador">23. ¿Cuál fue el orientador que brindó la orientación? <span style="color:red">*</span></label><br/>
         <select id="orientador" name="orientador" required class="form-control">
-          <option value="">-- Selecciona primero un centro --</option>
+          <option value="" disabled>-- Selecciona primero un centro --</option>
         </select>
       </div>
       <button type="submit" class="btn-verde">Enviar Formulario</button>
