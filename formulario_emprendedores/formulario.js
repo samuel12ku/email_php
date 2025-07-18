@@ -171,3 +171,57 @@ function actualizarOrientadores() {
         });
     }
 }
+
+// === Lista de países actualizada (2024) ===
+const listaPaises = [
+  "Afganistán","Albania","Alemania","Andorra","Angola","Antigua y Barbuda","Arabia Saudita","Argelia","Argentina","Armenia","Australia","Austria",
+  "Azerbaiyán","Bahamas","Bangladés","Barbados","Baréin","Bélgica","Belice","Benín","Bielorrusia","Birmania","Bolivia","Bosnia y Herzegovina",
+  "Botsuana","Brasil","Brunéi","Bulgaria","Burkina Faso","Burundi","Bután","Cabo Verde","Camboya","Camerún","Canadá","Catar","Chad","Chile","China",
+  "Chipre","Ciudad del Vaticano","Colombia","Comoras","Corea del Norte","Corea del Sur","Costa de Marfil","Costa Rica","Croacia","Cuba","Dinamarca",
+  "Dominica","Ecuador","Egipto","El Salvador","Emiratos Árabes Unidos","Eritrea","Eslovaquia","Eslovenia","España","Estados Unidos","Estonia","Esuatini",
+  "Etiopía","Filipinas","Finlandia","Fiyi","Francia","Gabón","Gambia","Georgia","Ghana","Granada","Grecia","Guatemala","Guyana","Guinea","Guinea ecuatorial",
+  "Guinea-Bisáu","Haití","Honduras","Hungría","India","Indonesia","Irak","Irán","Irlanda","Islandia","Islas Marshall","Islas Salomón","Israel","Italia",
+  "Jamaica","Japón","Jordania","Kazajistán","Kenia","Kirguistán","Kiribati","Kuwait","Laos","Lesoto","Letonia","Líbano","Liberia","Libia","Liechtenstein",
+  "Lituania","Luxemburgo","Macedonia del Norte","Madagascar","Malasia","Malaui","Maldivas","Malí","Malta","Marruecos","Mauricio","Mauritania","México",
+  "Micronesia","Moldavia","Mónaco","Mongolia","Montenegro","Mozambique","Namibia","Nauru","Nepal","Nicaragua","Níger","Nigeria","Noruega","Nueva Zelanda",
+  "Omán","Países Bajos","Pakistán","Palaos","Palestina","Panamá","Papúa Nueva Guinea","Paraguay","Perú","Polonia","Portugal","Reino Unido","República Centroafricana",
+  "República Checa","República del Congo","República Democrática del Congo","República Dominicana","República Sudafricana","Ruanda","Rumania","Rusia","Samoa","San Cristóbal y Nieves",
+  "San Marino","San Vicente y las Granadinas","Santa Lucía","Santo Tomé y Príncipe","Senegal","Serbia","Seychelles","Sierra Leona","Singapur","Siria","Somalia","Sri Lanka",
+  "Sudán","Sudán del Sur","Suecia","Suiza","Surinam","Tailandia","Tanzania","Tayikistán","Timor Oriental","Togo","Tonga","Trinidad y Tobago","Túnez","Turkmenistán","Turquía",
+  "Tuvalu","Ucrania","Uganda","Uruguay","Uzbekistán","Vanuatu","Venezuela","Vietnam","Yemen","Yibuti","Zambia","Zimbabue"
+];
+
+// --- Función para poblar selects de países ---
+function poblarSelectPaises(selectElement) {
+  selectElement.innerHTML = '<option value="" disabled selected>-- Selecciona un país --</option>';
+  listaPaises.forEach(pais => {
+    const option = document.createElement("option");
+    option.value = pais;
+    option.textContent = pais;
+    selectElement.appendChild(option);
+  });
+}
+
+// Llenar el select de país en Fase 2 al cargar
+document.addEventListener('DOMContentLoaded', function() {
+  const selectPais = document.getElementById('pais');
+  if (selectPais) poblarSelectPaises(selectPais);
+  // También llenar el select para nacionalidad oculta
+  const selectPaisOrigen = document.getElementById('pais_origen');
+  if (selectPaisOrigen) poblarSelectPaises(selectPaisOrigen);
+});
+
+// Mostrar/Ocultar país de origen si nacionalidad == "otro"
+function mostrarPaisNacionalidad() {
+  const radioOtro = document.querySelector('input[name="nacionalidad"][value="otro"]');
+  const divPaisOrigen = document.getElementById('select-nacionalidad-origen');
+  if (radioOtro && radioOtro.checked) {
+    divPaisOrigen.style.display = "block";
+    document.getElementById('pais_origen').setAttribute("required", "required");
+  } else {
+    divPaisOrigen.style.display = "none";
+    document.getElementById('pais_origen').removeAttribute("required");
+  }
+}
+
+
