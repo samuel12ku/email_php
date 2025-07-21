@@ -291,7 +291,7 @@
       </div>
       <div class="form-grupo">
         <label for="ficha">20. Si eres aprendiz o egresado SENA, escribe tu número de ficha. De lo contrario, escribe "no aplica" <span style="color:red">*</span></label><br/>
-        <input type="number" id="ficha" name="ficha" required class="form-control" />
+        <input type="text" id="ficha" name="ficha" required class="form-control" />
       </div>
     </div>
 
@@ -310,7 +310,7 @@
       <div class="form-grupo">
         <label for="centro_orientacion">22. ¿Cuál es el Centro de Desarrollo Empresarial que brinda la orientación? <span style="color:red">*</span></label><br/>
         <select id="centro_orientacion" name="centro_orientacion" required class="form-control" onchange="actualizarOrientadores()">
-          <option value="" disabled>-- Selecciona un centro --</option>
+          <option value="" disabled selected>-- Selecciona un centro --</option>
           <option value="CAB">Centro Agropecuario de Buga (CAB)</option>
           <option value="CBI">Centro de Biotecnología Industrial (CBI Palmira)</option>
           <option value="CDTI">Centro de Diseño Tecnológico Industrial (CDTI CALI)</option>
