@@ -1,5 +1,5 @@
 Siempre que vaya a ejecutar, verificar que no hayan archivos llamados como (vendor,composer.json y composer.lock)si te encuentras con esos archivos borralos y luego ingresar a la siguiente ruta en la cmd:
-C:\xampp\htdocs\email_php\correos_masivos
+C:\xampp\htdocs\email_php
 luego escribir el comando: composer require phpmailer/phpmailer
 luego verificar que en el visual se crean estas 3 cosas = (vendor,composer.json y composer.lock) una vez que le aparezca creado NO tocar nada e irse a email_csv.php y mail.php
 para modificar solo las lineas de codigo donde esta el correo con el que va a enviar correos de su parte y la contraseña de aplicacion, si al ejecutar da este error
