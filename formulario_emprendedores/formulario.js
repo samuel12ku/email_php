@@ -306,22 +306,23 @@ function enviarFormulario() {
   const form = document.querySelector("form");
   const data = new FormData(form);
 
-  fetch('guardar_registro.php', {
-    method: 'POST',
-    body: data
-  })
-  .then(response => response.text())
-  .then(result => {
-    if(result.trim() === "OK") {
-      alert('¡Formulario guardado correctamente! Pronto recibirás información en tu correo.');
-      form.reset();
-      faseActual = 0;
-      mostrarFase(faseActual);
-    } else {
-      alert('Error al guardar: ' + result);
-    }
-  })
-  .catch(error => {
-    alert('Error de conexión o servidor.');
-  });
+  fetch('../servicios/php/guardar_formulario.php', {
+  method: 'POST',
+  body: data
+})
+.then(response => response.json())
+.then(result => {
+  if (result.status === 'ok') {
+    alert('¡Formulario guardado correctamente!');
+    form.reset();
+    faseActual = 0;
+    mostrarFase(faseActual);
+  } else {
+    alert('Error al guardar: ' + result.msg);
+  }
+})
+.catch(error => {
+  console.error(error);
+  alert('Error de conexión o servidor.');
+});
 }
