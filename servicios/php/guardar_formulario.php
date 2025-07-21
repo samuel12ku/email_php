@@ -1,26 +1,19 @@
 <?php
-// 1. CONFIGURACIÓN DE ACCESO A LA BD
+// 1. CONFIGURACIÓN
 $host = 'localhost';
+$user = 'root';      // <-- tu usuario
+$pass = '';          // <-- tu contraseña
 $db   = 'fondo_emprender';
-$user = 'root';         // <-- cámbialo
-$pass = '';             // <-- cámbialo
-$charset = 'utf8mb4';
 
-// 2. CONEXIÓN CON PDO
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-];
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
+// 2. CONEXIÓN
+$conn = mysqli_connect($host, $user, $pass, $db);
+if (!$conn) {
     http_response_code(500);
-    die("Error de conexión: " . $e->getMessage());
+    die('Error de conexión: ' . mysqli_connect_error());
 }
+mysqli_set_charset($conn, 'utf8mb4');
 
-// 3. RECIBIR Y VALIDAR DATOS
+// 3. RECOGER DATOS
 $nombres            = $_POST['nombres']            ?? '';
 $apellidos          = $_POST['apellidos']          ?? '';
 $departamento       = $_POST['departamento']       ?? '';
@@ -46,50 +39,40 @@ $programa_formacion = $_POST['programa_formacion'] ?? '';
 $centro_orientacion = $_POST['centro_orientacion'] ?? '';
 $orientador         = $_POST['orientador']         ?? '';
 
-// 4. INSERTAR EN LA TABLA
-$sql = "INSERT INTO ruta_emprendedora (
+// 4. CONSULTA PREPARADA
+$sql = "INSERT INTO ruta_emprendedora_2025 (
             nombres, apellidos, departamento, municipio, pais, tipo_id, numero_id,
             fecha_nacimiento, fecha_orientacion, genero, nacionalidad, pais_origen,
             correo, clasificacion, discapacidad, tipo_emprendedor, nivel_formacion,
             celular, programa, situacion_negocio, ficha, programa_formacion,
             centro_orientacion, orientador
-        ) VALUES (
-            :nombres, :apellidos, :departamento, :municipio, :pais, :tipo_id, :numero_id,
-            :fecha_nacimiento, :fecha_orientacion, :genero, :nacionalidad, :pais_origen,
-            :correo, :clasificacion, :discapacidad, :tipo_emprendedor, :nivel_formacion,
-            :celular, :programa, :situacion_negocio, :ficha, :programa_formacion,
-            :centro_orientacion, :orientador
-        )";
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-$stmt = $pdo->prepare($sql);
-$stmt->execute([
-    ':nombres'            => $nombres,
-    ':apellidos'          => $apellidos,
-    ':departamento'       => $departamento,
-    ':municipio'          => $municipio,
-    ':pais'               => $pais,
-    ':tipo_id'            => $tipo_id,
-    ':numero_id'          => $numero_id,
-    ':fecha_nacimiento'   => $fecha_nacimiento,
-    ':fecha_orientacion'  => $fecha_orientacion,
-    ':genero'             => $genero,
-    ':nacionalidad'       => $nacionalidad,
-    ':pais_origen'        => $pais_origen,
-    ':correo'             => $correo,
-    ':clasificacion'      => $clasificacion,
-    ':discapacidad'       => $discapacidad,
-    ':tipo_emprendedor'   => $tipo_emprendedor,
-    ':nivel_formacion'    => $nivel_formacion,
-    ':celular'            => $celular,
-    ':programa'           => $programa,
-    ':situacion_negocio'  => $situacion_negocio,
-    ':ficha'              => $ficha,
-    ':programa_formacion' => $programa_formacion,
-    ':centro_orientacion' => $centro_orientacion,
-    ':orientador'         => $orientador,
-]);
+$stmt = mysqli_prepare($conn, $sql);
+if (!$stmt) {
+    http_response_code(500);
+    die('Error preparando la consulta: ' . mysqli_error($conn));
+}
 
-// 5. RESPONDER AL USUARIO
+mysqli_stmt_bind_param(
+    $stmt,
+    'ssssssssssssssssssssssss',
+    $nombres, $apellidos, $departamento, $municipio, $pais, $tipo_id, $numero_id,
+    $fecha_nacimiento, $fecha_orientacion, $genero, $nacionalidad, $pais_origen,
+    $correo, $clasificacion, $discapacidad, $tipo_emprendedor, $nivel_formacion,
+    $celular, $programa, $situacion_negocio, $ficha, $programa_formacion,
+    $centro_orientacion, $orientador
+);
+
+$ok = mysqli_stmt_execute($stmt);
+mysqli_stmt_close($stmt);
+mysqli_close($conn);
+
+// 5. RESPUESTA (igual que antes: JSON para el JS)
 header('Content-Type: application/json');
-echo json_encode(['status' => 'ok', 'msg' => 'Registro guardado con éxito']);
+if ($ok) {
+    echo json_encode(['status' => 'ok', 'msg' => 'Registro guardado con éxito']);
+} else {
+    echo json_encode(['status' => 'error', 'msg' => 'No se pudo guardar el registro']);
+}
 ?>
