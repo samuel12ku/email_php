@@ -30,5 +30,6 @@ $fh = fopen($archivo, 'a');
 fputcsv($fh, $registro);
 fclose($fh);
 
+
 echo "OK";
 ?>
