@@ -2,7 +2,7 @@
 function ConectarDB() {
     $host = "localhost";
     $user = "root";
-    $password = ""; 
+    $password = ''; 
     $dbname = "fondo_emprender";
 
     $conn = new mysqli($host, $user, $password, $dbname);
@@ -13,4 +13,4 @@ function ConectarDB() {
 
     return $conn;
 }
-?>
+

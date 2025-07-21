@@ -192,7 +192,7 @@ span {
   border: 1.8px solid #cccccc;
   border-radius: 10px;
   background: #fff;
-  resize: none;
+  resize: vertical;
   transition: border 0.2s, box-shadow 0.2s;
 }
 
@@ -344,7 +344,7 @@ fieldset:hover{
   border-radius: 10px;
   border: 1.5px solid #cccccc;
   background: #fff;
-  resize: none;
+  resize: vertical;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
