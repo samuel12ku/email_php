@@ -7,17 +7,50 @@ function mostrarFase(index) {
   });
 }
 
-// --- VALIDACIÓN ROBUSTA CON TELÉFONO PERSONALIZADO ---
+// Validación de la fase actual, incluyendo restricciones personalizadas
 function validarFaseActual() {
   const fase = fases[faseActual];
   let valid = true;
   let primerNoValido = null;
 
-  // Selecciona todos los campos requeridos en la fase
   const campos = fase.querySelectorAll('input[required], select[required], textarea[required]');
   campos.forEach(campo => {
+    // Campo 20: ficha
+    if (campo.id === 'ficha') {
+      let valor = campo.value.trim();
+      if (
+        valor !== '' &&
+        !/^[0-9]+$/.test(valor) &&
+        valor.toLowerCase() !== 'no aplica'
+      ) {
+        valid = false;
+        campo.classList.add('campo-error');
+        campo.setCustomValidity("Solo se permite ingresar números o 'no aplica'.");
+        if (!primerNoValido) primerNoValido = campo;
+      } else {
+        campo.setCustomValidity('');
+        campo.classList.remove('campo-error');
+      }
+    }
+    // Campo 21: programa_formacion
+    else if (campo.id === 'programa_formacion') {
+      let valor = campo.value.trim();
+      if (
+        valor !== '' &&
+        !/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/.test(valor) &&
+        valor.toLowerCase() !== 'no aplica'
+      ) {
+        valid = false;
+        campo.classList.add('campo-error');
+        campo.setCustomValidity("Solo se permite texto o 'no aplica'.");
+        if (!primerNoValido) primerNoValido = campo;
+      } else {
+        campo.setCustomValidity('');
+        campo.classList.remove('campo-error');
+      }
+    }
     // Radios: al menos uno seleccionado del grupo
-    if (campo.type === 'radio') {
+    else if (campo.type === 'radio') {
       const radios = fase.querySelectorAll(`input[name="${campo.name}"]`);
       const algunoMarcado = Array.from(radios).some(r => r.checked);
       if (!algunoMarcado) {
@@ -27,18 +60,22 @@ function validarFaseActual() {
       } else {
         radios.forEach(r => r.classList.remove('campo-error'));
       }
-    } else if (campo.type === 'tel' && campo.id === 'celular') {
-      // Validación personalizada para teléfono: solo 10 dígitos
+    }
+    // Teléfono celular
+    else if (campo.type === 'tel' && campo.id === 'celular') {
       const soloNumeros = campo.value.replace(/\D/g, "");
       if (soloNumeros.length !== 10) {
         valid = false;
         campo.classList.add('campo-error');
+        campo.setCustomValidity("El celular debe tener exactamente 10 dígitos numéricos.");
         if (!primerNoValido) primerNoValido = campo;
       } else {
+        campo.setCustomValidity('');
         campo.classList.remove('campo-error');
       }
-    } else {
-      // checkValidity para otros campos (date, email, number, etc)
+    }
+    // Otros campos
+    else {
       if (!campo.checkValidity()) {
         valid = false;
         campo.classList.add('campo-error');
@@ -51,11 +88,12 @@ function validarFaseActual() {
 
   if (!valid && primerNoValido) {
     primerNoValido.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    alert(primerNoValido.validationMessage || 'Por favor, completa correctamente todos los campos.');
   }
   return valid;
 }
 
-// --- BOTONES DINÁMICOS MULTIPASO ---
+// Botones multipaso
 function crearBotones() {
   fases.forEach((fase, i) => {
     const contenedor = document.createElement('div');
@@ -94,82 +132,119 @@ function crearBotones() {
 crearBotones();
 mostrarFase(faseActual);
 
-// --- ORIENTADORES POR CENTRO ---
+// Restricción dinámica para campo ficha (solo números o 'no aplica')
+const inputFicha = document.getElementById('ficha');
+if (inputFicha) {
+  inputFicha.addEventListener('input', function() {
+    let valor = inputFicha.value.trim();
+    if (
+      valor === '' ||
+      /^[0-9]+$/.test(valor) ||
+      valor.toLowerCase() === 'no aplica'
+    ) {
+      inputFicha.setCustomValidity('');
+      inputFicha.classList.remove('campo-error');
+    } else {
+      inputFicha.setCustomValidity("Solo se permite ingresar números o 'no aplica'.");
+      inputFicha.classList.add('campo-error');
+    }
+  });
+}
+
+// Restricción dinámica para campo programa_formacion (solo texto o 'no aplica')
+const inputPrograma = document.getElementById('programa_formacion');
+if (inputPrograma) {
+  inputPrograma.addEventListener('input', function() {
+    let valor = inputPrograma.value.trim();
+    if (
+      valor === '' ||
+      /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/.test(valor) ||
+      valor.toLowerCase() === 'no aplica'
+    ) {
+      inputPrograma.setCustomValidity('');
+      inputPrograma.classList.remove('campo-error');
+    } else {
+      inputPrograma.setCustomValidity("Solo se permite texto o 'no aplica'.");
+      inputPrograma.classList.add('campo-error');
+    }
+  });
+}
+
+// ORIENTADORES POR CENTRO
 const orientadoresPorCentro = {
-    CAB: [
-        "Celiced Castaño Barco",
-        "Jose Julian Angulo Hernandez",
-        "Lina Maria Varela",
-        "Harby Arce",
-        "Carlos Andrés Matallana"
-    ],
-    CBI: [
-        "Hector James Serrano Ramírez",
-        "Javier Duvan Cano León",
-        "Sandra Patricia Reinel Piedrahita",
-        "Julian Adolfo Manzano Gutierrez"
-    ],
-    CDTI: [
-        "Diana Lorena Bedoya Vásquez",
-        "Jacqueline Mafla Vargas",
-        "Juan Manuel Oyola",
-        "Gloria Betancourth"
-    ],
-    CEAI: [
-        "Carolina Gálvez Noreña",
-        "Cerbulo Andres Cifuentes Garcia",
-        "Clara Ines Campo chaparro"
-    ],
-    CGTS: [
-        "Francia Velasquez",
-        "Julio Andres Pabon Arboleda",
-        "Andres Felipe Betancourt Hernandez"
-    ],
-    ASTIN: [
-        "Pablo Andres Cardona Echeverri",
-        "Juan Carlos Bernal Bernal",
-        "Pablo Diaz",
-        "Marlen Erazo"
-    ],
-    CTA: [
-        "Angela Rendon Marin",
-        "Juan Manuel Marmolejo Escobar",
-        "Liliana Fernandez Angulo",
-        "Luz Adriana Loaiza"
-    ],
-    CLEM: [
-        "Adalgisa Palacio Santa",
-        "Eiider Cardona",
-        "Manuela Jimenez",
-        "William Bedoya Gomez"
-    ],
-    CNP: [
-        "LEIDDY DIANA MOLANO CAICEDO",
-        "PEDRO ANDRÉS ARCE MONTAÑO",
-        "DIANA MORENO FERRÍN"
-    ],
-    CC: [
-        "Franklin Ivan Marin Gomez",
-        "Jorge Iván Valencia Vanegas",
-        "Deider Arboleda Riascos"
-    ]
+  CAB: [
+    "Celiced Castaño Barco",
+    "Jose Julian Angulo Hernandez",
+    "Lina Maria Varela",
+    "Harby Arce",
+    "Carlos Andrés Matallana"
+  ],
+  CBI: [
+    "Hector James Serrano Ramírez",
+    "Javier Duvan Cano León",
+    "Sandra Patricia Reinel Piedrahita",
+    "Julian Adolfo Manzano Gutierrez"
+  ],
+  CDTI: [
+    "Diana Lorena Bedoya Vásquez",
+    "Jacqueline Mafla Vargas",
+    "Juan Manuel Oyola",
+    "Gloria Betancourth"
+  ],
+  CEAI: [
+    "Carolina Gálvez Noreña",
+    "Cerbulo Andres Cifuentes Garcia",
+    "Clara Ines Campo chaparro"
+  ],
+  CGTS: [
+    "Francia Velasquez",
+    "Julio Andres Pabon Arboleda",
+    "Andres Felipe Betancourt Hernandez"
+  ],
+  ASTIN: [
+    "Pablo Andres Cardona Echeverri",
+    "Juan Carlos Bernal Bernal",
+    "Pablo Diaz",
+    "Marlen Erazo"
+  ],
+  CTA: [
+    "Angela Rendon Marin",
+    "Juan Manuel Marmolejo Escobar",
+    "Liliana Fernandez Angulo",
+    "Luz Adriana Loaiza"
+  ],
+  CLEM: [
+    "Adalgisa Palacio Santa",
+    "Eiider Cardona",
+    "Manuela Jimenez",
+    "William Bedoya Gomez"
+  ],
+  CNP: [
+    "LEIDDY DIANA MOLANO CAICEDO",
+    "PEDRO ANDRÉS ARCE MONTAÑO",
+    "DIANA MORENO FERRÍN"
+  ],
+  CC: [
+    "Franklin Ivan Marin Gomez",
+    "Jorge Iván Valencia Vanegas",
+    "Deider Arboleda Riascos"
+  ]
 };
 
 function actualizarOrientadores() {
-    const centroSeleccionado = document.getElementById("centro_orientacion").value;
-    const selectOrientador = document.getElementById("orientador");
+  const centroSeleccionado = document.getElementById("centro_orientacion").value;
+  const selectOrientador = document.getElementById("orientador");
 
-    // Limpiar opciones previas
-    selectOrientador.innerHTML = '<option value="">-- Selecciona un orientador --</option>';
+  selectOrientador.innerHTML = '<option value="">-- Selecciona un orientador --</option>';
 
-    if (orientadoresPorCentro[centroSeleccionado]) {
-        orientadoresPorCentro[centroSeleccionado].forEach(nombre => {
-            const option = document.createElement("option");
-            option.value = nombre;
-            option.textContent = nombre;
-            selectOrientador.appendChild(option);
-        });
-    }
+  if (orientadoresPorCentro[centroSeleccionado]) {
+    orientadoresPorCentro[centroSeleccionado].forEach(nombre => {
+      const option = document.createElement("option");
+      option.value = nombre;
+      option.textContent = nombre;
+      selectOrientador.appendChild(option);
+    });
+  }
 }
 
 // === Lista de países actualizada (2024) ===
@@ -191,7 +266,6 @@ const listaPaises = [
   "Tuvalu","Ucrania","Uganda","Uruguay","Uzbekistán","Vanuatu","Venezuela","Vietnam","Yemen","Yibuti","Zambia","Zimbabue"
 ];
 
-// --- Función para poblar selects de países ---
 function poblarSelectPaises(selectElement) {
   selectElement.innerHTML = '<option value="" disabled selected>-- Selecciona un país --</option>';
   listaPaises.forEach(pais => {
@@ -202,16 +276,13 @@ function poblarSelectPaises(selectElement) {
   });
 }
 
-// Llenar el select de país en Fase 2 al cargar
 document.addEventListener('DOMContentLoaded', function() {
   const selectPais = document.getElementById('pais');
   if (selectPais) poblarSelectPaises(selectPais);
-  // También llenar el select para nacionalidad oculta
   const selectPaisOrigen = document.getElementById('pais_origen');
   if (selectPaisOrigen) poblarSelectPaises(selectPaisOrigen);
 });
 
-// Mostrar/Ocultar país de origen si nacionalidad == "otro"
 function mostrarPaisNacionalidad() {
   const radioOtro = document.querySelector('input[name="nacionalidad"][value="otro"]');
   const divPaisOrigen = document.getElementById('select-nacionalidad-origen');
@@ -224,9 +295,14 @@ function mostrarPaisNacionalidad() {
   }
 }
 
+// Envío del formulario con alert de éxito
+document.querySelector('form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  if (!validarFaseActual()) return; // Previene envío si hay error en la última fase
+  enviarFormulario();
+});
 
 function enviarFormulario() {
-  // Tomar todos los campos del formulario aunque sean multipaso
   const form = document.querySelector("form");
   const data = new FormData(form);
 
@@ -237,9 +313,8 @@ function enviarFormulario() {
   .then(response => response.text())
   .then(result => {
     if(result.trim() === "OK") {
-      alert('¡Formulario guardado correctamente!');
+      alert('¡Formulario guardado correctamente! Pronto recibirás información en tu correo.');
       form.reset();
-      // (Opcional) volver a la primera fase
       faseActual = 0;
       mostrarFase(faseActual);
     } else {
@@ -250,4 +325,3 @@ function enviarFormulario() {
     alert('Error de conexión o servidor.');
   });
 }
-  
