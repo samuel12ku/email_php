@@ -126,9 +126,8 @@ img.encabezado-logo {
 }
 
 .dashboard-logo {
-  max-width: 95px;
+  max-width: 450px;
   margin-bottom: 10px;
-
 }
 
 .dashboard-header h2 {
@@ -206,6 +205,30 @@ img.encabezado-logo {
   border: 2px solid #007832;
   background: linear-gradient(120deg, #dbffe0 60%, #a7efbc 100%);
   color: #00390b;
+}
+
+.tarjeta-interactiva::after {
+  content: "";
+  position: absolute;
+  inset: -8px;          /* 8 px más grande por cada lado */
+  z-index: 0;           /* detrás del contenido (icono, texto) */
+  pointer-events: auto; /* captura el mouse */
+}
+
+/* 3. El contenido real debe quedar por encima del ::after */
+.tarjeta-icono,
+.tarjeta-titulo,
+.tarjeta-desc {
+  position: relative;
+  z-index: 1;
+}
+
+/* 4. (opcional) suavizar aún más la transición */
+.tarjeta-interactiva {
+  transition:
+    transform 0.22s cubic-bezier(.23,1.24,.76,1.02),
+    box-shadow 0.22s cubic-bezier(.23,1.24,.76,1.02),
+    border 0.22s;
 }
 
 .tarjeta-icono {
