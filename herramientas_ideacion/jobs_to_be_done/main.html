@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jobs to be Done</title>
-  <link rel="stylesheet" href="../identificar_problema/estilos/definiendo_problema.css" />
+  <link rel="stylesheet" href="componentes_jtbd/jtbdestilos.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Sora:wght@100..700&display=swap"
       rel="stylesheet"
@@ -37,7 +37,7 @@
       </nav>
     </header>
   <div class="fondo-verde">
-    <form>
+    <form id="jtbdForm" action="../../servicios/php/guardar_jobs.php" method="post">
     <div class="formulario-contenedor">
       <div class="logo">
         <div class="logo-imagenes">
@@ -60,18 +60,27 @@
             <th>Jobs</th>
           </tr>
         </thead>
-        <tbody>
-          <tr><td><input type="text" placeholder="Actor" /></td><td><input type="text" placeholder="1" /></td></tr>
-          <tr><td></td><td><input type="text" placeholder="2" /></td></tr>
-          <tr><td></td><td><input type="text" placeholder="3" /></td></tr>
-          <tr><td><input type="text" placeholder="Actor" /></td><td><input type="text" placeholder="1" /></td></tr>
-          <tr><td></td><td><input type="text" placeholder="2" /></td></tr>
-          <tr><td></td><td><input type="text" placeholder="3" /></td></tr>
+        <tbody id="tbodyJobs">
+          <!-- FILAS INICIALES (2 actores x 3 jobs) -->
+          <tr><td rowspan="3"><input type="text" placeholder="Actor" id="actor" name="actor[]"/></td><td><input type="text" placeholder="1" id="job_1" name="job_1[]"/></td></tr>
+          <tr><td><input type="text" placeholder="2" id="job_2" name="job_2[]" /></td></tr>
+          <tr><td><input type="text" placeholder="3" id="job_3" name="job_3[]"/></td></tr>
+          
+          <tr><td rowspan="3"><input type="text" placeholder="Actor" id="actor" name="actor[]"/></td><td><input type="text" placeholder="1" id="job_1" name="job_1[]"/></td></tr>
+          <tr><td><input type="text" placeholder="2" id="job_2" name="job_2[]" /></td></tr>
+          <tr><td><input type="text" placeholder="3" id="job_3" name="job_3[]"/></td></tr>
+
+          <!-- <tr><td rowspan="3"><input type="text" placeholder="Actor" id="actor[]" name="actor"/></td><td><input type="text" placeholder="1" id="job_1" name="job_1"/></td></tr>
+          <tr><td><input type="text" placeholder="2" id="job_2" name="job_2"/></td></tr>
+          <tr><td><input type="text" placeholder="3" id="job_3" name="job_3"/></td></tr> -->
         </tbody>
       </table>
+
+      <button type="button" id="btnAggActor" class="boton-agregar">+ Agregar Actor</button>
       <button type="submit">Enviar</button>
     </div>
   </div>
   </form>
+  <script src="componentes_jtbd/funciones.js"></script>
 </body>
 </html>

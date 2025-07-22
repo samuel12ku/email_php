@@ -42,7 +42,7 @@
             <img src="../../componentes/img/logosena.png" alt="Logo SENA" class="logo-sena">
             <img src="../../componentes/img/logo_fondo_emprender.png" alt="Logo Fondo Emprender" class="logo-fondo">
         </div>  
-        <p>SBDC - Centro de Desarrollo Empresarial</p>
+        <!-- <p>SBDC - Centro de Desarrollo Empresarial</p> -->
     </div>
 
 
@@ -51,23 +51,27 @@
       <ol>
         <li>
           <p><strong>Escriba cuál es la situación problemática que quiere solucionar en forma de una ruptura:</strong></p>
-          <input type="text" name="situacion" placeholder="Describa aquí la situación problemática">
+          <input type="text" name="situacion" placeholder="Describa aquí la situación problemática" required>
         </li>
 
         <li>
           <p><strong>Pruebe si su definición es clara con la prueba más ácida, cuéntele la situación problemática a un niño de 10 años, una persona de la tercera edad y luego pídales que la describan en sus palabras qué entendieron.</strong></p>
 
           <p>a) ¿Cómo describe la situación problemática el niño?</p>
-          <input type="text" name="nino" placeholder="Respuesta del niño">
+          <input type="text" name="nino" placeholder="Respuesta del niño" required>
 
           <p>b) ¿Cómo describe la situación problemática la persona de la tercera edad?</p>
-          <input type="text" name="mayor" placeholder="Respuesta de la persona mayor">
+          <input type="text" name="mayor" placeholder="Respuesta de la persona mayor" required>
 
           <p>c) ¿Entendieron estos validadores su situación problemática?</p>
-          <div class="opciones">
-            <label><input type="radio" name="entendieron" value="si"> Sí</label>
-            <label><input type="radio" name="entendieron" value="no"> No</label>
-          </div>
+        <div class="opciones">
+          <label>
+            <input type="radio" name="entendieron" value="si" required> Sí
+          </label>
+          <label>
+            <input type="radio" name="entendieron" value="no" required> No
+          </label>
+        </div>
         </li>
       </ol>
 
