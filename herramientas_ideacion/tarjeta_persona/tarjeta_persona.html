@@ -52,20 +52,20 @@
         <label class="field-label" for="descriptor">DESCRIPTOR</label>
         <input type="text" name="descriptor" id="descriptor" maxlength="120" placeholder="¿Qué clase de persona es? Describa lo más representativo o algo diferenciador." required>
         <label class="field-label" for="citas">CITAS</label>
-        <textarea id="citas" name="citas" rows="4" maxlength="320"  placeholder="Capture la esencia de su personaje. Escriba uno o dos comentarios como si lo dijera directamente, no olvide la forma como lo diría."></textarea>
+        <textarea id="citas" name="citas" rows="4" maxlength="320"  placeholder="Capture la esencia de su personaje. Escriba uno o dos comentarios como si lo dijera directamente, no olvide la forma como lo diría." required></textarea>
       </div>
       <div class="persona-col foto">
         <label for="foto-input"  class="foto-label" id="foto-label">
           <img id="foto-preview" src="componentes/img/usuario.png" alt="Foto o avatar">
           <div class="foto-hint" id="foto-hint">Click aquí o arrastra una imagen</div>
-          <input type="file" name="foto" id="foto-input" accept="image/*">
+          <input type="file" name="foto" id="foto-input" accept="image/*" required>
         </label>
       </div>
     </div>
     <div class="persona-row persona-row-block">
       <label class="field-label" for="quien">¿QUIÉN ES?</label>
       <textarea id="quien" name="quien" rows="4" maxlength="400"
-        placeholder="Haga un bosquejo de los aspectos personales, su edad, dónde vive, en qué trabaja; qué clase de persona es. Piense en uno o más personas de esta segmentación."></textarea>
+        placeholder="Haga un bosquejo de los aspectos personales, su edad, dónde vive, en qué trabaja; qué clase de persona es. Piense en uno o más personas de esta segmentación." required></textarea>
     </div>
   </fieldset>
 
@@ -76,11 +76,11 @@
       <div class="vertical-fields-col">
         <div>
           <label class="field-label" for="metas">¿Qué metas tiene?</label>
-          <textarea id="metas" name="metas" rows="4" maxlength="350" placeholder="¿Cuál es su motivación principal? ¿Cuáles necesidades (límites) y deseos tiene?"></textarea>
+          <textarea id="metas" name="metas" rows="4" maxlength="350" placeholder="¿Cuál es su motivación principal? ¿Cuáles necesidades (límites) y deseos tiene?" required></textarea>
         </div>
         <div>
           <label class="field-label" for="actitud">¿Qué actitud tiene?</label>
-          <textarea id="actitud" name="actitud" rows="4" maxlength="350" placeholder="¿Cuál es su punto de vista? ¿Qué expectativas, percepción de servicio, compañía o marca tiene? ¿Qué lo motiva para averiguar e intentar, a una tienda, o a usar un servicio?"></textarea>
+          <textarea id="actitud" name="actitud" rows="4" maxlength="350" placeholder="¿Cuál es su punto de vista? ¿Qué expectativas, percepción de servicio, compañía o marca tiene? ¿Qué lo motiva para averiguar e intentar, a una tienda, o a usar un servicio?" required></textarea>
         </div>
       </div>
       
@@ -95,42 +95,42 @@
         <div>
           <label class="field-label" for="comportamiento">¿Qué comportamiento tiene?</label>
           <textarea id="comportamiento" name="comportamiento" rows="4" maxlength="350"
-            placeholder="¿Qué hace? Cuente historias sobre su comportamiento mientras usa el servicio, producto o página web. ¿Qué canales usa para las diferentes necesidades? (Internet: visitar páginas para comparar, qué utiliza, redes sociales) ¿Qué le frustra? ¿Qué le impide lograr una determinada función, servicio o producto?"></textarea>
+            placeholder="¿Qué hace? Cuente historias sobre su comportamiento mientras usa el servicio, producto o página web. ¿Qué canales usa para las diferentes necesidades? (Internet: visitar páginas para comparar, qué utiliza, redes sociales) ¿Qué le frustra? ¿Qué le impide lograr una determinada función, servicio o producto?" required></textarea>
 
             <label class="field-label sub-label" for="modas" style="font-weight:400; font-size:0.98rem; color:#555; margin-top:6px;">
             ¿Cuáles son sus modas, estilos de pensamiento u otros indicadores que son aplicables a esta persona?
           </label>
-          <textarea id="modas" name="modas" rows="2" maxlength="200" placeholder="Ejemplo: Usa ropa deportiva, sigue tendencias tecnológicas, pensamiento innovador..."></textarea>
+          <textarea id="modas" name="modas" rows="2" maxlength="200" placeholder="Ejemplo: Usa ropa deportiva, sigue tendencias tecnológicas, pensamiento innovador..." required></textarea>
 
           <label class="field-label sub-label" for="beneficios" style="font-weight:400; font-size:0.98rem; color:#555; margin-top:6px;">
             ¿Qué tan importante son los beneficios funcionales, emocionales o expresivos?
           </label>
-          <textarea id="beneficios" name="beneficios" rows="2" maxlength="200" placeholder="Importancia que le da a beneficios funcionales, emocionales o de expresión."></textarea>
+          <textarea id="beneficios" name="beneficios" rows="2" maxlength="200" placeholder="Importancia que le da a beneficios funcionales, emocionales o de expresión." required></textarea>
           <label class="field-label sub-label" for="beneficios" style="font-weight:400; font-size:0.98rem; color:#555; margin-top:6px;">
             ¿Se demora en tomar decisiones?
             Diga por qué y como lo determina usted,
           </label>
-          <textarea id="beneficios"name="decisiones_tiempo" rows="2" maxlength="200" placeholder="Importancia que le da a beneficios funcionales, emocionales o de expresión."></textarea>
+          <textarea id="beneficios"name="decisiones_tiempo" rows="2" maxlength="200" placeholder="Importancia que le da a beneficios funcionales, emocionales o de expresión." required></textarea>
           <label class="field-label sub-label" for="beneficios" style="font-weight:400; font-size:0.98rem; color:#555; margin-top:6px;">
             ¿Las decisiones la toma basada en los hechos o en las emociones?
             Diga por qué y como lo determina usted.
           </label>
-          <textarea id="beneficios" name="decisiones_base" rows="2" maxlength="200" placeholder="Importancia que le da a beneficios funcionales, emocionales o de expresión."></textarea>
+          <textarea id="beneficios" name="decisiones_base" rows="2" maxlength="200" placeholder="Importancia que le da a beneficios funcionales, emocionales o de expresión." required></textarea>
         </div>
       </div>
       <div class="persona-col jobs">
         <div class="jobs-title">Jobs to be done</div>
         <div class="jobs-field">
           <label for="job-funcional">Funcional</label>
-          <textarea id="job-funcional" name="job_funcional" rows="2" maxlength="180" placeholder="Objetivo práctico a lograr"></textarea>
+          <textarea id="job-funcional" name="job_funcional" rows="2" maxlength="180" placeholder="Objetivo práctico a lograr" required></textarea>
         </div>
         <div class="jobs-field">
           <label for="job-emocional">Emocional</label>
-          <textarea id="job-emocional" name="job_emocional" rows="2" maxlength="180" placeholder="Estado o sentimiento a buscar"></textarea>
+          <textarea id="job-emocional" name="job_emocional" rows="2" maxlength="180" placeholder="Estado o sentimiento a buscar" required></textarea>
         </div>
         <div class="jobs-field">
           <label for="job-social">Social</label>
-          <textarea id="job-social" name="job_social" rows="2" maxlength="180" placeholder="Reconocimiento, pertenencia, etc."></textarea>
+          <textarea id="job-social" name="job_social" rows="2" maxlength="180" placeholder="Reconocimiento, pertenencia, etc." required></textarea>
         </div>
       </div>
     </div>
