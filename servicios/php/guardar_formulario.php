@@ -1,19 +1,21 @@
 <?php
-// 1. CONFIGURACIÓN
+// 1. Configuración de acceso a la BD
 $host = 'localhost';
-$user = 'root';      // <-- tu usuario
-$pass = '';          // <-- tu contraseña
+$user = 'root';     // cambiar si es necesario
+$pass = '';         // cambiar si es necesario
 $db   = 'fondo_emprender';
 
-// 2. CONEXIÓN
+// 2. Conexión MySQLi
 $conn = mysqli_connect($host, $user, $pass, $db);
 if (!$conn) {
     http_response_code(500);
-    die('Error de conexión: ' . mysqli_connect_error());
+    exit("Error de conexión: " . mysqli_connect_error());
 }
 mysqli_set_charset($conn, 'utf8mb4');
 
-// 3. RECOGER DATOS
+/* -------------------------------------------------------------
+   3. Recibir todos los campos del formulario
+------------------------------------------------------------- */
 $nombres            = $_POST['nombres']            ?? '';
 $apellidos          = $_POST['apellidos']          ?? '';
 $departamento       = $_POST['departamento']       ?? '';
@@ -39,21 +41,18 @@ $programa_formacion = $_POST['programa_formacion'] ?? '';
 $centro_orientacion = $_POST['centro_orientacion'] ?? '';
 $orientador         = $_POST['orientador']         ?? '';
 
-// 4. CONSULTA PREPARADA
-$sql = "INSERT INTO ruta_emprendedora_2025 (
-            nombres, apellidos, departamento, municipio, pais, tipo_id, numero_id,
-            fecha_nacimiento, fecha_orientacion, genero, nacionalidad, pais_origen,
-            correo, clasificacion, discapacidad, tipo_emprendedor, nivel_formacion,
-            celular, programa, situacion_negocio, ficha, programa_formacion,
-            centro_orientacion, orientador
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+/* -------------------------------------------------------------
+   4. Guardar en la tabla
+------------------------------------------------------------- */
+$sql = "INSERT INTO ruta_emprendedora
+        (nombres, apellidos, departamento, municipio, pais, tipo_id, numero_id,
+         fecha_nacimiento, fecha_orientacion, genero, nacionalidad, pais_origen,
+         correo, clasificacion, discapacidad, tipo_emprendedor, nivel_formacion,
+         celular, programa, situacion_negocio, ficha, programa_formacion,
+         centro_orientacion, orientador)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = mysqli_prepare($conn, $sql);
-if (!$stmt) {
-    http_response_code(500);
-    die('Error preparando la consulta: ' . mysqli_error($conn));
-}
-
 mysqli_stmt_bind_param(
     $stmt,
     'ssssssssssssssssssssssss',
@@ -64,15 +63,54 @@ mysqli_stmt_bind_param(
     $centro_orientacion, $orientador
 );
 
-$ok = mysqli_stmt_execute($stmt);
-mysqli_stmt_close($stmt);
-mysqli_close($conn);
-
-// 5. RESPUESTA (igual que antes: JSON para el JS)
-header('Content-Type: application/json');
-if ($ok) {
-    echo json_encode(['status' => 'ok', 'msg' => 'Registro guardado con éxito']);
-} else {
-    echo json_encode(['status' => 'error', 'msg' => 'No se pudo guardar el registro']);
-}
+$exito = mysqli_stmt_execute($stmt);
+$stmt->close();
+$conn->close();
 ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>¡Datos enviados!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body{
+            font-family:'Sora',sans-serif;
+            background:linear-gradient(135deg,#e8f5e9,#c8e6c9);
+            color:#2e7d32;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            height:100vh;
+            margin:0;
+            text-align:center;
+        }
+        .card{
+            background:#fff;
+            padding:50px 60px;
+            border-radius:14px;
+            box-shadow:0 10px 25px rgba(0,0,0,.08);
+            max-width:480px;
+        }
+        .card h1{margin:0 0 15px;font-size:1.8rem}
+        .card p{margin:0 0 25px}
+        .btn{
+            display:inline-block;
+            padding:12px 26px;
+            background:#39a900;
+            color:#fff;
+            border-radius:6px;
+            text-decoration:none;
+            transition:.3s;
+        }
+        .btn:hover{background:#2e7d32}
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>¡Datos enviados con éxito!</h1>
+        <p>Gracias por registrar tu información.</p>
+        <a class="btn" href="../../dashboard.html">Volver</a>
+    </div>
+</body>
+</html>

@@ -304,25 +304,5 @@ document.querySelector('form').addEventListener('submit', function(event) {
 
 function enviarFormulario() {
   const form = document.querySelector("form");
-  const data = new FormData(form);
-
-  fetch('../servicios/php/guardar_formulario.php', {
-  method: 'POST',
-  body: data
-})
-.then(response => response.json())
-.then(result => {
-  if (result.status === 'ok') {
-    alert('¡Formulario guardado correctamente!');
-    form.reset();
-    faseActual = 0;
-    mostrarFase(faseActual);
-  } else {
-    alert('Error al guardar: ' + result.msg);
-  }
-})
-.catch(error => {
-  console.error(error);
-  alert('Error de conexión o servidor.');
-});
+  form.submit();              
 }

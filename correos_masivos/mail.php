@@ -23,9 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->Host = 'smtp.office365.com'; //gmail = smtp.gmail.com, microsoft = smtp.office365.com
         $mail->SMTPAuth = true;
         // correo de gmail
-        $mail->Username = 'correopruebas0701@gmail.com';
+        $mail->Username = 'correopruebas0101@outlook.com';
         // contraseña de aplicación
-        $mail->Password = 'hplo gshr scrl fkno';
+        $mail->Password = 'axsgcbkmdviehpcw';
         $mail->Port = 587;
         $mail->SMTPSecure = 'tls';
         // Remitente y destinatario real (visible)
