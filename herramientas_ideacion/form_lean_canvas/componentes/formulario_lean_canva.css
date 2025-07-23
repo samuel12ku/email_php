@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {
   box-sizing: border-box;
@@ -7,7 +7,7 @@
 }
 
 body {
-  font-family: Sora;
+  font-family: 'Work-Sans', Arial, sans-serif, bold;
   background: linear-gradient(135deg, #39A900 0%, #007832 100%);
   padding: 30px 10px;
   min-height: 100vh;

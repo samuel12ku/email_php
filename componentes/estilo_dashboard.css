@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+
 body {
-  font-family: 'Sora', Arial, sans-serif;
+  font-family: 'Work-Sans', Arial, sans-serif;
   background: linear-gradient(135deg, #39A900 0%, #007832 50%, #005c1e 100%);
   background-size: 400% 400%;
   animation: gradiente-movimiento 10s ease-in-out infinite;
