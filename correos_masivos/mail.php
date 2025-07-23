@@ -20,12 +20,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         // Configuración SMTP
         $mail->isSMTP();
-        $mail->Host = 'smtp.office365.com'; //gmail = smtp.gmail.com, microsoft = smtp.office365.com
+        $mail->Host = 'smtp.gmail.com'; //gmail = smtp.gmail.com, microsoft = smtp.office365.com
         $mail->SMTPAuth = true;
         // correo de gmail
-        $mail->Username = 'correopruebas0101@outlook.com';
+        $mail->Username = 'correopruebas0701@gmail.com';
         // contraseña de aplicación
-        $mail->Password = 'axsgcbkmdviehpcw';
+        $mail->Password = 'hplo gshr scrl fkno';
         $mail->Port = 587;
         $mail->SMTPSecure = 'tls';
         // Remitente y destinatario real (visible)

@@ -90,6 +90,15 @@ function validarFaseActual() {
     primerNoValido.scrollIntoView({ behavior: 'smooth', block: 'center' });
     alert(primerNoValido.validationMessage || 'Por favor, completa correctamente todos los campos.');
   }
+
+  // Validamos el campo #17: ficha
+  const ficha = fase.querySelector('#ficha');
+  if (ficha && !ficha.value.trim()) {
+    ficha.classList.add('campo-error');          // lo pinta de rojo
+    ficha.scrollIntoView({behavior:'smooth'});   // lo lleva arriba
+    ficha.reportValidity();                      // muestra el tooltip del navegador
+    return false;                                // bloquea el avance
+}
   return valid;
 }
 

@@ -204,7 +204,98 @@
         </select>
       </div>
       <div class="form-grupo">
-        <label for="tipo_emprendedor">15. Tipo de Emprendedor <span style="color:red">*</span></label><br/>
+        <label for="nivel_formacion">15. Nivel de Formación <span style="color:red">*</span></label><br/>
+        <!-- Campo 15: Nivel de formación -->
+<select id="nivel_formacion" name="nivel_formacion" required>
+  <option value="">-- Selecciona --</option>
+  <option value="Técnico">Técnico</option>
+  <option value="Tecnólogo">Tecnólogo</option>
+  <!-- <option value="Sin título">Sin título</option> -->
+  <option value="Operario">Operario</option>
+  <option value="Auxiliar">Auxiliar</option>
+</select>
+
+<!-- Select dinámico que se oculta/muestra -->
+<select id="carrera_tecnologo" name="carrera_tecnologo" style="display:none; margin-top:8px;">
+  <option value="">-- Elige tu Tecnólogo --</option>
+  <option>Análisis y desarrollo de software</option>
+  <option>Gestión de talento humano</option>
+  <option>Gestión agroempresarial</option>
+  <option>Gestión de recursos naturales</option>
+  <option>Prevención y control ambiental</option>
+  <option>Desarrollo multimedia y web</option>
+  <option>Gestión contable y de información financiera</option>
+  <option>Desarrollo publicitario</option>
+  <option>Gestión de la seguridad y salud en el trabajo</option>
+  <option>Gestión de redes de datos</option>
+  <option>Mantenimiento electromecánico industrial</option>
+  <option>Producción de multimedia</option>
+  <option>Animación digital</option>
+  <option>Gestión empresarial</option>
+  <option>Gestión documental</option>
+  <option>Actividad física y entrenamiento deportivo</option>
+  <option>Regencia de farmacia</option>
+  <option>Producción ganadera</option>
+  <option>Gestión de empresas agropecuarias</option>
+  <option>Supervisión de redes de distribución de energía eléctrica</option>
+  <option>Procesamiento de alimentos</option>
+  <option>Control de calidad de alimentos</option>
+  <option>Gestión logística</option>
+  <option>Mecanización agrícola y producción agrícola</option>
+</select>
+
+<select id="carrera_tecnico" name="carrera_tecnico" style="display:none; margin-top:8px;">
+  <option value="">-- Elige tu Técnico --</option>
+  <option>Asistencia administrativa</option>
+  <option>Cocina</option>
+  <option>Conservación de recursos naturales</option>
+  <option>Contabilización de operaciones comerciales y financieras</option>
+  <option>Ejecución de programas deportivos</option>
+  <option>Enfermería</option>
+  <option>Monitoreo ambiental</option>
+  <option>Operación turística local</option>
+  <option>Sistemas agropecuarios ecológicos</option>
+  <option>Sistemas teleinformáticos</option>
+  <option>Sistemas atención integral al cliente</option>
+  <option>Cultivo de agrícolas</option>
+  <option>Elaboración de productos alimenticios</option>
+  <option>Instalación de sistemas eléctricos residenciales y comerciales</option>
+  <option>Programación de software</option>
+  <option>Proyectos agropecuarios</option>
+  <option>Recursos humanos y comercialización de productos masivos</option>
+  <option>Integración de operaciones logísticas</option>
+  <option>Manejo de viveros</option>
+  <option>Mecánica de maquinaria industrial</option>
+  <option>Integración de contenidos digitales</option>
+  <option>Electricista industrial</option>
+  <option>Mantenimiento de motocicletas y motocarros</option>
+  <option>Mantenimiento de vehículos livianos</option>
+  <option>Soldadura de productos metalócios en platina</option>
+  <option>Producción pecuario</option>
+  <option>Operaciones de comercio exterior</option>
+  <option>Servicios comerciales y financieros</option>
+  <option>Servicios farmacéuticos</option>
+  <option>Servicio de restaurante y bar</option>
+  <option>Operaciones comerciales en retail</option>
+  <option>Operaciones de maquinaria agrícola</option>
+  <option>Procesamiento de carnes</option>
+  <option>Técnico en operaciones forestales y producción ovino-caprina</option>
+</select>
+
+<select id="carrera_operario" name="carrera_operario" style="display:none; margin-top:8px;">
+  <option value="">-- Elige tu Operario --</option>
+  <option>Procesos de panadería</option>
+  <option>Cuidado básico de personas con dependencia funcional</option>
+  <option>Instalaciones eléctricas para viviendas</option>
+</select>
+
+<select id="carrera_auxiliar" name="carrera_auxiliar" style="display:none; margin-top:8px;">
+  <option value="">-- Elige tu Auxiliar --</option>
+  <option>Servicios de apoyo al cliente</option>
+</select>
+    </div>
+      <div class="form-grupo">
+        <label for="tipo_emprendedor">16. Tipo de Emprendedor <span style="color:red">*</span></label><br/>
         <select id="tipo_emprendedor" name="tipo_emprendedor" required class="form-control">
           <option value="" disabled selected>-- Selecciona una opción --</option>
           <option value="Aprendiz">Aprendiz</option>
@@ -215,16 +306,8 @@
         </select>
       </div>
       <div class="form-grupo">
-        <label for="nivel_formacion">16. Nivel de Formación <span style="color:red">*</span></label><br/>
-        <select id="nivel_formacion" name="nivel_formacion" required class="form-control">
-          <option value="" disabled selected>-- Selecciona una opción --</option>
-          <option value="Bachiller">Bachiller</option>
-          <option value="Técnico">Técnico</option>
-          <option value="Tecnólogo">Tecnólogo</option>
-          <option value="Profesional">Profesional</option>
-          <option value="Profesional con Posgrado">Profesional con Posgrado</option>
-          <option value="Sin título">Sin título</option>
-        </select>
+        <label for="ficha">17. Si eres aprendiz o egresado SENA, escribe tu <b>número de ficha.</b> De lo contrario, escribe "no aplica" <span style="color:red">*</span></label><br/>
+        <input type="text" id="ficha" name="ficha"  class="form-control" placeholder="2825817" title="debes llenar este campo" required/>
       </div>
     </div>
 
@@ -232,11 +315,11 @@
     <div class="fase">
       <div class="titulo-seccion">📱 Información Complementaria</div>
       <div class="form-grupo">
-        <label for="celular">17. Número de Celular <span style="color:red">*</span></label><br/>
+        <label for="celular">18. Número de Celular <span style="color:red">*</span></label><br/>
         <input type="tel" id="celular" name="celular" class="form-control" required />
       </div>
       <div class="form-grupo">
-        <label>18. ¿Pertenece a alguno de los siguientes programas? <span style="color:red">*</span></label><br/>
+        <label>19. ¿Pertenece a alguno de los siguientes programas? <span style="color:red">*</span></label><br/>
         <label class="radio-label">
           <input type="radio" name="programa" value="Jóvenes en paz" required class="form-radio" />
           Jóvenes en paz
@@ -263,7 +346,7 @@
         </label>
       </div>
       <div class="form-grupo">
-        <label>19. Actualmente usted tiene… <span style="color:red">*</span></label><br/>
+        <label>20. Actualmente usted tiene… <span style="color:red">*</span></label><br/>
         <label class="radio-label">
           <input type="radio" name="situacion_negocio" value="Idea de negocio" required class="form-radio" />
           Una idea de negocio
@@ -289,26 +372,23 @@
           Otro
         </label>
       </div>
-      <div class="form-grupo">
-        <label for="ficha">20. Si eres aprendiz o egresado SENA, escribe tu <b>número de ficha.</b> De lo contrario, escribe "no aplica" <span style="color:red">*</span></label><br/>
-        <input type="text" id="ficha" name="ficha" required class="form-control" placeholder="2825817"/>
-      </div>
+      
     </div>
 
     <!-- FASE 7 -->
-    <div class="fase">
+    <!-- <div class="fase">
       <div class="titulo-seccion">🏫 Formación SENA</div>
       <div class="form-grupo">
         <label for="programa_formacion">21. Si eres aprendiz o egresado SENA, escribe tu <b>programa de formación.</b> De lo contrario, escribe "no aplica" <span style="color:red">*</span></label><br/>
-        <input type="text" id="programa_formacion" name="programa_formacion" required class="form-control" />
+        <input type="text" id="programa_formacion" name="programa_formacion"  class="form-control" title="debes llenar este campo" required />
       </div>
-    </div>
+    </div> -->
 
     <!-- FASE 8 -->
     <div class="fase">
       <div class="titulo-seccion">🏢 Centro y Orientador</div>
       <div class="form-grupo">
-        <label for="centro_orientacion">22. ¿Cuál es el Centro de Desarrollo Empresarial que brinda la orientación? <span style="color:red">*</span></label><br/>
+        <label for="centro_orientacion">21. ¿Cuál es el Centro de Desarrollo Empresarial que brinda la orientación? <span style="color:red">*</span></label><br/>
         <select id="centro_orientacion" name="centro_orientacion" required class="form-control" onchange="actualizarOrientadores()">
           <option value="" disabled selected>-- Selecciona un centro --</option>
           <option value="CAB">Centro Agropecuario de Buga (CAB)</option>
@@ -324,7 +404,7 @@
         </select>
       </div>
       <div class="form-grupo">
-        <label for="orientador">23. ¿Cuál fue el orientador que brindó la orientación? <span style="color:red">*</span></label><br/>
+        <label for="orientador">22. ¿Cuál fue el orientador que brindó la orientación? <span style="color:red">*</span></label><br/>
         <select id="orientador" name="orientador" required class="form-control">
           <option value="" disabled>-- Selecciona primero un centro --</option>
         </select>
@@ -334,6 +414,23 @@
 
   </form>
 </div>
+<script>
+const nivel = document.getElementById('nivel_formacion');
+const tecno = document.getElementById('carrera_tecnologo');
+const tecni = document.getElementById('carrera_tecnico');
+const op    = document.getElementById('carrera_operario');
+const aux   = document.getElementById('carrera_auxiliar');
+
+function mostrarSelect(valor) {
+  [tecno, tecni, op, aux].forEach(s => s.style.display = 'none');
+  if (valor === 'Tecnólogo') tecno.style.display = 'block';
+  if (valor === 'Técnico')   tecni.style.display = 'block';
+  if (valor === 'Operario')  op.style.display  = 'block';
+  if (valor === 'Auxiliar')  aux.style.display = 'block';
+}
+
+nivel.addEventListener('change', e => mostrarSelect(e.target.value));
+</script>
 <script src="formulario.js"></script>
 </body>
 </html>
