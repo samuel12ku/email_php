@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Registro - Ruta Emprendedora</title>
   <link rel="stylesheet" href="formulario_emprendedores.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
       <!-- Encabezado institucional -->
@@ -206,8 +207,8 @@
       <div class="form-grupo">
         <label for="nivel_formacion">15. Nivel de Formación <span style="color:red">*</span></label><br/>
         <!-- Campo 15: Nivel de formación -->
-<select id="nivel_formacion" name="nivel_formacion" required>
-  <option value="">-- Selecciona --</option>
+<select id="nivel_formacion" name="nivel_formacion" class="form-control" required>
+  <option value="" disabled selected>-- Selecciona --</option>
   <option value="Técnico">Técnico</option>
   <option value="Tecnólogo">Tecnólogo</option>
   <!-- <option value="Sin título">Sin título</option> -->
@@ -216,8 +217,8 @@
 </select>
 
 <!-- Select dinámico que se oculta/muestra -->
-<select id="carrera_tecnologo" name="carrera_tecnologo" style="display:none; margin-top:8px;">
-  <option value="">-- Elige tu Tecnólogo --</option>
+<select id="carrera_tecnologo" name="carrera_tecnologo" style="display:none; margin-top:8px;" class="form-control">
+  <option value="" disabled selected>-- Elige tu Tecnólogo --</option>
   <option>Análisis y desarrollo de software</option>
   <option>Gestión de talento humano</option>
   <option>Gestión agroempresarial</option>
@@ -244,8 +245,8 @@
   <option>Mecanización agrícola y producción agrícola</option>
 </select>
 
-<select id="carrera_tecnico" name="carrera_tecnico" style="display:none; margin-top:8px;">
-  <option value="">-- Elige tu Técnico --</option>
+<select id="carrera_tecnico" name="carrera_tecnico" style="display:none; margin-top:8px;" class="form-control">
+  <option value="" disabled selected>-- Elige tu Técnico --</option>
   <option>Asistencia administrativa</option>
   <option>Cocina</option>
   <option>Conservación de recursos naturales</option>
@@ -282,15 +283,15 @@
   <option>Técnico en operaciones forestales y producción ovino-caprina</option>
 </select>
 
-<select id="carrera_operario" name="carrera_operario" style="display:none; margin-top:8px;">
-  <option value="">-- Elige tu Operario --</option>
+<select id="carrera_operario" name="carrera_operario" style="display:none; margin-top:8px;" class="form-control">
+  <option value="" disabled selected>-- Elige tu Operario --</option>
   <option>Procesos de panadería</option>
   <option>Cuidado básico de personas con dependencia funcional</option>
   <option>Instalaciones eléctricas para viviendas</option>
 </select>
 
-<select id="carrera_auxiliar" name="carrera_auxiliar" style="display:none; margin-top:8px;">
-  <option value="">-- Elige tu Auxiliar --</option>
+<select id="carrera_auxiliar" name="carrera_auxiliar" style="display:none; margin:8px 4px 0 4px," class="form-control">
+  <option value="" disabled selected>-- Elige tu Auxiliar --</option>
   <option>Servicios de apoyo al cliente</option>
 </select>
     </div>
