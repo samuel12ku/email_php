@@ -335,8 +335,8 @@
 
 <!-- PREGUNTA 20 (antes radios) -->
 <div class="form-grupo">
-  <label>20. ¿Pertenece a alguno de los siguientes programas? <span style="color:red">*</span></label><br/>
-  <select name="programa" required class="form-control">
+  <label>20. ¿Pertenece a alguno de los siguientes programas especiales? <span style="color:red">*</span></label><br/>
+  <select id="programa" name="programa" required class="form-control">
     <option value="" disabled selected>-- Selecciona --</option>
     <option value="Jóvenes en paz">Jóvenes en paz</option>
     <option value="Indígenas amazónicos">Indígenas amazónicos</option>
@@ -345,6 +345,12 @@
     <option value="Economía popular">Economía popular</option>
     <option value="Otro">Otro</option>
   </select>
+
+  <!-- Campo que solo se muestra si la opción es "Otro" -->
+  <input type="text" id="programa_otro" name="programa_otro"
+  placeholder="Especifique cuál" class="form-control"
+  style="display:none; margin-top:8px;" required>
+
 </div>
       
     </div>
@@ -404,6 +410,20 @@ function mostrarSelect(valor) {
 }
 
 nivel.addEventListener('change', e => mostrarSelect(e.target.value));
+
+const selectPrograma = document.getElementById('programa');
+  const inputOtro      = document.getElementById('programa_otro');
+
+  selectPrograma.addEventListener('change', function () {
+    if (this.value === 'Otro') {
+      inputOtro.style.display = 'block';
+      inputOtro.setAttribute('required', 'required');
+    } else {
+      inputOtro.style.display = 'none';
+      inputOtro.removeAttribute('required');
+      inputOtro.value = ''; // limpia si se cambia
+    }
+  });
 </script>
 <script src="formulario.js"></script>
 </body>
