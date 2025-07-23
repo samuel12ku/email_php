@@ -319,60 +319,33 @@
         <label for="celular">18. Número de Celular <span style="color:red">*</span></label><br/>
         <input type="tel" id="celular" name="celular" class="form-control" required />
       </div>
-      <div class="form-grupo">
-        <label>19. ¿Pertenece a alguno de los siguientes programas? <span style="color:red">*</span></label><br/>
-        <label class="radio-label">
-          <input type="radio" name="programa" value="Jóvenes en paz" required class="form-radio" />
-          Jóvenes en paz
-        </label><br/>
-        <label class="radio-label">
-          <input type="radio" name="programa" value="Indígenas amazónicos" class="form-radio" />
-          Indígenas amazónicos
-        </label><br/>
-        <label class="radio-label">
-          <input type="radio" name="programa" value="Parques nacionales" class="form-radio" />
-          Parques nacionales
-        </label><br/>
-        <label class="radio-label">
-          <input type="radio" name="programa" value="ICBF" class="form-radio" />
-          ICBF
-        </label><br/>
-        <label class="radio-label">
-          <input type="radio" name="programa" value="Economía popular" class="form-radio" />
-          Economía popular
-        </label><br/>
-        <label class="radio-label">
-          <input type="radio" name="programa" value="Otro" class="form-radio" />
-          Otro
-        </label>
-      </div>
-      <div class="form-grupo">
-        <label>20. Actualmente usted tiene… <span style="color:red">*</span></label><br/>
-        <label class="radio-label">
-          <input type="radio" name="situacion_negocio" value="Idea de negocio" required class="form-radio" />
-          Una idea de negocio
-        </label><br/>
-        <label class="radio-label">
-          <input type="radio" name="situacion_negocio" value="Unidad productiva" class="form-radio" />
-          Una unidad productiva (informal)
-        </label><br/>
-        <label class="radio-label">
-          <input type="radio" name="situacion_negocio" value="Empresa natural" class="form-radio" />
-          Una empresa como persona natural
-        </label><br/>
-        <label class="radio-label">
-          <input type="radio" name="situacion_negocio" value="Empresa jurídica" class="form-radio" />
-          Una empresa como persona jurídica
-        </label><br/>
-        <label class="radio-label">
-          <input type="radio" name="situacion_negocio" value="Asociación" class="form-radio" />
-          Una asociación
-        </label><br/>
-        <label class="radio-label">
-          <input type="radio" name="situacion_negocio" value="Otro" class="form-radio" />
-          Otro
-        </label>
-      </div>
+      <!-- PREGUNTA 19 (antes radios) -->
+<div class="form-grupo">
+  <label>19. Actualmente usted tiene… <span style="color:red">*</span></label><br/>
+  <select name="situacion_negocio" required class="form-control">
+    <option value="" disabled selected>-- Selecciona --</option>
+    <option value="Idea de negocio">Una idea de negocio</option>
+    <option value="Unidad productiva">Una unidad productiva (informal)</option>
+    <option value="Empresa natural">Una empresa como persona natural</option>
+    <option value="Empresa jurídica">Una empresa como persona jurídica</option>
+    <option value="Asociación">Una asociación</option>
+    <option value="Otro">Otro</option>
+  </select>
+</div>
+
+<!-- PREGUNTA 20 (antes radios) -->
+<div class="form-grupo">
+  <label>20. ¿Pertenece a alguno de los siguientes programas? <span style="color:red">*</span></label><br/>
+  <select name="programa" required class="form-control">
+    <option value="" disabled selected>-- Selecciona --</option>
+    <option value="Jóvenes en paz">Jóvenes en paz</option>
+    <option value="Indígenas amazónicos">Indígenas amazónicos</option>
+    <option value="Parques nacionales">Parques nacionales</option>
+    <option value="ICBF">ICBF</option>
+    <option value="Economía popular">Economía popular</option>
+    <option value="Otro">Otro</option>
+  </select>
+</div>
       
     </div>
 
