@@ -103,7 +103,7 @@ img.encabezado-logo,
 
 .form-contenedor {
   max-width: 800px;
-  margin: 170px auto 0 auto; 
+  margin: 130px auto 40px auto; 
   background: rgb(255, 253, 253);
   padding: 30px 40px;
   border-radius: 20px;
@@ -119,6 +119,13 @@ h2 {
   margin-bottom: 20px;
   color: #1a4d1a;
   font-size: 1.8rem;
+}
+
+p {
+  text-align: center;
+  font-size: 0.95rem;
+  margin-top: 5px;
+  margin-bottom: 50px;
 }
 
 .form-grupo {

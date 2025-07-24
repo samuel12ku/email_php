@@ -1,7 +1,7 @@
 /* ==============================
    IMPORTS
    ============================== */
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300..900&display=swap');
 
 /* ==============================
    VARIABLES RÁPIDAS
@@ -19,7 +19,7 @@
    RESET Y BODY
    ============================== */
 body {
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Work Sans', Arial, sans-serif;
   margin: 0;
   padding: 0;
   background: linear-gradient(135deg, #4dbe14, var(--verde-oscuro), var(--verde-super-oscuro), var(--verde-primario) 100%);
@@ -135,14 +135,25 @@ img.encabezado-logo {
   text-align: right;
 }
 
+.poster-footer {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 40px;
+}
+
+
+span{
+  font-size: 3.5rem;
+}
 /* ==============================
    FIELDSETS
    ============================== */
 .grupo-persona {
-  border: 2px solid color-mix(in srgb, var(--verde-primario) 20%, transparent);
+  border: 3.5px solid color-mix(in srgb, #5ab9f8 20%, transparent);
   border-radius: 15px;
   margin-bottom: 30px;
-  padding: 30px 18px 18px 18px;
+  padding: 30px 30px 18px 30px;
   background: #fafdff;
   box-shadow: 0 2px 8px rgba(57, 169, 0, 0.06);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -171,7 +182,7 @@ img.encabezado-logo {
 .persona-form textarea {
   font-family: 'Work Sans', sans-serif;
   font-size: 1rem;
-  padding: 12px 14px 12px 36px; /* espacio para el ícono */
+  padding: 12px 6px 12px 10px; /* espacio para el ícono */
   border: 1.8px solid #ccc;
   border-radius: 10px;
   background: #fff;
@@ -277,7 +288,7 @@ textarea + .input-icon,
   cursor: pointer;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin-top: 50px;
+  margin-top: 23px;
 }
 
 .foto-label:hover {
@@ -311,11 +322,11 @@ textarea + .input-icon,
   flex: 1;
   background: linear-gradient(135deg, #f6fff5, #e6fcf2);
   border: 2px solid var(--verde-primario);
-  padding: 170px 60px;
+  padding: 155px 60px;
   border-radius: 18px;
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.05);
   margin-left: 20px;
-  margin-top: 45px;
+  margin-top: 37px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -377,7 +388,6 @@ textarea + .input-icon,
   box-shadow: 0 8px 26px rgba(57, 169, 0, 0.16), 0 2px 7px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition: background 0.22s, transform 0.18s, box-shadow 0.22s;
-  letter-spacing: 0.3px;
 }
 
 .btn-enviar:hover,

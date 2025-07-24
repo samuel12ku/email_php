@@ -44,15 +44,17 @@
 
   <!-- EDUCATED GUESS -->
   <fieldset class="grupo-persona">
-    <legend>EDUCATED GUESS</legend>
+    <legend>¿QUIÉNES SON?</legend>
     <div class="persona-row top">
       <div class="persona-col info">
         <label class="field-label" for="nombre">NOMBRE</label>
         <input type="text" name="nombre" id="nombre" maxlength="40" minlength="3" placeholder="Use un nombre realista. No use nombres de compañeros de trabajo." pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,60}" required>
         <label class="field-label" for="descriptor">DESCRIPTOR</label>
         <input type="text" name="descriptor" id="descriptor" maxlength="120" placeholder="¿Qué clase de persona es? Describa lo más representativo o algo diferenciador." required>
-        <label class="field-label" for="citas">CITAS</label>
-        <textarea id="citas" name="citas" rows="4" maxlength="320"  placeholder="Capture la esencia de su personaje. Escriba uno o dos comentarios como si lo dijera directamente, no olvide la forma como lo diría." required></textarea>
+<!-- CITAS -->
+<label class="field-label" for="citas">CITAS</label>
+  <textarea id="citas" name="citas" rows="4" placeholder="Frases del personaje…" required></textarea>
+
       </div>
       <div class="persona-col foto">
         <label for="foto-input"  class="foto-label" id="foto-label">
@@ -64,14 +66,16 @@
     </div>
     <div class="persona-row persona-row-block">
       <label class="field-label" for="quien">¿QUIÉN ES?</label>
-      <textarea id="quien" name="quien" rows="4" maxlength="400"
+      
+        <textarea id="quien" name="quien" rows="4" maxlength="400"
         placeholder="Haga un bosquejo de los aspectos personales, su edad, dónde vive, en qué trabaja; qué clase de persona es. Piense en uno o más personas de esta segmentación." required></textarea>
+      
     </div>
   </fieldset>
 
   <!-- ASPIRATIONAL -->
   <fieldset class="grupo-persona">
-    <legend>ASPIRATIONAL</legend>
+    <legend>ASPIRACIONAL</legend>
     <div class="persona-row row-vertical-jobs">
       <div class="vertical-fields-col">
         <div>
@@ -143,7 +147,8 @@
 </div>
 
 </form>
-
+<div class="poster-footer">
+          <p class="footer-">SBDC - Centro de Desarrollo Empresarial</p>
     <!-- <div class="poster-footer">
       <p class="footer-copy">CREDIT: THE PERSONA CORE POSTER by CREATIVE COMPANION</p>
     </div> -->
