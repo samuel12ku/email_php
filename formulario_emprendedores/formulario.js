@@ -1,6 +1,14 @@
 let faseActual = 0;
 const fases = document.querySelectorAll('.fase');
 
+
+function toggleMenu() {
+  const menu = document.getElementById("navMenu");
+  menu.classList.toggle("show");
+}
+
+
+
 function mostrarFase(index) {
   fases.forEach((fase, i) => {
     fase.style.display = i === index ? 'block' : 'none';
@@ -140,8 +148,77 @@ function crearBotones() {
   });
 }
 
+
+
 crearBotones();
 mostrarFase(faseActual);
+
+
+document.querySelectorAll('input, select, textarea').forEach(campo => {
+  campo.addEventListener('blur', () => {
+    campo.classList.add('tocado');
+  });
+  campo.addEventListener('change', () => {
+    campo.classList.add('tocado');
+  });
+});
+
+
+ //Función genérica para mostrar el campo "otro" asociado
+function setupCampoOtro(selectId, inputId) {
+  const select = document.getElementById(selectId);
+  const input = document.getElementById(inputId);
+
+  if (select && input) {
+    select.addEventListener('change', function () {
+      if (select.value === 'Otro') {
+        input.style.display = 'block';
+        input.required = false;
+      } else {
+        input.style.display = 'none';
+        input.required = false;
+        input.value = ''; // Limpiar si se oculta
+      }
+    });
+  }
+}
+
+// Configurar todos los campos que usan "Otro"
+setupCampoOtro('departamento', 'dpto_otro');
+setupCampoOtro('programa', 'programa_otro');
+setupCampoOtro('situacion_negocio', 'negocio_otro');
+
+
+// Restricción para campos de fecha
+document.addEventListener('DOMContentLoaded', function () {
+  // Obtener la fecha de hoy en formato YYYY-MM-DD
+  const hoy = new Date().toISOString().split('T')[0];
+  const minimo = '1900-01-01';
+
+  // Seleccionar todos los input de tipo date
+  document.querySelectorAll('input[type="date"]').forEach(campo => {
+    campo.max = hoy;
+    campo.min = minimo
+  });
+
+  campo.addEventListener('input', function () {
+  const fechaSeleccionada = campo.value;
+  if (fechaSeleccionada < '1900-01-01') {
+    campo.setCustomValidity('La fecha no puede ser anterior a 1900.');
+  } else {
+    campo.setCustomValidity('');
+  }
+
+    // Limitar específicamente fecha_orientacion a máximo 2025-12-31
+  const fechaOrientacion = document.getElementById('fecha_orientacion');
+  if (fechaOrientacion) {
+    fechaOrientacion.max = hoy;
+    fechaOrientacion.min = '2010-01-01';
+  }
+
+});
+});
+
 
 // Restricción dinámica para campo ficha (solo números o 'no aplica')
 const inputFicha = document.getElementById('ficha');
@@ -414,6 +491,8 @@ const paisNacionalidad = {
 // Lista de países desde el mapa
 const listaPaises = Object.keys(paisNacionalidad);
 
+
+
 document.addEventListener('DOMContentLoaded', function () {
   const selectPais = document.getElementById('pais');
   const nacionalidadSpan = document.getElementById('nacionalidad');
@@ -452,6 +531,39 @@ document.querySelector('form').addEventListener('submit', function(event) {
   if (!validarFaseActual()) return; // Previene envío si hay error en la última fase
   enviarFormulario();
 });
+
+const nivel = document.getElementById('nivel_formacion');
+const tecno = document.getElementById('carrera_tecnologo');
+const tecni = document.getElementById('carrera_tecnico');
+const op    = document.getElementById('carrera_operario');
+const aux   = document.getElementById('carrera_auxiliar');
+
+function mostrarSelect(valor) {
+  [tecno, tecni, op, aux].forEach(s => s.style.display = 'none');
+  if (valor === 'Tecnólogo') tecno.style.display = 'block';
+  if (valor === 'Técnico')   tecni.style.display = 'block';
+  if (valor === 'Operario')  op.style.display  = 'block';
+  if (valor === 'Auxiliar')  aux.style.display = 'block';
+}
+
+nivel.addEventListener('change', e => mostrarSelect(e.target.value));
+
+const selectPrograma = document.getElementById('programa');
+  const inputOtro      = document.getElementById('programa_otro');
+  
+
+  selectPrograma.addEventListener('change', function () {
+    if (this.value === 'Otro') {
+      inputOtro.style.display = 'block';
+      inputOtro.setAttribute('required', 'required');
+    } else {
+      inputOtro.style.display = 'none';
+      inputOtro.removeAttribute('required');
+      inputOtro.value = ''; // limpia si se cambia
+    }
+  });
+  
+
 
 function enviarFormulario() {
   const form = document.querySelector("form");
