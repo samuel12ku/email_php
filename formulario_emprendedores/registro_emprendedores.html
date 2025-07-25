@@ -84,18 +84,24 @@
   <label for="pais">5. País <span style="color:red">*</span></label><br/>
   <select id="pais" name="pais" required class="form-control">
     <option value="" disabled>-- Selecciona un país --</option>
-    <option value="" selected>-- Colombia --</option>
+    <option value="Colombia" selected>Colombia</option>
     
   </select>
 </div>
+  <div class="form-grupo">
+    <label>6. Nacionalidad <span style="color:red">*</span></label><br/>
+        <span id="nacionalidad" class="form-control" style="display:inline-block; min-height: 38px; padding: 8px 20px; border: 1px solid #ccc;"></span>
+  </div>
 
       <div class="form-grupo">
-        <label for="tipo_id">6. Tipo de Identificación <span style="color:red">*</span></label><br/>
+        <label for="tipo_id">7. Tipo de Identificación <span style="color:red">*</span></label><br/>
         <select id="tipo_id" name="tipo_id" required class="form-control">
           <option value="" disabled selected>-- Selecciona una opción --</option>
           <option value="CC">Cédula de Ciudadanía (CC)</option>
           <option value="CE">Cédula de Extranjería (CE)</option>
           <option value="TI">Tarjeta de Identidad (TI)</option>
+          <option value="PEP">Permiso Especial de Permanencia (PEP)</option>
+          <option value="P">Pasaporte (P)</option>
         </select>
       </div>
       <div class="form-grupo">
@@ -125,28 +131,6 @@
     </select>
   </div>
 </div>
-
-<!-- FASE 4: NACIONALIDAD COMO FASE PROPIA -->
-<div class="fase">
-  <div class="titulo-seccion">🌎 Nacionalidad</div>
-  <div class="form-grupo">
-    <label>11. Nacionalidad <span style="color:red">*</span></label><br/>
-    <label class="radio-label">
-      <input type="radio" name="nacionalidad" value="colombiano" required class="form-radio" onchange="mostrarPaisNacionalidad()" />
-      Colombiano(a)
-    </label><br/>
-    <label class="radio-label">
-      <input type="radio" name="nacionalidad" value="otro" class="form-radio" onchange="mostrarPaisNacionalidad()" />
-      Otro
-    </label>
-    <div id="select-nacionalidad-origen" style="display:none; margin-top:10px;">
-      <label for="pais_origen" style="font-weight:400;">¿De qué país?</label><br/>
-      <select id="pais_origen" name="pais_origen" class="form-control"></select>
-    </div>
-  </div>
-</div>
-
-
 
     <!-- FASE 4 -->
     <div class="fase">
