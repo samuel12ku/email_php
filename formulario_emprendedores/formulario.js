@@ -5,6 +5,7 @@ function mostrarFase(index) {
   fases.forEach((fase, i) => {
     fase.style.display = i === index ? 'block' : 'none';
   });
+  actualizarBarra(); // Actualiza la barra de progreso al mostrar una fase
 }
 
 // Validación de la fase actual, incluyendo restricciones personalizadas
@@ -129,6 +130,7 @@ function crearBotones() {
         if (validarFaseActual()) {
           faseActual++;
           mostrarFase(faseActual);
+          actualizarBarra(); // Actualiza la barra de progreso al cambiar de fase
         }
       };
       contenedor.appendChild(btnSiguiente);
@@ -256,53 +258,193 @@ function actualizarOrientadores() {
   }
 }
 
-// === Lista de países actualizada (2024) ===
-const listaPaises = [
-  "Afganistán","Albania","Alemania","Andorra","Angola","Antigua y Barbuda","Arabia Saudita","Argelia","Argentina","Armenia","Australia","Austria",
-  "Azerbaiyán","Bahamas","Bangladés","Barbados","Baréin","Bélgica","Belice","Benín","Bielorrusia","Birmania","Bolivia","Bosnia y Herzegovina",
-  "Botsuana","Brasil","Brunéi","Bulgaria","Burkina Faso","Burundi","Bután","Cabo Verde","Camboya","Camerún","Canadá","Catar","Chad","Chile","China",
-  "Chipre","Ciudad del Vaticano","Colombia","Comoras","Corea del Norte","Corea del Sur","Costa de Marfil","Costa Rica","Croacia","Cuba","Dinamarca",
-  "Dominica","Ecuador","Egipto","El Salvador","Emiratos Árabes Unidos","Eritrea","Eslovaquia","Eslovenia","España","Estados Unidos","Estonia","Esuatini",
-  "Etiopía","Filipinas","Finlandia","Fiyi","Francia","Gabón","Gambia","Georgia","Ghana","Granada","Grecia","Guatemala","Guyana","Guinea","Guinea ecuatorial",
-  "Guinea-Bisáu","Haití","Honduras","Hungría","India","Indonesia","Irak","Irán","Irlanda","Islandia","Islas Marshall","Islas Salomón","Israel","Italia",
-  "Jamaica","Japón","Jordania","Kazajistán","Kenia","Kirguistán","Kiribati","Kuwait","Laos","Lesoto","Letonia","Líbano","Liberia","Libia","Liechtenstein",
-  "Lituania","Luxemburgo","Macedonia del Norte","Madagascar","Malasia","Malaui","Maldivas","Malí","Malta","Marruecos","Mauricio","Mauritania","México",
-  "Micronesia","Moldavia","Mónaco","Mongolia","Montenegro","Mozambique","Namibia","Nauru","Nepal","Nicaragua","Níger","Nigeria","Noruega","Nueva Zelanda",
-  "Omán","Países Bajos","Pakistán","Palaos","Palestina","Panamá","Papúa Nueva Guinea","Paraguay","Perú","Polonia","Portugal","Reino Unido","República Centroafricana",
-  "República Checa","República del Congo","República Democrática del Congo","República Dominicana","República Sudafricana","Ruanda","Rumania","Rusia","Samoa","San Cristóbal y Nieves",
-  "San Marino","San Vicente y las Granadinas","Santa Lucía","Santo Tomé y Príncipe","Senegal","Serbia","Seychelles","Sierra Leona","Singapur","Siria","Somalia","Sri Lanka",
-  "Sudán","Sudán del Sur","Suecia","Suiza","Surinam","Tailandia","Tanzania","Tayikistán","Timor Oriental","Togo","Tonga","Trinidad y Tobago","Túnez","Turkmenistán","Turquía",
-  "Tuvalu","Ucrania","Uganda","Uruguay","Uzbekistán","Vanuatu","Venezuela","Vietnam","Yemen","Yibuti","Zambia","Zimbabue"
-];
+// Mapa simple de nacionalidades
+const paisNacionalidad = {
+  "Afganistán": "Afgano/a",
+  "Albania": "Albanés/a",
+  "Alemania": "Alemán/a",
+  "Andorra": "Andorrano/a",
+  "Angola": "Angoleño/a",
+  "Antigua y Barbuda": "Antiguano/a",
+  "Arabia Saudita": "Saudí/a",
+  "Argelia": "Argelino/a",
+  "Argentina": "Argentino/a",
+  "Armenia": "Armenio/a",
+  "Australia": "Australiano/a",
+  "Austria": "Austriaco/a",
+  "Azerbaiyán": "Azerí/a",
+  "Bahamas": "Bahamés/a",
+  "Bangladés": "Bangladesí/a",
+  "Barbados": "Barbadense/a",
+  "Baréin": "Bareiní/a",
+  "Bélgica": "Belga/a",
+  "Belice": "Beliceño/a",
+  "Benín": "Beninés/a",
+  "Bielorrusia": "Bielorruso/a",
+  "Birmania": "Birmano/a",
+  "Bolivia": "Boliviano/a",
+  "Bosnia y Herzegovina": "Bosnio/a",
+  "Botsuana": "Botsuano/a",
+  "Brasil": "Brasileño/a",
+  "Brunéi": "Bruneano/a",
+  "Bulgaria": "Búlgaro/a",
+  "Burkina Faso": "Burkinés/a",
+  "Burundi": "Burundés/a",
+  "Bután": "Butanés/a",
+  "Cabo Verde": "Caboverdiano/a",
+  "Camboya": "Camboyano/a",
+  "Camerún": "Camerunés/a",
+  "Canadá": "Canadiense/a",
+  "Catar": "Catarí/a",
+  "Chile": "Chileno/a",
+  "China": "Chino/a",
+  "Chipre": "Chipriota/a",
+  "Colombia": "Colombiano/a",
+  "Corea del Norte": "Norcoreano/a",
+  "Corea del Sur": "Surcoreano/a",
+  "Costa Rica": "Costarricense/a",
+  "Croacia": "Croata/a",
+  "Cuba": "Cubano/a",
+  "Dinamarca": "Danés/a",
+  "Ecuador": "Ecuatoriano/a",
+  "Egipto": "Egipcio/a",
+  "El Salvador": "Salvadoreño/a",
+  "Emiratos Árabes Unidos": "Emiratí/a",
+  "Eslovaquia": "Eslovaco/a",
+  "Eslovenia": "Esloveno/a",
+  "España": "Español/a",
+  "Estados Unidos": "Estadounidense/a",
+  "Estonia": "Estonio/a",
+  "Etiopía": "Etíope/a",
+  "Filipinas": "Filipino/a",
+  "Finlandia": "Finlandés/a",
+  "Francia": "Francés/a",
+  "Gabón": "Gabonés/a",
+  "Gambia": "Gambiano/a",
+  "Georgia": "Georgiano/a",
+  "Ghana": "Ghanés/a",
+  "Grecia": "Griego/a",
+  "Guatemala": "Guatemalteco/a",
+  "Guinea": "Guineano/a",
+  "Guyana": "Guyanés/a",
+  "Haití": "Haitiano/a",
+  "Honduras": "Hondureño/a",
+  "Hungría": "Húngaro/a",
+  "India": "Indio/a",
+  "Indonesia": "Indonesio/a",
+  "Irak": "Iraquí/a",
+  "Irán": "Iraní/a",
+  "Irlanda": "Irlandés/a",
+  "Islandia": "Islandés/a",
+  "Israel": "Israelí/a",
+  "Italia": "Italiano/a",
+  "Jamaica": "Jamaicano/a",
+  "Japón": "Japonés/a",
+  "Jordania": "Jordano/a",
+  "Kazajistán": "Kazajo/a",
+  "Kenia": "Keniano/a",
+  "Kirguistán": "Kirguís/a",
+  "Kuwait": "Kuwaití/a",
+  "Laos": "Laosiano/a",
+  "Letonia": "Letón/a",
+  "Líbano": "Libanés/a",
+  "Liberia": "Liberiano/a",
+  "Libia": "Libio/a",
+  "Liechtenstein": "Liechtensteiniano/a",
+  "Lituania": "Lituano/a",
+  "Luxemburgo": "Luxemburgués/a",
+  "Madagascar": "Malgache/a",
+  "Malasia": "Malasio/a",
+  "Malawi": "Malauí/a",
+  "Maldivas": "Maldivo/a",
+  "Malta": "Maltés/a",
+  "Marruecos": "Marroquí/a",
+  "México": "Mexicano/a",
+  "Moldavia": "Moldavo/a",
+  "Mónaco": "Monegasco/a",
+  "Mongolia": "Mongol/a",
+  "Montenegro": "Montenegrino/a",
+  "Mozambique": "Mozambiqueño/a",
+  "Namibia": "Namibio/a",
+  "Nepal": "Nepalí/a",
+  "Nicaragua": "Nicaragüense/a",
+  "Níger": "Nigerino/a",
+  "Nigeria": "Nigeriano/a",
+  "Noruega": "Noruego/a",
+  "Nueva Zelanda": "Neozelandés/a",
+  "Omán": "Omaní/a",
+  "Países Bajos": "Neerlandés/a",
+  "Pakistán": "Pakistaní/a",
+  "Panamá": "Panameño/a",
+  "Paraguay": "Paraguayo/a",
+  "Perú": "Peruano/a",
+  "Polonia": "Polaco/a",
+  "Portugal": "Portugués/a",
+  "Reino Unido": "Británico/a",
+  "República Checa": "Checo/a",
+  "República Dominicana": "Dominicano/a",
+  "Rumania": "Rumano/a",
+  "Rusia": "Ruso/a",
+  "San Marino": "Sanmarinense/a",
+  "Senegal": "Senegalés/a",
+  "Serbia": "Serbio/a",
+  "Singapur": "Singapurense/a",
+  "Siria": "Sirio/a",
+  "Somalia": "Somalí/a",
+  "Sri Lanka": "Ceilanés/a",
+  "Sudáfrica": "Sudafricano/a",
+  "Sudán": "Sudanés/a",
+  "Suecia": "Sueco/a",
+  "Suiza": "Suizo/a",
+  "Tailandia": "Tailandés/a",
+  "Tanzania": "Tanzano/a",
+  "Túnez": "Tunecino/a",
+  "Turquía": "Turco/a",
+  "Ucrania": "Ucraniano/a",
+  "Uganda": "Ugandés/a",
+  "Uruguay": "Uruguayo/a",
+  "Uzbekistán": "Uzbeko/a",
+  "Venezuela": "Venezolano/a",
+  "Vietnam": "Vietnamita/a",
+  "Yemen": "Yemení/a",
+  "Zambia": "Zambiano/a",
+  "Zimbabue": "Zimbabuense/a"
+};
 
-function poblarSelectPaises(selectElement) {
-  selectElement.innerHTML = '<option value="" disabled selected>-- Selecciona un país --</option>';
+// Lista de países desde el mapa
+const listaPaises = Object.keys(paisNacionalidad);
+
+document.addEventListener('DOMContentLoaded', function () {
+  const selectPais = document.getElementById('pais');
+  const nacionalidadSpan = document.getElementById('nacionalidad');
+
+  // Llenar el select de países
+  selectPais.innerHTML = '<option value="" disabled selected>-- Selecciona un país --</option>';
   listaPaises.forEach(pais => {
-    const option = document.createElement("option");
+    const option = document.createElement('option');
     option.value = pais;
     option.textContent = pais;
-    selectElement.appendChild(option);
+    selectPais.appendChild(option);
   });
-}
 
-document.addEventListener('DOMContentLoaded', function() {
-  const selectPais = document.getElementById('pais');
-  if (selectPais) poblarSelectPaises(selectPais);
-  const selectPaisOrigen = document.getElementById('pais_origen');
-  if (selectPaisOrigen) poblarSelectPaises(selectPaisOrigen);
+  // Al cambiar de país, mostrar la nacionalidad correspondiente
+  selectPais.addEventListener('change', function () {
+    const paisSeleccionado = this.value;
+    const nacionalidad = paisNacionalidad[paisSeleccionado] || '';
+    nacionalidadSpan.textContent = nacionalidad;
+
+        // Crear o actualizar el campo oculto para enviar al backend
+    let inputHidden = document.getElementById('nacionalidad_hidden');
+    if (!inputHidden) {
+      inputHidden = document.createElement('input');
+      inputHidden.type = 'hidden';
+      inputHidden.name = 'nacionalidad';
+      inputHidden.id = 'nacionalidad_hidden';
+      selectPais.closest('form').appendChild(inputHidden);
+    }
+    inputHidden.value = nacionalidad;
+  });
 });
-
-function mostrarPaisNacionalidad() {
-  const radioOtro = document.querySelector('input[name="nacionalidad"][value="otro"]');
-  const divPaisOrigen = document.getElementById('select-nacionalidad-origen');
-  if (radioOtro && radioOtro.checked) {
-    divPaisOrigen.style.display = "block";
-    document.getElementById('pais_origen').setAttribute("required", "required");
-  } else {
-    divPaisOrigen.style.display = "none";
-    document.getElementById('pais_origen').removeAttribute("required");
-  }
-}
 
 // Envío del formulario con alert de éxito
 document.querySelector('form').addEventListener('submit', function(event) {
@@ -315,3 +457,20 @@ function enviarFormulario() {
   const form = document.querySelector("form");
   form.submit();              
 }
+
+function actualizarBarra() {
+  const pasos = document.querySelectorAll('.progress-steps .step');
+  const barra = document.getElementById('progress-bar');
+
+  pasos.forEach((paso, index) => {
+    if (index <= faseActual) {
+      paso.classList.add('active');
+    } else {
+      paso.classList.remove('active');
+    }
+  });
+
+  const progreso = (faseActual) / (pasos.length - 1) * 100;
+  barra.style.width = `${progreso}%`;
+}
+

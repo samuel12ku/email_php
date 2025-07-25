@@ -56,6 +56,20 @@
 
   <form action="../servicios/php/guardar_formulario.php" method="post" id="MIformulario">
 
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+      <div class="progress-steps">
+        <span class="step active" data-step="1">1</span>
+        <span class="step" data-step="2">2</span>
+        <span class="step" data-step="3">3</span>
+        <span class="step" data-step="4">5</span>
+        <span class="step" data-step="5">5</span>
+        <span class="step" data-step="6">6</span>
+        <span class="step" data-step="7">7</span>
+      </div>
+    </div>
+    <!-- BAR DE PROGRESO -->
+
     <!-- FASE 1 -->
     <div class="fase">
       <div class="titulo-seccion">📝 Información Personal</div>
@@ -82,7 +96,7 @@
       </div>
 <div class="form-grupo">
   <label for="pais">5. País <span style="color:red">*</span></label><br/>
-  <select id="pais" name="pais" required class="form-control">
+  <select id="pais" name="pais_origen" required class="form-control">
     <option value="" disabled>-- Selecciona un país --</option>
     <option value="Colombia" selected>Colombia</option>
     
@@ -90,7 +104,7 @@
 </div>
   <div class="form-grupo">
     <label>6. Nacionalidad <span style="color:red">*</span></label><br/>
-        <span id="nacionalidad" class="form-control" style="display:inline-block; min-height: 38px; padding: 8px 20px; border: 1px solid #ccc;"></span>
+        <span id="nacionalidad" class="form-control" name="nacionalidad" style="display:inline-block; min-height: 38px; padding: 8px 20px; margin-top:10px;"></span>
   </div>
 
       <div class="form-grupo">
@@ -105,7 +119,7 @@
         </select>
       </div>
       <div class="form-grupo">
-        <label for="numero_id">7. Número de Identificación <span style="color:red">*</span></label><br/>
+        <label for="numero_id">8. Número de Identificación <span style="color:red">*</span></label><br/>
         <input type="tel" id="numero_id" name="numero_id" required class="form-control" />
       </div>
     </div>
@@ -114,15 +128,15 @@
 <div class="fase">
   <div class="titulo-seccion">📆 Información Adicional</div>
   <div class="form-grupo">
-    <label for="fecha_nacimiento">8. Fecha de nacimiento <span style="color:red">*</span></label><br/>
+    <label for="fecha_nacimiento">9. Fecha de nacimiento <span style="color:red">*</span></label><br/>
     <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required class="form-control" />
   </div>
   <div class="form-grupo">
-    <label for="fecha_orientacion">9. Fecha de orientación <span style="color:red">*</span></label><br/>
+    <label for="fecha_orientacion">10. Fecha de orientación <span style="color:red">*</span></label><br/>
     <input type="date" id="fecha_orientacion" name="fecha_orientacion" required class="form-control" />
   </div>
   <div class="form-grupo">
-    <label for="genero">10. Género <span style="color:red">*</span></label><br/>
+    <label for="genero">11. Género <span style="color:red">*</span></label><br/>
     <select id="genero" name="genero" required class="form-control">
       <option value="">-- Selecciona --</option>
       <option value="Mujer">Mujer</option>
@@ -340,16 +354,8 @@
       
     </div>
 
-    <!-- FASE 7 -->
-    <!-- <div class="fase">
-      <div class="titulo-seccion">🏫 Formación SENA</div>
-      <div class="form-grupo">
-        <label for="programa_formacion">21. Si eres aprendiz o egresado SENA, escribe tu <b>programa de formación.</b> De lo contrario, escribe "no aplica" <span style="color:red">*</span></label><br/>
-        <input type="text" id="programa_formacion" name="programa_formacion"  class="form-control" title="debes llenar este campo" required />
-      </div>
-    </div> -->
 
-    <!-- FASE 8 -->
+    <!-- FASE 7 -->
     <div class="fase">
       <div class="titulo-seccion">🏢 Centro y Orientador</div>
       <div class="form-grupo">
