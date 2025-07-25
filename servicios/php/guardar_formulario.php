@@ -12,9 +12,9 @@ if (!$conn) {
 }
 mysqli_set_charset($conn, 'utf8mb4');
 
-/* Campos del formulario */
-$nivel_formacion = $_POST['nivel_formacion'] ?? '';
-$carrera = null;
+/* Recibir campos normales */
+$nivel_formacion    = $_POST['nivel_formacion'] ?? '';
+$carrera            = null;
 
 switch ($nivel_formacion) {
     case 'Tecnólogo':
@@ -31,7 +31,7 @@ switch ($nivel_formacion) {
         break;
 }
 
-/* Resto de campos */
+/* Guarda el resto de campos (copia los que ya tenías) */
 $nombres            = $_POST['nombres']            ?? '';
 $apellidos          = $_POST['apellidos']          ?? '';
 $departamento       = $_POST['departamento']       ?? '';
@@ -40,6 +40,7 @@ $pais               = $_POST['pais']               ?? '';
 $tipo_id            = $_POST['tipo_id']            ?? '';
 $numero_id          = $_POST['numero_id']          ?? '';
 $fecha_nacimiento   = $_POST['fecha_nacimiento']   ?? '';
+$fecha_expedicioncc   = $_POST['fecha_expedicion']   ?? '';
 $fecha_orientacion  = $_POST['fecha_orientacion']  ?? '';
 $genero             = $_POST['genero']             ?? '';
 $nacionalidad       = $_POST['nacionalidad']       ?? '';
@@ -52,24 +53,25 @@ $celular            = $_POST['celular']            ?? '';
 $programa           = $_POST['programa']           ?? '';
 $situacion_negocio  = $_POST['situacion_negocio']  ?? '';
 $ficha              = $_POST['ficha']              ?? '';
+// $programa_formacion = $_POST['programa_formacion'] ?? '';
 $centro_orientacion = $_POST['centro_orientacion'] ?? '';
 $orientador         = $_POST['orientador']         ?? '';
 
 /* Inserta en ruta_emprendedora */
 $sql = "INSERT INTO ruta_emprendedora
         (nombres, apellidos, departamento, municipio, pais, tipo_id, numero_id,
-        fecha_nacimiento, fecha_orientacion, genero, nacionalidad, pais_origen,
+        fecha_nacimiento, fecha_expedicion, fecha_orientacion, genero, nacionalidad, pais_origen,
         correo, clasificacion, discapacidad, tipo_emprendedor, nivel_formacion,
         carrera, celular, programa, situacion_negocio, ficha,
         centro_orientacion, orientador)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param(
     $stmt,
-    'ssssssssssssssssssssssss',
+    'sssssssssssssssssssssssss',
     $nombres, $apellidos, $departamento, $municipio, $pais, $tipo_id, $numero_id,
-    $fecha_nacimiento, $fecha_orientacion, $genero, $nacionalidad, $pais_origen,
+    $fecha_nacimiento,$fecha_expedicioncc, $fecha_orientacion, $genero, $nacionalidad, $pais_origen,
     $correo, $clasificacion, $discapacidad, $tipo_emprendedor, $nivel_formacion,
     $carrera, $celular, $programa, $situacion_negocio, $ficha,
     $centro_orientacion, $orientador

@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<<<<<<< HEAD
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+=======
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+>>>>>>> 659ee12c6005cd0041c3b2db92a74419c5247cc6
   <meta charset="UTF-8">
   <title>Registro - Ruta Emprendedora</title>
   <link rel="stylesheet" href="formulario_emprendedores.css" />
@@ -26,6 +30,19 @@
           >Herramientas Fondo Emprender - SENA</span
         >
       </div>
+    <!-- Botón hamburguesa solo en móviles -->
+    
+    <!-- Menú desplegable que se muestra en móviles -->
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    <nav id="navMenu" class="menu-desplegable">
+      <ul>
+        <li><a href="../dashboard.html">Inicio</a></li>
+        <li><a href="#">Servicios</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <!-- Encabezado de escritorio -->
       <nav class="encabezado-nav">
         <a
           href="../dashboard.html"
@@ -67,7 +84,6 @@
         <span class="step" data-step="5">5</span>
         <span class="step" data-step="6">6</span>
         <span class="step" data-step="7">7</span>
-        <span class="step" data-step="8">8</span>
       </div>
     </div>
     <!-- BAR DE PROGRESO -->
@@ -75,104 +91,145 @@
     <!-- FASE 1 -->
     <div class="fase">
       <div class="titulo-seccion">📝 Información Personal</div>
+      <div class="form-grupodos">
       <div class="form-grupo">
         <label for="nombres">1. Nombres <span style="color:red">*</span></label><br/>
-        <input type="text"" id="nombres" name="nombres" required class="form-control" />
+        <input type="text"" id="nombres" name="nombres" class="form-control" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]{2,25}" maxlength="25" minlength="2" required/>
       </div>
       <div class="form-grupo">
         <label for="apellidos">2. Apellidos <span style="color:red">*</span></label><br/>
-        <input type="text" id="apellidos" name="apellidos" required class="form-control" />
+        <input type="text" id="apellidos" name="apellidos" class="form-control" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]{2,40}" maxlength="" required/>
       </div>
-      <div class="form-grupo">
-        <label for="departamento">3. Departamento <span style="color:red">*</span></label><br/>
-        <input type="text" id="departamento" name="departamento" required class="form-control" />
       </div>
+      <div class="form-grupodos">
+        <div class="form-grupo">
+          <label for="tipo_id">3. Tipo de Identificación <span style="color:red">*</span></label><br/>
+          <select id="tipo_id" name="tipo_id" required class="form-control">
+            <option value="" disabled selected>-- Selecciona una opción --</option>
+            <option value="CC">Cédula de Ciudadanía (CC)</option>
+            <option value="CE">Cédula de Extranjería (CE)</option>
+            <option value="PEP">Permiso Especial de Permanencia (PEP)</option>
+            <option value="P">Pasaporte (P)</option>
+          </select>
+        </div>
+
+        <div class="form-grupo">
+            <label for="numero_id">4. Número de Identificación <span style="color:red">*</span></label><br/>
+            <input type="text" id="numero_id" name="numero_id" required class="form-control" pattern="[a-zA-Z0-9]{6,20}" minlength="6" maxlength="20" />
+        </div>
+      </div>
+        <div class="form-grupo">
+          <label for="correo">5. Correo Electrónico <span style="color:red">*</span></label><br/>
+          <input type="email" id="correo" name="correo" required class="form-control" pattern="[a-zA-Z0-9\.\-\_\]+[@]+[a-zA-Z0-9\-\_\]+[\.]+[a-zA-Z0-9]{2,}$"/>
+        </div>  
+
+        <div class="form-grupo">
+          <label for="celular">6. Número de Celular <span style="color:red">*</span></label><br/>
+          <input type="tel" id="celular" name="celular" class="form-control" title="Solo se deben ingresar números" pattern="[0-9]{10,10}" maxlength="10" minlength="10"  required />
+        </div>
+
+        <div class="form-grupo">
+          <label for="fecha_nacimiento">7. Fecha de nacimiento <span style="color:red">*</span></label><br/>
+          <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required class="form-control" title="Seleccione una fecha válida" />
+        </div>
+
+        <div class="form-grupo">  
+          <label for="fecha_expedicion"></label>
+          <label for="fecha_expedicion">8.Fecha de expedición del documento <span style="color:red">*</span></label><br/>
+          <input type="date" id="fecha_expedicion" name="fecha_expedicion" required class="form-control" title="Seleccione una fecha válida"/>
+        </div>
+      
+
+
     </div>
+    
 
     <!-- FASE 2 -->
     <div class="fase">
-      <div class="titulo-seccion">📇 Identificación</div>
-      <div class="form-grupo">
-        <label for="municipio">4. Municipio <span style="color:red">*</span></label><br/>
-        <input type="text" id="municipio" name="municipio" required class="form-control" />
-      </div>
-<div class="form-grupo">
-  <label for="pais">5. País <span style="color:red">*</span></label><br/>
-  <select id="pais" name="pais" required class="form-control">
-    <option value="" disabled>-- Selecciona un país --</option>
-    <option value="" selected>-- Colombia --</option>
-    
-  </select>
-</div>
+        <div class="titulo-seccion">🏳 Nacionalidad</div>
 
-      <div class="form-grupo">
-        <label for="tipo_id">6. Tipo de Identificación <span style="color:red">*</span></label><br/>
-        <select id="tipo_id" name="tipo_id" required class="form-control">
-          <option value="" disabled selected>-- Selecciona una opción --</option>
-          <option value="CC">Cédula de Ciudadanía (CC)</option>
-          <option value="CE">Cédula de Extranjería (CE)</option>
-          <option value="TI">Tarjeta de Identidad (TI)</option>
-        </select>
-      </div>
-      <div class="form-grupo">
-        <label for="numero_id">7. Número de Identificación <span style="color:red">*</span></label><br/>
-        <input type="tel" id="numero_id" name="numero_id" required class="form-control" />
-      </div>
+          <div class="form-grupo">
+            <label for="pais">9. País <span style="color:red">*</span></label><br/>
+            <select id="pais" name="pais_origen" required class="form-control">
+              <option value="" disabled>-- Selecciona un país --</option>
+            </select>
+          </div>
+
+          <div class="form-grupo">
+            <label>10. Nacionalidad <span style="color:red">*</span></label><br/>
+            <span id="nacionalidad" class="form-control" name="nacionalidad" style="display:inline-block; min-height: 38px; padding: 8px 20px; margin-top:10px;"></span>
+          </div>
+          <div class="form-grupo">
+            <label for="departamento">11. Departamento <span style="color:red">*</span></label><br/>
+          <select id="departamento" name="departamento" required class="form-control">
+            <option value="" disabled selected>-- Selecciona un departamento --</option>    
+            <option value="Amazonas">Amazonas</option>
+            <option value="Antioquia">Antioquia</option>
+            <option value="Arauca">Arauca</option>
+            <option value="Atlántico">Atlántico</option>
+            <option value="Bogotá D.C.">Bogotá D.C.</option>
+            <option value="Bolívar">Bolívar</option>
+            <option value="Boyacá">Boyacá</option>
+            <option value="Caldas">Caldas</option>
+            <option value="Caquetá">Caquetá</option>
+            <option value="Casanare">Casanare</option>
+            <option value="Cauca">Cauca</option>
+            <option value="Cesar">Cesar</option>
+            <option value="Chocó">Chocó</option>
+            <option value="Córdoba">Córdoba</option>
+            <option value="Cundinamarca">Cundinamarca</option>
+            <option value="Guainía">Guainía</option>
+            <option value="Guaviare">Guaviare</option>
+            <option value="Huila">Huila</option>
+            <option value="La Guajira">La Guajira</option>
+            <option value="Magdalena">Magdalena</option>
+            <option value="Meta">Meta</option>
+            <option value="Nariño">Nariño</option>
+            <option value="Norte de Santander">Norte de Santander</option>
+            <option value="Putumayo">Putumayo</option>
+            <option value="Quindío">Quindío</option>
+            <option value="Risaralda">Risaralda</option>
+            <option value="San Andrés y Providencia">San Andrés y Providencia</option>
+            <option value="Santander">Santander</option>
+            <option value="Sucre">Sucre</option>
+            <option value="Tolima">Tolima</option>
+            <option value="Valle del Cauca">Valle del Cauca</option>
+            <option value="Vaupés">Vaupés</option>
+            <option value="Vichada">Vichada</option>
+            <option value="Otro">Otro</option>
+          </select>
+                  <!-- Campo que solo se muestra si la opción es "Otro" -->
+        <input type="text" id="dpto_otro" name="departamento_otro" placeholder="Especifique cuál" class="form-control" style="display:none; margin-top:8px;" >
+          </div>
+
+          <div class="form-grupo">
+            <label for="municipio">12. Municipio <span style="color:red">*</span></label><br/>
+            <input type="text" id="municipio" name="municipio" required class="form-control" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]{2,25}" title="Solo ingrese letras"/>
+          </div>
+
     </div>
 
-<!-- FASE 3 -->
-<div class="fase">
-  <div class="titulo-seccion">📆 Información Adicional</div>
-  <div class="form-grupo">
-    <label for="fecha_nacimiento">8. Fecha de nacimiento <span style="color:red">*</span></label><br/>
-    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required class="form-control" />
+  <!-- FASE 3 -->
+  <div class="fase">
+      <div class="titulo-seccion">📆 Información Adicional</div>
+        <div class="form-grupo">
+          <label for="fecha_orientacion">13. Fecha de orientación <span style="color:red">*</span></label><br/>
+          <input type="date" id="fecha_orientacion" name="fecha_orientacion" required class="form-control" />
+        </div>
+        <div class="form-grupo">
+          <label for="genero">14. Sexo <span style="color:red">*</span></label><br/>
+          <select id="genero" name="genero" required class="form-control">
+            <option value="">-- Selecciona --</option>
+            <option value="Mujer">Mujer</option>
+            <option value="Hombre">Hombre</option>       
+          </select>
+        </div>
   </div>
-  <div class="form-grupo">
-    <label for="fecha_orientacion">9. Fecha de orientación <span style="color:red">*</span></label><br/>
-    <input type="date" id="fecha_orientacion" name="fecha_orientacion" required class="form-control" />
-  </div>
-  <div class="form-grupo">
-    <label for="genero">10. Género <span style="color:red">*</span></label><br/>
-    <select id="genero" name="genero" required class="form-control">
-      <option value="">-- Selecciona --</option>
-      <option value="Mujer">Mujer</option>
-      <option value="Hombre">Hombre</option>
-      <option value="Otro">Otro</option>
-    </select>
-  </div>
-</div>
-
-<!-- FASE 4: NACIONALIDAD COMO FASE PROPIA -->
-<div class="fase">
-  <div class="titulo-seccion">🌎 Nacionalidad</div>
-  <div class="form-grupo">
-    <label>11. Nacionalidad <span style="color:red">*</span></label><br/>
-    <label class="radio-label">
-      <input type="radio" name="nacionalidad" value="colombiano" required class="form-radio" onchange="mostrarPaisNacionalidad()" />
-      Colombiano(a)
-    </label><br/>
-    <label class="radio-label">
-      <input type="radio" name="nacionalidad" value="otro" class="form-radio" onchange="mostrarPaisNacionalidad()" />
-      Otro
-    </label>
-    <div id="select-nacionalidad-origen" style="display:none; margin-top:10px;">
-      <label for="pais_origen" style="font-weight:400;">¿De qué país?</label><br/>
-      <select id="pais_origen" name="pais_origen" class="form-control"></select>
-    </div>
-  </div>
-</div>
-
-
-
     <!-- FASE 4 -->
-    <div class="fase">
-      <div class="titulo-seccion">📧 Contacto y Caracterización</div>
+  <div class="fase">
+    <div class="titulo-seccion">📧Caracterización</div>
       <div class="form-grupo">
-        <label for="correo">12. Correo Electrónico <span style="color:red">*</span></label><br/>
-        <input type="email" id="correo" name="correo" required class="form-control" pattern="[a-zA-Z0-9\.\-\_\]+[@]+[a-zA-Z0-9\-\_\]+[\.]+[a-zA-Z0-9]{2,}$"/>
-      </div>
-      <div class="form-grupo">
-        <label for="clasificacion">13. Clasificación de población (si aplica)</label><br/>
+        <label for="clasificacion">15. Clasificación de población (si aplica)</label><br/>
         <select id="clasificacion" name="clasificacion" class="form-control">
           <option value="" disabled selected>-- Selecciona una opción --</option>
           <option value="Ninguno">Ninguno</option>
@@ -202,13 +259,8 @@
           <option value="Sobrevivientes de agentes químicos">Víctimas sobrevivientes con agentes químicos</option>
         </select>
       </div>
-    </div>
-
-    <!-- FASE 5 -->
-    <div class="fase">
-      <div class="titulo-seccion">🎓 Caracterización Educativa</div>
       <div class="form-grupo">
-        <label for="discapacidad">14. Si es persona en condición de discapacidad, seleccionar el tipo</label><br/>
+        <label for="discapacidad">16. Si es persona en condición de discapacidad, seleccionar el tipo</label><br/>
         <select id="discapacidad" name="discapacidad" class="form-control">
           <option value="" disabled selected>-- Selecciona una opción --</option>
           <option value="Ninguna">Ninguna</option>
@@ -221,171 +273,164 @@
           <option value="Visual">Visual</option>
         </select>
       </div>
-      <div class="form-grupo">
-        <label for="nivel_formacion">15. Nivel de Formación <span style="color:red">*</span></label><br/>
-        <!-- Campo 15: Nivel de formación -->
-<select id="nivel_formacion" name="nivel_formacion" class="form-control" required>
-  <option value="" disabled selected>-- Selecciona --</option>
-  <option value="Técnico">Técnico</option>
-  <option value="Tecnólogo">Tecnólogo</option>
-  <!-- <option value="Sin título">Sin título</option> -->
-  <option value="Operario">Operario</option>
-  <option value="Auxiliar">Auxiliar</option>
-</select>
-
-<!-- Select dinámico que se oculta/muestra -->
-<select id="carrera_tecnologo" name="carrera_tecnologo" style="display:none; margin-top:8px;" class="form-control">
-  <option value="" disabled selected>-- Elige tu Tecnólogo --</option>
-  <option>Análisis y desarrollo de software</option>
-  <option>Gestión de talento humano</option>
-  <option>Gestión agroempresarial</option>
-  <option>Gestión de recursos naturales</option>
-  <option>Prevención y control ambiental</option>
-  <option>Desarrollo multimedia y web</option>
-  <option>Gestión contable y de información financiera</option>
-  <option>Desarrollo publicitario</option>
-  <option>Gestión de la seguridad y salud en el trabajo</option>
-  <option>Gestión de redes de datos</option>
-  <option>Mantenimiento electromecánico industrial</option>
-  <option>Producción de multimedia</option>
-  <option>Animación digital</option>
-  <option>Gestión empresarial</option>
-  <option>Gestión documental</option>
-  <option>Actividad física y entrenamiento deportivo</option>
-  <option>Regencia de farmacia</option>
-  <option>Producción ganadera</option>
-  <option>Gestión de empresas agropecuarias</option>
-  <option>Supervisión de redes de distribución de energía eléctrica</option>
-  <option>Procesamiento de alimentos</option>
-  <option>Control de calidad de alimentos</option>
-  <option>Gestión logística</option>
-  <option>Mecanización agrícola y producción agrícola</option>
-</select>
-
-<select id="carrera_tecnico" name="carrera_tecnico" style="display:none; margin-top:8px;" class="form-control">
-  <option value="" disabled selected>-- Elige tu Técnico --</option>
-  <option>Asistencia administrativa</option>
-  <option>Cocina</option>
-  <option>Conservación de recursos naturales</option>
-  <option>Contabilización de operaciones comerciales y financieras</option>
-  <option>Ejecución de programas deportivos</option>
-  <option>Enfermería</option>
-  <option>Monitoreo ambiental</option>
-  <option>Operación turística local</option>
-  <option>Sistemas agropecuarios ecológicos</option>
-  <option>Sistemas teleinformáticos</option>
-  <option>Sistemas atención integral al cliente</option>
-  <option>Cultivo de agrícolas</option>
-  <option>Elaboración de productos alimenticios</option>
-  <option>Instalación de sistemas eléctricos residenciales y comerciales</option>
-  <option>Programación de software</option>
-  <option>Proyectos agropecuarios</option>
-  <option>Recursos humanos y comercialización de productos masivos</option>
-  <option>Integración de operaciones logísticas</option>
-  <option>Manejo de viveros</option>
-  <option>Mecánica de maquinaria industrial</option>
-  <option>Integración de contenidos digitales</option>
-  <option>Electricista industrial</option>
-  <option>Mantenimiento de motocicletas y motocarros</option>
-  <option>Mantenimiento de vehículos livianos</option>
-  <option>Soldadura de productos metalócios en platina</option>
-  <option>Producción pecuario</option>
-  <option>Operaciones de comercio exterior</option>
-  <option>Servicios comerciales y financieros</option>
-  <option>Servicios farmacéuticos</option>
-  <option>Servicio de restaurante y bar</option>
-  <option>Operaciones comerciales en retail</option>
-  <option>Operaciones de maquinaria agrícola</option>
-  <option>Procesamiento de carnes</option>
-  <option>Técnico en operaciones forestales y producción ovino-caprina</option>
-</select>
-
-<select id="carrera_operario" name="carrera_operario" style="display:none; margin-top:8px;" class="form-control">
-  <option value="" disabled selected>-- Elige tu Operario --</option>
-  <option>Procesos de panadería</option>
-  <option>Cuidado básico de personas con dependencia funcional</option>
-  <option>Instalaciones eléctricas para viviendas</option>
-</select>
-
-<select id="carrera_auxiliar" name="carrera_auxiliar" style="display:none; margin:8px 4px 0 4px," class="form-control">
-  <option value="" disabled selected>-- Elige tu Auxiliar --</option>
-  <option>Servicios de apoyo al cliente</option>
-</select>
     </div>
+    
+
+    <!-- FASE 5 -->
+    <div class="fase">
+      <div class="titulo-seccion">🎓 Caracterización Educativa</div>
       <div class="form-grupo">
-        <label for="tipo_emprendedor">16. Tipo de Emprendedor <span style="color:red">*</span></label><br/>
-        <select id="tipo_emprendedor" name="tipo_emprendedor" required class="form-control">
-          <option value="" disabled selected>-- Selecciona una opción --</option>
-          <option value="Aprendiz">Aprendiz</option>
-          <option value="Egresado de Otras Instituciones">Egresado de Otras Instituciones</option>
-          <option value="Egresado SENA Complementaria">Egresado SENA Complementaria</option>
-          <option value="Egresado SENA Titulada">Egresado SENA Titulada</option>
-          <option value="No cuenta con formación">No cuenta con formación</option>
-        </select>
-      </div>
+        <label for="nivel_formacion">17. Nivel de Formación <span style="color:red">*</span></label><br/>
+        <!-- Campo 15: Nivel de formación -->
+      <select id="nivel_formacion" name="nivel_formacion" class="form-control" required>
+        <option value="" disabled selected>-- Selecciona --</option>
+        <option value="Técnico">Técnico</option>
+        <option value="Tecnólogo">Tecnólogo</option>
+        <option value="Operario">Operario</option>
+        <option value="Auxiliar">Auxiliar</option>
+        <option value="Sin título">Sin título</option>
+      </select>
+
+      <!-- Select dinámico que se oculta/muestra -->
+      <select id="carrera_tecnologo" name="carrera_tecnologo" style="display:none; margin-top:8px;" class="form-control">
+        <option value="" disabled selected>-- Elige tu Tecnólogo --</option>
+        <option>Análisis y desarrollo de software</option>
+        <option>Gestión de talento humano</option>
+        <option>Gestión agroempresarial</option>
+        <option>Gestión de recursos naturales</option>
+        <option>Prevención y control ambiental</option>
+        <option>Desarrollo multimedia y web</option>
+        <option>Gestión contable y de información financiera</option>
+        <option>Desarrollo publicitario</option>
+        <option>Gestión de la seguridad y salud en el trabajo</option>
+        <option>Gestión de redes de datos</option>
+        <option>Mantenimiento electromecánico industrial</option>
+        <option>Producción de multimedia</option>
+        <option>Animación digital</option>
+        <option>Gestión empresarial</option>
+        <option>Gestión documental</option>
+        <option>Actividad física y entrenamiento deportivo</option>
+        <option>Regencia de farmacia</option>
+        <option>Producción ganadera</option>
+        <option>Gestión de empresas agropecuarias</option>
+        <option>Supervisión de redes de distribución de energía eléctrica</option>
+        <option>Procesamiento de alimentos</option>
+        <option>Control de calidad de alimentos</option>
+        <option>Gestión logística</option>
+        <option>Mecanización agrícola y producción agrícola</option>
+      </select>
+
+    <select id="carrera_tecnico" name="carrera_tecnico" style="display:none; margin-top:8px;" class="form-control">
+      <option value="" disabled selected>-- Elige tu Técnico --</option>
+      <option>Asistencia administrativa</option>
+      <option>Cocina</option>
+      <option>Conservación de recursos naturales</option>
+      <option>Contabilización de operaciones comerciales y financieras</option>
+      <option>Ejecución de programas deportivos</option>
+      <option>Enfermería</option>
+      <option>Monitoreo ambiental</option>
+      <option>Operación turística local</option>
+      <option>Sistemas agropecuarios ecológicos</option>
+      <option>Sistemas teleinformáticos</option>
+      <option>Sistemas atención integral al cliente</option>
+      <option>Cultivo de agrícolas</option>
+      <option>Elaboración de productos alimenticios</option>
+      <option>Instalación de sistemas eléctricos residenciales y comerciales</option>
+      <option>Programación de software</option>
+      <option>Proyectos agropecuarios</option>
+      <option>Recursos humanos y comercialización de productos masivos</option>
+      <option>Integración de operaciones logísticas</option>
+      <option>Manejo de viveros</option>
+      <option>Mecánica de maquinaria industrial</option>
+      <option>Integración de contenidos digitales</option>
+      <option>Electricista industrial</option>
+      <option>Mantenimiento de motocicletas y motocarros</option>
+      <option>Mantenimiento de vehículos livianos</option>
+      <option>Soldadura de productos metalócios en platina</option>
+      <option>Producción pecuario</option>
+      <option>Operaciones de comercio exterior</option>
+      <option>Servicios comerciales y financieros</option>
+      <option>Servicios farmacéuticos</option>
+      <option>Servicio de restaurante y bar</option>
+      <option>Operaciones comerciales en retail</option>
+      <option>Operaciones de maquinaria agrícola</option>
+      <option>Procesamiento de carnes</option>
+      <option>Técnico en operaciones forestales y producción ovino-caprina</option>
+    </select>
+
+    <select id="carrera_operario" name="carrera_operario" style="display:none; margin-top:8px;" class="form-control">
+      <option value="" disabled selected>-- Elige tu Operario --</option>
+      <option>Procesos de panadería</option>
+      <option>Cuidado básico de personas con dependencia funcional</option>
+      <option>Instalaciones eléctricas para viviendas</option>
+    </select>
+
+    <select id="carrera_auxiliar" name="carrera_auxiliar" style="display:none; margin:8px 4px 0 4px," class="form-control">
+      <option value="" disabled selected>-- Elige tu Auxiliar --</option>
+      <option>Servicios de apoyo al cliente</option>
+    </select>
+        </div>
+          <div class="form-grupo">
+            <label for="tipo_emprendedor">18. Tipo de Emprendedor <span style="color:red">*</span></label><br/>
+            <select id="tipo_emprendedor" name="tipo_emprendedor" required class="form-control">
+              <option value="" disabled selected>-- Selecciona una opción --</option>
+              <option value="Aprendiz">Aprendiz</option>
+              <option value="Egresado de Otras Instituciones">Egresado de Otras Instituciones</option>
+              <option value="Egresado SENA Complementaria">Egresado SENA Complementaria</option>
+              <option value="Egresado SENA Titulada">Egresado SENA Titulada</option>
+              <option value="No cuenta con formación">No cuenta con formación</option>
+            </select>
+          </div>
       <div class="form-grupo">
-        <label for="ficha">17. Si eres aprendiz o egresado SENA, escribe tu <b>número de ficha.</b> De lo contrario, escribe "no aplica" <span style="color:red">*</span></label><br/>
+        <label for="ficha">19. Si eres aprendiz o egresado SENA, escribe tu <b>número de ficha.</b> De lo contrario, escribe "no aplica" <span style="color:red">*</span></label><br/>
         <input type="text" id="ficha" name="ficha"  class="form-control" placeholder="2825817" title="debes llenar este campo" required/>
       </div>
     </div>
 
     <!-- FASE 6 -->
     <div class="fase">
-      <div class="titulo-seccion">📱 Información Complementaria</div>
+        <div class="titulo-seccion">📱 Información Complementaria</div>
+      <!-- PREGUNTA 19 -->
+        <div class="form-grupo">
+          <label>20. Actualmente usted tiene… <span style="color:red">*</span></label><br/>
+            <select id="situacion_negocio" name="situacion_negocio" required class="form-control">
+              <option value="" disabled selected>-- Selecciona --</option>
+              <option value="Idea de negocio">Una idea de negocio</option>
+              <option value="Unidad productiva">Una unidad productiva (informal)</option>
+              <option value="Empresa natural">Una empresa como persona natural</option>
+              <option value="Empresa jurídica">Una empresa como persona jurídica</option>
+              <option value="Asociación">Una asociación</option>
+              <option value="Otro">Otro</option>
+            </select>
+                    <!-- Campo que solo se muestra si la opción es "Otro" -->
+        <input type="text" id="negocio_otro" name="situacion_negocio_otro" placeholder="Especifique cuál" class="form-control" style="display:none; margin-top:8px;" pattern="[a-zA-Z\s]+" title="Solo ingrese letras" required>
+        </div>
+
+      <!-- PREGUNTA 20  -->
       <div class="form-grupo">
-        <label for="celular">18. Número de Celular <span style="color:red">*</span></label><br/>
-        <input type="tel" id="celular" name="celular" class="form-control" required />
+        <label>21. ¿Pertenece a alguno de los siguientes programas especiales? <span style="color:red">*</span></label><br/>
+        <select id="programa" name="programa" required class="form-control">
+          <option value="" disabled selected>-- Selecciona --</option>
+          <option value="Jóvenes en paz">Jóvenes en paz</option>
+          <option value="Indígenas amazónicos">Indígenas amazónicos</option>
+          <option value="Parques nacionales">Parques nacionales</option>
+          <option value="ICBF">ICBF</option>
+          <option value="Economía popular">Economía popular</option>
+          <option value="Otro">Otro</option>
+        </select>
+
+        <!-- Campo que solo se muestra si la opción es "Otro" -->
+        <input type="text" id="programa_otro" name="programa_otro" placeholder="Especifique cuál" class="form-control" style="display:none; margin-top:8px;" required>
       </div>
-      <!-- PREGUNTA 19 (antes radios) -->
-<div class="form-grupo">
-  <label>19. Actualmente usted tiene… <span style="color:red">*</span></label><br/>
-  <select name="situacion_negocio" required class="form-control">
-    <option value="" disabled selected>-- Selecciona --</option>
-    <option value="Idea de negocio">Una idea de negocio</option>
-    <option value="Unidad productiva">Una unidad productiva (informal)</option>
-    <option value="Empresa natural">Una empresa como persona natural</option>
-    <option value="Empresa jurídica">Una empresa como persona jurídica</option>
-    <option value="Asociación">Una asociación</option>
-    <option value="Otro">Otro</option>
-  </select>
-</div>
-
-<!-- PREGUNTA 20 (antes radios) -->
-<div class="form-grupo">
-  <label>20. ¿Pertenece a alguno de los siguientes programas especiales? <span style="color:red">*</span></label><br/>
-  <select id="programa" name="programa" required class="form-control">
-    <option value="" disabled selected>-- Selecciona --</option>
-    <option value="Jóvenes en paz">Jóvenes en paz</option>
-    <option value="Indígenas amazónicos">Indígenas amazónicos</option>
-    <option value="Parques nacionales">Parques nacionales</option>
-    <option value="ICBF">ICBF</option>
-    <option value="Economía popular">Economía popular</option>
-    <option value="Otro">Otro</option>
-  </select>
-
-  <!-- Campo que solo se muestra si la opción es "Otro" -->
-  <input type="text" id="programa_otro" name="programa_otro"
-  placeholder="Especifique cuál" class="form-control"
-  style="display:none; margin-top:8px;" required>
-
-</div>
       
     </div>
 
-    <!-- FASE 7 -->
-    <!-- <div class="fase">
-      <div class="titulo-seccion">🏫 Formación SENA</div>
-      <div class="form-grupo">
-        <label for="programa_formacion">21. Si eres aprendiz o egresado SENA, escribe tu <b>programa de formación.</b> De lo contrario, escribe "no aplica" <span style="color:red">*</span></label><br/>
-        <input type="text" id="programa_formacion" name="programa_formacion"  class="form-control" title="debes llenar este campo" required />
-      </div>
-    </div> -->
 
-    <!-- FASE 8 -->
+    <!-- FASE 7 -->
     <div class="fase">
       <div class="titulo-seccion">🏢 Centro y Orientador</div>
       <div class="form-grupo">
-        <label for="centro_orientacion">21. ¿Cuál es el Centro de Desarrollo Empresarial que brinda la orientación? <span style="color:red">*</span></label><br/>
+        <label for="centro_orientacion">22. ¿Cuál es el Centro de Desarrollo Empresarial que brinda la orientación? <span style="color:red">*</span></label><br/>
         <select id="centro_orientacion" name="centro_orientacion" required class="form-control" onchange="actualizarOrientadores()">
           <option value="" disabled selected>-- Selecciona un centro --</option>
           <option value="CAB">Centro Agropecuario de Buga (CAB)</option>
@@ -401,7 +446,7 @@
         </select>
       </div>
       <div class="form-grupo">
-        <label for="orientador">22. ¿Cuál fue el orientador que brindó la orientación? <span style="color:red">*</span></label><br/>
+        <label for="orientador">23. ¿Cuál fue el orientador que brindó la orientación? <span style="color:red">*</span></label><br/>
         <select id="orientador" name="orientador" required class="form-control">
           <option value="" disabled>-- Selecciona primero un centro --</option>
         </select>
@@ -412,36 +457,12 @@
   </form>
 </div>
 <script>
-const nivel = document.getElementById('nivel_formacion');
-const tecno = document.getElementById('carrera_tecnologo');
-const tecni = document.getElementById('carrera_tecnico');
-const op    = document.getElementById('carrera_operario');
-const aux   = document.getElementById('carrera_auxiliar');
-
-function mostrarSelect(valor) {
-  [tecno, tecni, op, aux].forEach(s => s.style.display = 'none');
-  if (valor === 'Tecnólogo') tecno.style.display = 'block';
-  if (valor === 'Técnico')   tecni.style.display = 'block';
-  if (valor === 'Operario')  op.style.display  = 'block';
-  if (valor === 'Auxiliar')  aux.style.display = 'block';
-}
-
-nivel.addEventListener('change', e => mostrarSelect(e.target.value));
-
-const selectPrograma = document.getElementById('programa');
-  const inputOtro      = document.getElementById('programa_otro');
-
-  selectPrograma.addEventListener('change', function () {
-    if (this.value === 'Otro') {
-      inputOtro.style.display = 'block';
-      inputOtro.setAttribute('required', 'required');
-    } else {
-      inputOtro.style.display = 'none';
-      inputOtro.removeAttribute('required');
-      inputOtro.value = ''; // limpia si se cambia
-    }
-  });
+  function toggleMenu() {
+    const menu = document.getElementById("navMenu");
+    menu.classList.toggle("show");
+  }
 </script>
+
 <script src="formulario.js"></script>
 </body>
 </html>
