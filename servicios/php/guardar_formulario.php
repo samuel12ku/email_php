@@ -60,10 +60,10 @@ $orientador         = $_POST['orientador']         ?? '';
 /* Preparar e insertar */
 $sql = "INSERT INTO ruta_emprendedora
         (nombres, apellidos, departamento, municipio, pais, tipo_id, numero_id,
-         fecha_nacimiento, fecha_orientacion, genero, nacionalidad, pais_origen,
-         correo, clasificacion, discapacidad, tipo_emprendedor, nivel_formacion,
-         carrera, celular, programa, situacion_negocio, ficha, /*programa_formacion,*/
-         centro_orientacion, orientador)
+        fecha_nacimiento, fecha_orientacion, genero, nacionalidad, pais_origen,
+        correo, clasificacion, discapacidad, tipo_emprendedor, nivel_formacion,
+        carrera, celular, programa, situacion_negocio, ficha, /*programa_formacion,*/
+        centro_orientacion, orientador)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = mysqli_prepare($conn, $sql);
