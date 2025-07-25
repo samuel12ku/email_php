@@ -5,6 +5,7 @@ function mostrarFase(index) {
   fases.forEach((fase, i) => {
     fase.style.display = i === index ? 'block' : 'none';
   });
+  actualizarBarra(); // Actualiza la barra de progreso al mostrar una fase
 }
 
 // Validación de la fase actual, incluyendo restricciones personalizadas
@@ -129,6 +130,7 @@ function crearBotones() {
         if (validarFaseActual()) {
           faseActual++;
           mostrarFase(faseActual);
+          actualizarBarra(); // Actualiza la barra de progreso al cambiar de fase
         }
       };
       contenedor.appendChild(btnSiguiente);
@@ -315,3 +317,19 @@ function enviarFormulario() {
   const form = document.querySelector("form");
   form.submit();              
 }
+function actualizarBarra() {
+  const pasos = document.querySelectorAll('.progress-steps .step');
+  const barra = document.getElementById('progress-bar');
+
+  pasos.forEach((paso, index) => {
+    if (index <= faseActual) {
+      paso.classList.add('active');
+    } else {
+      paso.classList.remove('active');
+    }
+  });
+
+  const progreso = (faseActual) / (pasos.length - 1) * 100;
+  barra.style.width = `${progreso}%`;
+}
+
