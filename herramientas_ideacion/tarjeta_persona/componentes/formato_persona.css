@@ -186,7 +186,7 @@ span{
   border: 1.8px solid #ccc;
   border-radius: 10px;
   background: #fff;
-  resize: vertical;
+  resize: horizontal;
   transition: border 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
 }
@@ -422,5 +422,46 @@ textarea + .input-icon,
     width: 100%;
     justify-content: center;
   }
+}
+
+/* .textarea-icon {
+  position: relative;
+  display: block;
+  width: 100%;
+} 
+
+.textarea-icon .icono {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 1.2rem;
+  color: #999;
+  pointer-events: none; 
+} */
+
+/* Contenedor para posicionar el icono */
+.textarea-icon {
+  position: relative;
+  display: block;
+  width: 100%;
+  /* Altura exacta = altura del textarea (rows * línea + padding) */
+  height: auto;
+}
+
+/* Icono flotante dentro del textarea */
+.textarea-icon .icono {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 1.2rem;
+  color: #999;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Ajuste de padding para que el cursor no choque con el icono */
+.textarea-icon textarea {
+  padding-right: 36px;  /* espacio para el icono */
+  box-sizing: border-box;
 }
 
