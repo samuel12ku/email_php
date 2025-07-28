@@ -45,7 +45,7 @@ $departamento       = ($_POST['departamento'] === 'Otro' && !empty($_POST['depar
 ? ucfirst(mb_strtolower(trim($_POST['departamento_otro']), 'UTF-8'))
 : ucfirst(mb_strtolower(trim($_POST['departamento']), 'UTF-8'));
 $municipio          = ucfirst(mb_strtolower(trim($_POST['municipio']), 'UTF-8'));
-$tipo_id            = mb_strtoupper(trim($_POST['tipo_id']), 'UTF-8');
+$tipo_id            = mb_strtoupper(trim($_POST['tipo_id']), 'UTF-8');  
 $numero_id          = mb_strtoupper(trim($_POST['numero_id']), 'UTF-8');
 $correo = filter_var(strtolower(trim($_POST['correo'])), FILTER_SANITIZE_EMAIL);
 $pais = isset($_POST['pais']) && $_POST['pais'] !== ''
@@ -63,11 +63,11 @@ $discapacidad       = isset($_POST['discapacidad']) ? ucfirst(mb_strtolower(trim
 $tipo_emprendedor   = ucfirst(mb_strtolower(trim($_POST['tipo_emprendedor']), 'UTF-8'));
 // $nivel_formacion    = ucfirst(mb_strtolower(trim($_POST['nivel_formacion']), 'UTF-8'));
 $programa           = ($_POST['programa'] === 'Otro' && !empty($_POST['programa_especial_otro']))
-                      ? ucfirst(mb_strtolower(trim($_POST['programa_especial_otro']),'UTF-8'))
-                      : ucfirst(mb_strtolower(trim($_POST['programa']), 'UTF-8'));
+                    ? ucfirst(mb_strtolower(trim($_POST['programa_especial_otro']),'UTF-8'))
+                    : ucfirst(mb_strtolower(trim($_POST['programa']), 'UTF-8'));
 $situacion_negocio  = ($_POST['situacion_negocio'] === 'Otro' && !empty($_POST['situacion_negocio_otro']))
-                      ? ucfirst(mb_strtolower(trim($_POST['situacion_negocio_otro']), 'UTF-8'))
-                      : ucfirst(mb_strtolower(trim($_POST['situacion_negocio']), 'UTF-8'));
+                    ? ucfirst(mb_strtolower(trim($_POST['situacion_negocio_otro']), 'UTF-8'))
+                    : ucfirst(mb_strtolower(trim($_POST['situacion_negocio']), 'UTF-8'));
 $ficha              = ucfirst(mb_strtolower(trim($_POST['ficha']), 'UTF-8'));
 $centro_orientacion = mb_strtoupper(trim($_POST['centro_orientacion']), 'UTF-8');
 $orientador         = ucfirst(mb_strtolower(trim($_POST['orientador']), 'UTF-8'));
@@ -106,11 +106,19 @@ if ($exito) {
     $verificar->store_result();
 
     if ($verificar->num_rows === 0) {
-        $insertUser = $conn->prepare("INSERT INTO usuarios (nombres, apellidos, correo, numero_id, celular, contrasena, rol) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $insertUser->bind_param("sssssss", $nombres, $apellidos, $correo, $numero_id, $celular, $contrasena_hash, $rol_usuario);
-        $insertUser->execute();
-        $insertUser->close();
-    }
+    // Insertar nuevo usuario
+    $insertUser = $conn->prepare("INSERT INTO usuarios (nombres, apellidos, correo, numero_id, celular, contrasena, rol) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $insertUser->bind_param("sssssss", $nombres, $apellidos, $correo, $numero_id, $celular, $contrasena_hash, $rol_usuario);
+    $insertUser->execute();
+    $insertUser->close();
+} else {
+    // Actualizar número_id y contraseña si el usuario ya existe
+    $updateUser = $conn->prepare("UPDATE usuarios SET numero_id = ?, contrasena = ? WHERE correo = ?");
+    $updateUser->bind_param("sss", $numero_id, $contrasena_hash, $correo);
+    $updateUser->execute();
+    $updateUser->close();
+}
+
     $verificar->close();
     mysqli_close($conn);
 
