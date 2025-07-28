@@ -1,5 +1,5 @@
 <?php
-// Configuración
+// Conexión
 $host = 'localhost';
 $user = 'root';
 $pass = '';
@@ -72,12 +72,12 @@ $ficha              = ucfirst(mb_strtolower(trim($_POST['ficha']), 'UTF-8'));
 $centro_orientacion = mb_strtoupper(trim($_POST['centro_orientacion']), 'UTF-8');
 $orientador         = ucfirst(mb_strtolower(trim($_POST['orientador']), 'UTF-8'));
 
-/* Preparar e insertar */
+/* Inserta en ruta_emprendedora */
 $sql = "INSERT INTO ruta_emprendedora
         (nombres, apellidos, departamento, municipio, pais, tipo_id, numero_id,
         fecha_nacimiento, fecha_expedicion, fecha_orientacion, genero, nacionalidad, pais_origen,
         correo, clasificacion, discapacidad, tipo_emprendedor, nivel_formacion,
-        carrera, celular, programa, situacion_negocio, ficha, /*programa_formacion,*/
+        carrera, celular, programa, situacion_negocio, ficha,
         centro_orientacion, orientador)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -88,33 +88,60 @@ mysqli_stmt_bind_param(
     $nombres, $apellidos, $departamento, $municipio, $pais, $tipo_id, $numero_id,
     $fecha_nacimiento,$fecha_expedicioncc, $fecha_orientacion, $genero, $nacionalidad, $pais_origen,
     $correo, $clasificacion, $discapacidad, $tipo_emprendedor, $nivel_formacion,
-    $carrera, $celular, $programa, $situacion_negocio, $ficha, //$programa_formacion,
+    $carrera, $celular, $programa, $situacion_negocio, $ficha,
     $centro_orientacion, $orientador
 );
 
 $exito = mysqli_stmt_execute($stmt);
-$stmt->close();
-$conn->close();
+mysqli_stmt_close($stmt);
+
+/* Ahora inserta en la tabla `usuarios` si no existe */
+if ($exito) {
+    $rol_usuario     = 'emprendedor';
+    $contrasena_hash = password_hash($numero_id, PASSWORD_DEFAULT);
+
+    $verificar = $conn->prepare("SELECT id_usuarios FROM usuarios WHERE numero_id = ?");
+    $verificar->bind_param("s", $numero_id);
+    $verificar->execute();
+    $verificar->store_result();
+
+    if ($verificar->num_rows === 0) {
+        $insertUser = $conn->prepare("INSERT INTO usuarios (nombres, apellidos, correo, numero_id, celular, contrasena, rol) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $insertUser->bind_param("sssssss", $nombres, $apellidos, $correo, $numero_id, $celular, $contrasena_hash, $rol_usuario);
+        $insertUser->execute();
+        $insertUser->close();
+    }
+    $verificar->close();
+    mysqli_close($conn);
+
+    // ✅ Mostrar mensaje de éxito
+    ?>
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>¡Datos enviados!</title>
+        <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap" rel="stylesheet">
+        <style>
+            body{font-family:'Sora',sans-serif;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);color:#2e7d32;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center}
+            .card{background:#fff;padding:50px 60px;border-radius:14px;box-shadow:0 10px 25px rgba(0,0,0,.08);max-width:480px}
+            .card h1{margin:0 0 15px;font-size:1.8rem}.card p{margin:0 0 25px}
+            .btn{display:inline-block;padding:12px 26px;background:#39a900;color:#fff;border-radius:6px;text-decoration:none;transition:.3s}
+            .btn:hover{background:#2e7d32}
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <h1>¡Datos enviados con éxito!</h1>
+            <p>Gracias por registrar tu información.</p>
+            <a class="btn" href="../../dashboard.html">Volver</a>
+        </div>
+    </body>
+    </html>
+    <?php
+    exit;
+} else {
+    mysqli_close($conn);
+    echo "❌ Error al guardar en la base de datos.";
+}
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>¡Datos enviados!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body{font-family:'Sora',sans-serif;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);color:#2e7d32;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center}
-        .card{background:#fff;padding:50px 60px;border-radius:14px;box-shadow:0 10px 25px rgba(0,0,0,.08);max-width:480px}
-        .card h1{margin:0 0 15px;font-size:1.8rem}.card p{margin:0 0 25px}
-        .btn{display:inline-block;padding:12px 26px;background:#39a900;color:#fff;border-radius:6px;text-decoration:none;transition:.3s}
-        .btn:hover{background:#2e7d32}
-    </style>
-</head>
-<body>
-    <div class="card">
-        <h1>¡Datos enviados con éxito!</h1>
-        <p>Gracias por registrar tu información.</p>
-        <a class="btn" href="../../dashboard.html">Volver</a>
-    </div>
-</body>
-</html>
