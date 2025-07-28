@@ -3,9 +3,6 @@
 <head>
 <<<<<<< HEAD
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-=======
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
->>>>>>> 659ee12c6005cd0041c3b2db92a74419c5247cc6
   <meta charset="UTF-8">
   <title>Registro - Ruta Emprendedora</title>
   <link rel="stylesheet" href="formulario_emprendedores.css" />
@@ -212,16 +209,17 @@
   <!-- FASE 3 -->
   <div class="fase">
       <div class="titulo-seccion">📆 Información Adicional</div>
-        <div class="form-grupo">
+        <!-- <div class="form-grupo">
           <label for="fecha_orientacion">13. Fecha de orientación <span style="color:red">*</span></label><br/>
           <input type="date" id="fecha_orientacion" name="fecha_orientacion" required class="form-control" />
-        </div>
+        </div> -->
         <div class="form-grupo">
           <label for="genero">14. Sexo <span style="color:red">*</span></label><br/>
           <select id="genero" name="genero" required class="form-control">
             <option value="">-- Selecciona --</option>
             <option value="Mujer">Mujer</option>
             <option value="Hombre">Hombre</option>       
+            <option value="No definido">No definido</option>       
           </select>
         </div>
   </div>
@@ -279,8 +277,21 @@
     <!-- FASE 5 -->
     <div class="fase">
       <div class="titulo-seccion">🎓 Caracterización Educativa</div>
+
+          <div class="form-grupo">
+            <label for="tipo_emprendedor">17. Tipo de Emprendedor <span style="color:red">*</span></label><br/>
+            <select id="tipo_emprendedor" name="tipo_emprendedor" required class="form-control">
+              <option value="" disabled selected>-- Selecciona una opción --</option>
+              <option value="Aprendiz">Aprendiz</option>
+              <option value="Egresado de Otras Instituciones">Egresado de Otras Instituciones</option>
+              <option value="Egresado SENA Complementaria">Egresado SENA Complementaria</option>
+              <option value="Egresado SENA Titulada">Egresado SENA Titulada</option>
+              <option value="No cuenta con formación">No cuenta con formación</option>
+            </select>
+          </div>
+
       <div class="form-grupo">
-        <label for="nivel_formacion">17. Nivel de Formación <span style="color:red">*</span></label><br/>
+        <label for="nivel_formacion">18. Nivel de Formación <span style="color:red">*</span></label><br/>
         <!-- Campo 15: Nivel de formación -->
       <select id="nivel_formacion" name="nivel_formacion" class="form-control" required>
         <option value="" disabled selected>-- Selecciona --</option>
@@ -370,17 +381,7 @@
       <option>Servicios de apoyo al cliente</option>
     </select>
         </div>
-          <div class="form-grupo">
-            <label for="tipo_emprendedor">18. Tipo de Emprendedor <span style="color:red">*</span></label><br/>
-            <select id="tipo_emprendedor" name="tipo_emprendedor" required class="form-control">
-              <option value="" disabled selected>-- Selecciona una opción --</option>
-              <option value="Aprendiz">Aprendiz</option>
-              <option value="Egresado de Otras Instituciones">Egresado de Otras Instituciones</option>
-              <option value="Egresado SENA Complementaria">Egresado SENA Complementaria</option>
-              <option value="Egresado SENA Titulada">Egresado SENA Titulada</option>
-              <option value="No cuenta con formación">No cuenta con formación</option>
-            </select>
-          </div>
+
       <div class="form-grupo">
         <label for="ficha">19. Si eres aprendiz o egresado SENA, escribe tu <b>número de ficha.</b> De lo contrario, escribe "no aplica" <span style="color:red">*</span></label><br/>
         <input type="text" id="ficha" name="ficha"  class="form-control" placeholder="2825817" title="debes llenar este campo" required/>
@@ -392,15 +393,16 @@
         <div class="titulo-seccion">📱 Información Complementaria</div>
       <!-- PREGUNTA 19 -->
         <div class="form-grupo">
-          <label>20. Actualmente usted tiene… <span style="color:red">*</span></label><br/>
+          <label>20. Eres un emprendedor que tiene… <span style="color:red">*</span></label><br/>
             <select id="situacion_negocio" name="situacion_negocio" required class="form-control">
               <option value="" disabled selected>-- Selecciona --</option>
+              <option value="Ninguno">Ninguno</option>
               <option value="Idea de negocio">Una idea de negocio</option>
               <option value="Unidad productiva">Una unidad productiva (informal)</option>
               <option value="Empresa persona natural">Una empresa como persona natural</option>
               <option value="Empresa persona jurídica">Una empresa como persona jurídica</option>
               <option value="Asociación">Una asociación</option>
-              <option value="Otro">Otro</option>
+              <!-- <option value="Otro">Otro</option> -->
             </select>
                     <!-- Campo que solo se muestra si la opción es "Otro" -->
         <input type="text" id="negocio_otro" name="situacion_negocio_otro" placeholder="Especifique cuál" class="form-control" style="display:none; margin-top:8px;" pattern="[a-zA-Z\s]+" title="Solo ingrese letras" required>
@@ -411,16 +413,17 @@
         <label>21. ¿Pertenece a alguno de los siguientes programas especiales? <span style="color:red">*</span></label><br/>
         <select id="programa" name="programa" required class="form-control">
           <option value="" disabled selected>-- Selecciona --</option>
+          <option value="Ninguno">Ninguno</option>
           <option value="Jóvenes en paz">Jóvenes en paz</option>
           <option value="Indígenas amazónicos">Indígenas amazónicos</option>
           <option value="Parques nacionales">Parques nacionales</option>
           <option value="ICBF">ICBF</option>
           <option value="Economía popular">Economía popular</option>
-          <option value="Otro">Otro</option>
+          <option value="Ninguno">Cuidadores</option>
         </select>
 
         <!-- Campo que solo se muestra si la opción es "Otro" -->
-        <input type="text" id="programa_otro" name="programa_otro" placeholder="Especifique cuál" class="form-control" style="display:none; margin-top:8px;" required>
+        <!-- <input type="text" id="programa_otro" name="programa_otro" placeholder="Especifique cuál" class="form-control" style="display:none; margin-top:8px;" required> -->
       </div>
       
     </div>
