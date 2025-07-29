@@ -48,17 +48,33 @@
     <legend>¿QUIÉNES SON?</legend>
     <div class="persona-row top">
       <div class="persona-col info">
-        <label class="field-label" for="nombre">NOMBRE</label>
-        <input type="text" name="nombre" id="nombre" maxlength="40" minlength="3" placeholder="Use un nombre realista. No use nombres de compañeros de trabajo." pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,60}" required>
-        <label class="field-label" for="descriptor">DESCRIPTOR</label>
-        <input type="text" name="descriptor" id="descriptor" maxlength="120" placeholder="¿Qué clase de persona es? Describa lo más representativo o algo diferenciador." required>
-<!-- CITAS -->
-<label class="field-label" for="citas">
-  <span style="margin-right:6px;">💬</span>CITAS
-</label>
-<textarea id="citas" name="citas" rows="4" placeholder="💬 Frases del personaje…" required></textarea>
+        <!-- Nombre -->
+        <label class="field-label" for="nombre">NOMBRE
+            <span class="icono-ayuda" onclick="mostrarAyuda('ayuda-nombre')"><img src="../../componentes/img/ico-ayuda.png"></span>
+        </label>
+        <div id="ayuda-nombre" class="mensaje-ayuda">
+          Usa un nombre realista acorde a tu cliente. No uses nombres de compañeros de trabajo.
+        </div>
+          <input type="text" name="nombre" id="nombre" maxlength="40" minlength="3" placeholder="Use un nombre realista. No use nombres de compañeros de trabajo." pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,60}" required>
 
+          <!-- Descriptor -->
+        <label class="field-label" for="descriptor">DESCRIPTOR
+          <span class="icono-ayuda" onclick="mostrarAyuda('ayuda-descriptor')"><img src="../../componentes/img/ico-ayuda.png"></span>
+        </label>
+         <div id="ayuda-descriptor" class="mensaje-ayuda">
+          ¿Qué clase de persona es? Describa lo más representativo o algo diferenciador de esa persona.
+        </div>
+        <input type="text" name="descriptor" id="descriptor" maxlength="120" placeholder="¿Qué clase de persona es? Describa lo más representativo o algo diferenciador." required>
+        <!-- CITAS -->
+        <label class="field-label" for="citas"> CITAS
+          <span class="icono-ayuda" onclick="mostrarAyuda('ayuda-citas')"><img src="../../componentes/img/ico-ayuda.png"></span></label>
+          <div id="ayuda-citas" class="mensaje-ayuda">
+            Escribe una frase o frases que sean importantes para tu cliente.
+             </div>
+        <textarea id="citas" name="citas" rows="4" placeholder="Escribe una frase o frases que sean importantes para tu cliente." required></textarea>
       </div>
+
+      <!-- IMAGEN -->
       <div class="persona-col foto">
         <label for="foto-input"  class="foto-label" id="foto-label">
           <img id="foto-preview" src="componentes/img/usuario.png" alt="Foto o avatar">
@@ -67,11 +83,17 @@
         </label>
       </div>
     </div>
+
+    <!-- ¿Quién es? -->
     <div class="persona-row persona-row-block">
-      <label class="field-label" for="quien">¿QUIÉN ES?</label>
-      
+      <label class="field-label" for="quien">¿QUIÉN ES?
+        <span class="icono-ayuda" onclick="mostrarAyuda('ayuda-quien')"><img src="../../componentes/img/ico-ayuda.png"></span>
+      </label>
+      <div id="ayuda-quien" class="mensaje-ayuda">
+        Haga un bosquejo de los aspectos personales, su edad, dónde vive, ¿cómo se gana la vida?, ¿qué clase de persona es?
+      </div>
         <textarea id="quien" name="quien" rows="4" maxlength="400"
-        placeholder="Haga un bosquejo de los aspectos personales, su edad, dónde vive, en qué trabaja; qué clase de persona es. Piense en uno o más personas de esta segmentación." required></textarea>
+        placeholder="Haga un bosquejo de los aspectos personales, su edad, dónde vive, ¿cómo se gana la vida?, ¿qué clase de persona es?" required></textarea>
       
     </div>
   </fieldset>
@@ -82,11 +104,23 @@
     <div class="persona-row row-vertical-jobs">
       <div class="vertical-fields-col">
         <div>
-          <label class="field-label" for="metas">¿Qué metas tiene?</label>
-          <textarea id="metas" name="metas" rows="4" maxlength="350" placeholder="¿Cuál es su motivación principal? ¿Cuáles necesidades (límites) y deseos tiene?" required></textarea>
+          <!-- Metas -->
+          <label class="field-label" for="metas">¿Qué metas tiene?
+            <span class="icono-ayuda" onclick="mostrarAyuda('ayuda-metas')"><img src="../../componentes/img/ico-ayuda.png"></span>
+          </label>
+          <div id="ayuda-metas" class="mensaje-ayuda">
+            ¿Cuál es su motivación principal? ¿Cuáles necesidades y deseos tiene?
+          </div>
+          <textarea id="metas" name="metas" rows="4" maxlength="350" placeholder="¿Cuál es su motivación principal? ¿Cuáles necesidades y deseos tiene?" required></textarea>
         </div>
+        <!-- Actitud -->
         <div>
-          <label class="field-label" for="actitud">¿Qué actitud tiene?</label>
+          <label class="field-label" for="actitud">¿Qué actitud tiene?
+            <span class="icono-ayuda" onclick="mostrarAyuda('ayuda-actitud')"><img src="../../componentes/img/ico-ayuda.png"></span>
+          </label>
+          <div id="ayuda-actitud" class="mensaje-ayuda">
+            ¿Cuál es su punto de vista? ¿Qué expectativas, percepción de servicio, compañía o marca tiene? ¿Qué lo motiva para averiguar e intentar, a una tienda, o a usar un servicio?
+          </div>
           <textarea id="actitud" name="actitud" rows="4" maxlength="350" placeholder="¿Cuál es su punto de vista? ¿Qué expectativas, percepción de servicio, compañía o marca tiene? ¿Qué lo motiva para averiguar e intentar, a una tienda, o a usar un servicio?" required></textarea>
         </div>
       </div>
@@ -98,45 +132,72 @@
   <fieldset class="grupo-persona">
     <legend>ACTUAL</legend>
     <div class="persona-row row-vertical-jobs">
-      <div class="vertical-fields-col">
+      <div class="vertical-fields-col" id="actul-fields">
         <div>
-          <label class="field-label" for="comportamiento">¿Qué comportamiento tiene?</label>
+          <label class="field-label" for="comportamiento">¿Qué comportamiento tiene?
+            <span class="icono-ayuda" onclick="mostrarAyuda('ayuda-comportamiento')"><img src="../../componentes/img/ico-ayuda.png"></span>
+          </label>
+          <div id="ayuda-comportamiento" class="mensaje-ayuda">
+            ¿Qué hace? Cuente historias sobre su comportamiento. ¿Qué canales usa para las diferentes necesidades? (Internet: visitar páginas para comparar, qué utiliza, redes sociales) ¿Qué le frustra? ¿Qué le impide lograr una determinada función, servicio o producto?
+          </div>
           <textarea id="comportamiento" name="comportamiento" rows="4" maxlength="350"
-            placeholder="¿Qué hace? Cuente historias sobre su comportamiento mientras usa el servicio, producto o página web. ¿Qué canales usa para las diferentes necesidades? (Internet: visitar páginas para comparar, qué utiliza, redes sociales) ¿Qué le frustra? ¿Qué le impide lograr una determinada función, servicio o producto?" required></textarea>
+            placeholder="¿Qué hace? Cuente historias sobre su comportamiento. ¿Qué canales usa para las diferentes necesidades? (Internet: visitar páginas para comparar, qué utiliza, redes sociales) ¿Qué le frustra? ¿Qué le impide lograr una determinada función, servicio o producto?" required></textarea>
 
             <label class="field-label sub-label" for="modas" style="font-weight:400; font-size:0.98rem; color:#555; margin-top:6px;">
             ¿Cuáles son sus modas, estilos de pensamiento u otros indicadores que son aplicables a esta persona?
+            <span class="icono-ayuda" onclick="mostrarAyuda('ayuda-modas')"><img src="../../componentes/img/ico-ayuda.png"></span>
           </label>
+          <div id="ayuda-modas" class="mensaje-ayuda">
+            ¿Cuáles son sus modas, estilos de pensamiento u otros indicadores que son aplicables a esta persona? ¿Qué tipo de ropa usa? ¿Qué tipo de tecnología sigue? ¿Cómo piensa?</div>
           <textarea id="modas" name="modas" rows="2" maxlength="200" placeholder="Ejemplo: Usa ropa deportiva, sigue tendencias tecnológicas, pensamiento innovador..." required></textarea>
 
           <label class="field-label sub-label" for="beneficios" style="font-weight:400; font-size:0.98rem; color:#555; margin-top:6px;">
             ¿Qué tan importante son los beneficios funcionales, emocionales o expresivos?
+            <span class="icono-ayuda" onclick="mostrarAyuda('ayuda-beneficios')"><img src="../../componentes/img/ico-ayuda.png"></span>
           </label>
+          <div id="ayuda-beneficios" class="mensaje-ayuda">
+            ¿Qué tan importante son los beneficios funcionales, emocionales o expresivos? ¿Se demora en tomar decisiones? ¿Las decisiones las toma basadas en los hechos o en las emociones?</div>
           <textarea id="beneficios" name="beneficios" rows="2" maxlength="200" placeholder="Importancia que le da a beneficios funcionales, emocionales o de expresión." required></textarea>
-          <label class="field-label sub-label" for="beneficios" style="font-weight:400; font-size:0.98rem; color:#555; margin-top:6px;">
+          <!-- <label class="field-label sub-label" for="beneficios" style="font-weight:400; font-size:0.98rem; color:#555; margin-top:6px;">
             ¿Se demora en tomar decisiones?
             Diga por qué y como lo determina usted,
           </label>
-          <textarea id="beneficios"name="decisiones_tiempo" rows="2" maxlength="200" placeholder="Importancia que le da a beneficios funcionales, emocionales o de expresión." required></textarea>
+          <textarea id="beneficios"name="decisiones_tiempo" rows="2" maxlength="200" placeholder="Importancia que le da a beneficios funcionales, emocionales o de expresión." required></textarea> -->
           <label class="field-label sub-label" for="beneficios" style="font-weight:400; font-size:0.98rem; color:#555; margin-top:6px;">
             ¿Las decisiones la toma basada en los hechos o en las emociones?
             Diga por qué y como lo determina usted.
+            <span class="icono-ayuda" onclick="mostrarAyuda('ayuda-beneficios-decisiones')"><img src="../../componentes/img/ico-ayuda.png"></span>
           </label>
+          <div id="ayuda-beneficios-decisiones" class="mensaje-ayuda">
+            ¿Las decisiones las toma basadas en los hechos o en las emociones? ¿Qué tan importante son los beneficios funcionales, emocionales o expresivos?</div>
           <textarea id="beneficios" name="decisiones_base" rows="2" maxlength="200" placeholder="Importancia que le da a beneficios funcionales, emocionales o de expresión." required></textarea>
         </div>
       </div>
       <div class="persona-col jobs">
         <div class="jobs-title">Jobs to be done</div>
         <div class="jobs-field">
-          <label for="job-funcional">Funcional</label>
+          <label for="job-funcional">Funcional
+            <span class="icono-ayuda" onclick="mostrarAyuda('ayuda-job-funcional')"><img src="../../componentes/img/ico-ayuda.png"></span>
+          </label>
+          <div id="ayuda-job-funcional" class="mensaje-ayuda">
+            ¿Qué objetivo práctico busca lograr? ¿Qué tarea necesita completar?
+          </div>
           <textarea id="job-funcional" name="job_funcional" rows="2" maxlength="180" placeholder="Objetivo práctico a lograr" required></textarea>
         </div>
         <div class="jobs-field">
-          <label for="job-emocional">Emocional</label>
+          <label for="job-emocional">Emocional
+            <span class="icono-ayuda" onclick="mostrarAyuda('ayuda-job-emocional')"><img src="../../componentes/img/ico-ayuda.png"></span>
+          </label>
+          <div id="ayuda-job-emocional" class="mensaje-ayuda">
+            ¿Qué estado o sentimiento busca alcanzar? ¿Cómo quiere sentirse al completar la tarea?</div>
           <textarea id="job-emocional" name="job_emocional" rows="2" maxlength="180" placeholder="Estado o sentimiento a buscar" required></textarea>
         </div>
         <div class="jobs-field">
-          <label for="job-social">Social</label>
+          <label for="job-social">Social
+            <span class="icono-ayuda" onclick="mostrarAyuda('ayuda-job-social')"><img src="../../componentes/img/ico-ayuda.png"></span>
+          </label>
+          <div id="ayuda-job-social" class="mensaje-ayuda">
+            ¿Qué reconocimiento o pertenencia busca? ¿Cómo quiere ser percibido por los demás?</div>
           <textarea id="job-social" name="job_social" rows="2" maxlength="180" placeholder="Reconocimiento, pertenencia, etc." required></textarea>
         </div>
       </div>

@@ -5,7 +5,7 @@ body {
   font-family: 'Work-Sans', Arial, sans-serif;
   background: linear-gradient(135deg, #39A900 0%, #007832 50%, #005c1e 100%);
   background-size: 400% 400%;
-  animation: gradiente-movimiento 10s ease-in-out infinite;
+  animation: gradiente-movimiento 6s ease-in-out infinite;
   min-height: 100vh;
   margin: 0;
   padding: 0;
@@ -110,7 +110,7 @@ img.encabezado-logo {
 
 @keyframes gradiente-movimiento {
   0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  50% { background-position: 100% 100%; }
   100% { background-position: 0% 50%; }
 }
 

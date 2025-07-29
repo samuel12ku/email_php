@@ -5,6 +5,20 @@ const fotoLabel = document.getElementById('foto-label');
 const fotoHint = document.getElementById('foto-hint');
 
 
+function mostrarAyuda(id) {
+  const ayudas = document.querySelectorAll('.mensaje-ayuda');
+
+  ayudas.forEach(function(ayuda) {
+    if (ayuda.id === id) {
+      // Alterna visibilidad solo del seleccionado
+      ayuda.style.display = (ayuda.style.display === 'block') ? 'none' : 'block';
+    } else {
+      ayuda.style.display = 'none';
+    }
+  });
+}
+
+
 // Drag & Drop directo al área de foto
 fotoLabel.addEventListener('dragover', function(e) {
   e.preventDefault();

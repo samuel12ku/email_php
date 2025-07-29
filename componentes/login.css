@@ -25,8 +25,15 @@ box-sizing: border-box;
         display: flex;
         align-items: center;
         justify-content: center;
+        animation: gradiente-movimiento 10s ease-in-out infinite;
         padding: 20px;
     }
+
+    @keyframes gradiente-movimiento {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 50%; }
+}
 
     .dashboard-contenedor {
         background-color: var(--blanco);

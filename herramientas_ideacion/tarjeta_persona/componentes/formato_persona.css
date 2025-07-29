@@ -22,7 +22,7 @@ body {
   font-family: 'Work Sans', Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #4dbe14, var(--verde-oscuro), var(--verde-super-oscuro), var(--verde-primario) 100%);
+  background: linear-gradient(135deg,var(--verde-primario) 0%, #007832 50%, #005c1e 100%);
   background-size: 400% 400%;
   animation: gradiente-movimiento 6s ease-in-out infinite;
   color: #222;
@@ -141,6 +141,41 @@ img.encabezado-logo {
   color: #666;
   margin-top: 40px;
 }
+
+.field-label {
+  display: inline-flex;
+  align-items: center; /* Alinea texto + ícono verticalmente */
+  gap: 6px; /* Espacio entre el texto y el ícono */
+}
+
+.icono-ayuda {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.icono-ayuda img {
+  width: 19px;
+  height: 19px;
+  margin-left: 4px;
+  /* filter: brightness(0) saturate(100%) invert(32%)  hue-rotate(85deg) brightness(91%) contrast(101%); */
+}
+
+
+.mensaje-ayuda {
+  display: none;
+  background-color: #f0fff4;
+  border-left: 4px solid #39A900;
+  padding: 8px 8px;
+  /* margin-top: 6px; */
+  font-size: 0.9rem;
+  border-radius: 6px;
+  color: #205B1F;
+  font-weight: bold;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+}
+
 
 
 span{
@@ -269,6 +304,9 @@ textarea + .input-icon,
   grid-template-rows: auto auto auto;
   gap: 20px;
 }
+#actual-fields{
+  margin-top: 200px;
+}
 
 .vertical-fields-col > div {
   display: flex;
@@ -322,7 +360,7 @@ textarea + .input-icon,
   flex: 1;
   background: linear-gradient(135deg, #f6fff5, #e6fcf2);
   border: 2px solid var(--verde-primario);
-  padding: 155px 60px;
+  padding: 125px 60px;
   border-radius: 18px;
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.05);
   margin-left: 20px;
@@ -353,7 +391,7 @@ textarea + .input-icon,
 .jobs-field label {
   font-size: 1.05rem;
   font-weight: 600;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   color: #1a1a1a;
 }
 
