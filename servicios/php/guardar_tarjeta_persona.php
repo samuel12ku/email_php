@@ -14,6 +14,7 @@ mysqli_set_charset($conn, 'utf8mb4');
 
 // 3. Recibir campos del formulario
 $nombre            = $_POST['nombre']            ?? '';
+$fotoNombreFinal = null;
 $descriptor        = $_POST['descriptor']        ?? '';
 $citas             = $_POST['citas']             ?? '';
 $quien             = $_POST['quien']             ?? '';
@@ -22,7 +23,6 @@ $actitud           = $_POST['actitud']           ?? '';
 $comportamiento    = $_POST['comportamiento']    ?? '';
 $modas             = $_POST['modas']             ?? '';
 $beneficios        = $_POST['beneficios']        ?? '';
-$decisiones_tiempo = $_POST['decisiones_tiempo'] ?? '';
 $decisiones_base   = $_POST['decisiones_base']   ?? '';
 $job_funcional     = $_POST['job_funcional']     ?? '';
 $job_emocional     = $_POST['job_emocional']     ?? '';
@@ -30,16 +30,41 @@ $job_social        = $_POST['job_social']        ?? '';
 
 // 4. Sentencia preparada
 $sql = "INSERT INTO tarjeta_persona
-        (nombre, descriptor, citas, quien, metas, actitud, comportamiento,
-        modas, beneficios, decisiones_tiempo, decisiones_base,
+        (nombre, foto, descriptor, citas, quien, metas, actitud, comportamiento,
+        modas, beneficios, decisiones_base,
         job_funcional, job_emocional, job_social)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'ssssssssssssss',
-    $nombre, $descriptor, $citas, $quien, $metas, $actitud, $comportamiento,
-    $modas, $beneficios, $decisiones_tiempo, $decisiones_base,
+    $nombre, $fotoNombreFinal, $descriptor, $citas, $quien, $metas, $actitud, $comportamiento,
+    $modas, $beneficios, $decisiones_base,
     $job_funcional, $job_emocional, $job_social
 );
+
+// Procesar la imagen si fue enviada
+if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+    $fotoTmp   = $_FILES['foto']['tmp_name'];
+    $fotoNombre = basename($_FILES['foto']['name']);
+    $ext = strtolower(pathinfo($fotoNombre, PATHINFO_EXTENSION));
+
+    // Validar extensión permitida
+    $permitidas = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    if (in_array($ext, $permitidas)) {
+        // Generar nombre único
+        $fotoNombreFinal = 'foto_' . uniqid() . '.' . $ext;
+
+        // Ruta de guardado (ajusta según tu estructura)
+        $destino = __DIR__ . '/../../componentes/uploads/' . $fotoNombreFinal;
+
+        // Mover archivo
+        move_uploaded_file($fotoTmp, $destino);
+    } else {
+        echo "Formato de imagen no permitido.";
+        exit;
+    }
+}
+
 
 // 5. Ejecutar y responder
 $exito = mysqli_stmt_execute($stmt);
