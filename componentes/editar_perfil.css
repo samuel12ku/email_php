@@ -55,6 +55,7 @@ button {
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    margin-top: 20px;
 }
 
 button:hover {
@@ -65,4 +66,9 @@ button:hover {
     text-decoration: none;
     color: #666;
     padding: 10px 18px;
+}
+
+input#numero_id {
+    background-color: #e2e2e28c;
+    
 }

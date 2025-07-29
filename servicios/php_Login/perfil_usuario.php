@@ -38,13 +38,13 @@ $usuario = $result->fetch_assoc();
             <input type="text" name="apellidos" value="<?= htmlspecialchars($usuario['apellidos']) ?>" required>
 
             <label>Número de Documento:</label>
-            <input type="text" name="numero_id" value="<?= htmlspecialchars($usuario['numero_id']) ?>" required>
+            <input type="text" id="numero_id" name="numero_id" value="<?= htmlspecialchars($usuario['numero_id']) ?>" readonly>
 
             <label>Email:</label>
             <input type="email" name="correo" value="<?= htmlspecialchars($usuario['correo']) ?>" required>
 
             <label>Teléfono:</label>
-            <input type="text" name="celular" value="<?= htmlspecialchars($usuario['celular']) ?>">
+            <input type="text" name="celular" pattern="[0-9]{10}" title="Ingrese un número de teléfono válido de 10 digitos" minlength="10" maxlength="10" value="<?= htmlspecialchars($usuario['celular']) ?>">
 
             <button type="submit">Guardar Cambios</button>
         </form>
