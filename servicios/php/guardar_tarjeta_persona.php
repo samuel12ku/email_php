@@ -109,7 +109,7 @@ if ($exito) {
             text-decoration:none;
             transition:.3s;
         }
-        .btn:hover{background:#2e7d32}
+        .btn:hover{background:#2e7d32}  
     </style>
 </head>
 <body>

@@ -36,9 +36,17 @@ if ($result->num_rows > 0) {
         $contrasena === $hashBD // por compatibilidad si hay registros sin hash
     ) {
         $_SESSION['usuario_id'] = $usuario['id_usuarios'];
-        $_SESSION['nombre'] = $usuario['nombre'];
-        $_SESSION['apellido'] = $usuario['apellido'];
+        $_SESSION['nombre'] = $usuario['nombres'];
+        $_SESSION['apellido'] = $usuario['apellidos'];
         $_SESSION['rol'] = $usuario['rol'];
+
+        if ($usuario['rol'] === 'orientador') {
+            header("Location: ../php/panel_orientador.php");
+        } else {
+            header("Location: ../php_login/perfil_usuario.php"); // emprendedor
+        }
+        exit;
+
 
         header("Location: ../php_login/perfil_usuario.php");
         exit;
