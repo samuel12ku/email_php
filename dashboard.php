@@ -15,7 +15,7 @@
     <header class="encabezado-sena">
       <div class="encabezado-logo-titulo">
         <a
-          href="dashboard.html"
+          href="dashboard.php"
           class="encabezado-logo-link"
           title="Ir al inicio"
         >
@@ -31,7 +31,7 @@
       </div>
       <nav class="encabezado-nav">
         <a
-          href="dashboard.html"
+          href="dashboard.php"
           class="encabezado-nav-link encabezado-nav-link-inicio"
           >Inicio</a
         >   
@@ -39,7 +39,7 @@
           <span class="encabezado-titulo">
       Bienvenido/a,
       <strong>
-        <?php include("servicios/php/obtener_nombre.php"); ?>
+        <?php include "servicios/php_Login/obtener_nombre.php"; ?>
       </strong>
     </span>
     </header>

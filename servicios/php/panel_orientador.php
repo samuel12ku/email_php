@@ -11,6 +11,8 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] !== 'orientador') {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../componentes/estilo_panel_orientador.css">
     <title>Panel Orientador</title>
 </head>
 <body>
