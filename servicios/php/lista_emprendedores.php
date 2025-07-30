@@ -9,7 +9,6 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'orientador') {
 }
 
 $conexion = ConectarDB();
-
 $resultado = $conexion->query("SELECT nombres, apellidos, numero_id, correo, celular, estado_avance FROM usuarios WHERE rol = 'emprendedor'");
 ?>
 
@@ -19,38 +18,42 @@ $resultado = $conexion->query("SELECT nombres, apellidos, numero_id, correo, cel
     <meta charset="UTF-8">
     <title>Lista de Emprendedores</title>
     <link rel="stylesheet" href="../../componentes/tabla_emprendedores.css">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h2>Lista de Emprendedores</h2>
+    <div class="contenedor">
+        <h2>📋 Lista de Emprendedores</h2>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Número de Documento</th>
-                <th>Correo</th>
-                <th>Celular</th>
-                <th>Estado de Avance</th>
-                <th>Desarrollo</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php while ($fila = $resultado->fetch_assoc()): ?>
+        <table class="tabla-emprendedores">
+            <thead>
                 <tr>
-                    <td><?= htmlspecialchars($fila['nombres']) ?></td>
-                    <td><?= htmlspecialchars($fila['apellidos']) ?></td>
-                    <td><?= htmlspecialchars($fila['numero_id']) ?></td>
-                    <td><?= htmlspecialchars($fila['correo']) ?></td>
-                    <td><?= htmlspecialchars($fila['celular']) ?></td>
-                    <td><?= htmlspecialchars($fila['estado_avance']) ?></td>
-                    <td><a href="ver_progreso.php?numero_id=<?= $row['numero_id'] ?>">Ver progreso</a></td>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Número de Documento</th>
+                    <th>Correo</th>
+                    <th>Celular</th>
+                    <th>Estado de Avance</th>
+                    <th>Desarrollo</th>
                 </tr>
-            <?php endwhile; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php while ($fila = $resultado->fetch_assoc()): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($fila['nombres']) ?></td>
+                        <td><?= htmlspecialchars($fila['apellidos']) ?></td>
+                        <td><?= htmlspecialchars($fila['numero_id']) ?></td>
+                        <td><?= htmlspecialchars($fila['correo']) ?></td>
+                        <td><?= htmlspecialchars($fila['celular']) ?></td>
+                        <td><?= htmlspecialchars($fila['estado_avance']) ?></td>
+                        <td><a href="ver_progreso.php?numero_id=<?= $fila['numero_id'] ?>">Ver progreso</a></td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
 
-    <br>
-    <a href="panel_orientador.php">⬅️ Volver al panel</a>
+        <div class="volver">
+            <a href="panel_orientador.php">⬅️ Volver al panel</a>
+        </div>
+    </div>
 </body>
 </html>

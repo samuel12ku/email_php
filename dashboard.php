@@ -35,13 +35,16 @@
           class="encabezado-nav-link encabezado-nav-link-inicio"
           >Inicio</a
         >   
+        <div class="dropdown">
+  <button class="dropdown-btn">Perfil</button>
+  <div class="dropdown-content">
+    <a href="servicios/php_Login/editar_usuario.php">Editar usuario</a>
+    <a href="servicios/php/cerrar_sesion.php">Cerrar sesión</a>
+  </div>
+</div>
+ 
       </nav>
-          <span class="encabezado-titulo">
-      Bienvenido/a,
-      <strong>
-        <?php include "servicios/php_Login/obtener_nombre.php"; ?>
-      </strong>
-    </span>
+
     </header>
     <div class="dashboard-contenedor">
       <div class="dashboard-header">
@@ -51,6 +54,12 @@
           class="dashboard-logo"
         />
         <h2><b>PANEL DE CONTROL - FONDO EMPRENDER SENA</b></h2>
+        <span class="dashboard-titulo">
+            Bienvenido/a,
+            <strong>
+              <?php include "servicios/php_Login/obtener_nombre.php"; ?>
+            </strong>
+        </span>
       </div>
       <div class="dashboard-manual">
         <strong>Uso del aplicativo</strong>

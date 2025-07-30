@@ -43,12 +43,12 @@ if ($result->num_rows > 0) {
         if ($usuario['rol'] === 'orientador') {
             header("Location: ../php/panel_orientador.php");
         } else {
-            header("Location: ../php_login/perfil_usuario.php"); // emprendedor
+            header("Location: ../php_login/editar_usuario.php"); // emprendedor
         }
         exit;
 
 
-        header("Location: ../php_login/perfil_usuario.php");
+        header("Location: ../php_login/editar_usuario.php");
         exit;
     } else {
         echo "Contraseña incorrecta.";
