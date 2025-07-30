@@ -24,7 +24,12 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] !== 'orientador') {
     </div>
     <nav class="encabezado-nav">
       <span class="usuario-nombre">Bienvenido, <strong><?= htmlspecialchars($_SESSION['nombre']) ?> <?= htmlspecialchars($_SESSION['apellido']) ?></strong></span>
-      <a href="cerrar_sesion.php" class="encabezado-nav-link cerrar-sesion">Cerrar sesión</a>
+        <div class="dropdown">
+          <button class="dropdown-btn">Perfil</button>
+            <div class="dropdown-content">
+              <a href="../php_Login/editar_usuario.php">Editar usuario</a>
+              <a href="cerrar_sesion.php">Cerrar sesión</a>
+          </div>
     </nav>
   </header>
 

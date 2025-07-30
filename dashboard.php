@@ -30,20 +30,23 @@
         >
       </div>
       <nav class="encabezado-nav">
-        <a
-          href="dashboard.php"
-          class="encabezado-nav-link encabezado-nav-link-inicio"
-          >Inicio</a
-        >   
-        <div class="dropdown">
-  <button class="dropdown-btn">Perfil</button>
-  <div class="dropdown-content">
-    <a href="servicios/php_Login/editar_usuario.php">Editar usuario</a>
-    <a href="servicios/php/cerrar_sesion.php">Cerrar sesión</a>
-  </div>
-</div>
- 
+        <div class="nav-izquierda">
+          <!-- (opcional) contenido a la izquierda, o dejar vacío -->
+        </div>
+        <div class="nav-centro">
+          <a href="dashboard.php" class="encabezado-nav-link">Inicio</a>
+        </div>
+        <div class="nav-derecha">
+          <div class="dropdown">
+            <button class="dropdown-btn">Perfil</button>
+            <div class="dropdown-content">
+              <a href="servicios/php_Login/editar_usuario.php">Editar usuario</a>
+              <a href="servicios/php/cerrar_sesion.php">Cerrar sesión</a>
+            </div>
+          </div>
+        </div>
       </nav>
+
 
     </header>
     <div class="dashboard-contenedor">

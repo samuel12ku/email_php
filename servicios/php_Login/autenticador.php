@@ -20,7 +20,6 @@ $contrasena = $_POST['contrasena'];
 
 $conexiondb = ConectarDB();
 
-// Buscar usuario por documento
 $stmt = $conexiondb->prepare("SELECT * FROM usuarios WHERE numero_id = ?");
 $stmt->bind_param("i", $num_documento);
 $stmt->execute();
@@ -30,32 +29,165 @@ if ($result->num_rows > 0) {
     $usuario = $result->fetch_assoc();
     $hashBD = $usuario['contrasena'];
 
-    // Verifica contraseña
     if (
         password_verify($contrasena, $hashBD) ||
-        $contrasena === $hashBD // por compatibilidad si hay registros sin hash
+        $contrasena === $hashBD
     ) {
         $_SESSION['usuario_id'] = $usuario['id_usuarios'];
         $_SESSION['nombre'] = $usuario['nombres'];
         $_SESSION['apellido'] = $usuario['apellidos'];
         $_SESSION['rol'] = $usuario['rol'];
 
+        // Validar campos obligatorios vacíos
+        $campos_obligatorios = ['correo', 'celular', 'nombres', 'apellidos', 'numero_id', 'rol'];
+        $faltantes = [];
+
+        foreach ($campos_obligatorios as $campo) {
+            if (empty($usuario[$campo])) {
+                $faltantes[] = ucfirst($campo);
+            }
+        }
+
+        if (!empty($faltantes)) {
+            // Mostrar aviso visual tipo modal
+            echo "
+            <html>
+            <head>
+                <meta charset='UTF-8'>
+                <title>Actualización requerida</title>
+                <style>
+                    body {
+                        margin: 0;
+                        padding: 0;
+                        height: 100vh;
+                        background: linear-gradient(to bottom right, #e6f9e6, #cceccc);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-family: 'Work Sans', sans-serif;
+                    }
+                    .aviso {
+                        background: white;
+                        padding: 30px 40px;
+                        border-radius: 12px;
+                        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+                        text-align: center;
+                    }
+                    .aviso h2 {
+                        color: #39A900;
+                        margin-bottom: 10px;
+                    }
+                    .aviso p {
+                        margin-bottom: 20px;
+                        color: #333;
+                    }
+                    .aviso ul {
+                        text-align: left;
+                        margin-bottom: 20px;
+                        color: #444;
+                    }
+                    .aviso a {
+                        padding: 10px 20px;
+                        background: #39A900;
+                        color: white;
+                        text-decoration: none;
+                        border-radius: 6px;
+                        font-weight: bold;
+                        display: inline-block;
+                    }
+                    .aviso a:hover {
+                        background: #007832;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class='aviso'>
+                    <h2>✏️ Debes completar tus datos</h2>
+                    <p>Faltan los siguientes campos obligatorios:</p>
+                    <ul>";
+                    foreach ($faltantes as $campo) {
+                        echo "<li>• $campo</li>";
+                    }
+                    echo "</ul>
+                    <a href='../php_login/editar_usuario.php'>Actualizar mis datos</a>
+                </div>
+            </body>
+            </html>
+            ";
+            exit;
+        }
+
+        // Si todo está completo, redirige al panel
         if ($usuario['rol'] === 'orientador') {
             header("Location: ../php/panel_orientador.php");
         } else {
-            header("Location: ../php_login/editar_usuario.php"); // emprendedor
+            // Mostrar elección visual al emprendedor
+    echo "
+    <html>
+    <head>
+        <meta charset='UTF-8'>
+        <title>Bienvenido</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                height: 100vh;
+                background: linear-gradient(to bottom right, #92d892ff, #78a178ff);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: 'Work Sans', sans-serif;
+            }
+            .eleccion {
+                background: white;
+                padding: 30px 40px;
+                border-radius: 12px;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+                text-align: center;
+            }
+            .eleccion h2 {
+                color: #39A900;
+                margin-bottom: 10px;
+            }
+            .eleccion p {
+                margin-bottom: 25px;
+                color: #333;
+                font-size: 1.1rem;
+            }
+            .eleccion a {
+                padding: 12px 22px;
+                margin: 10px;
+                background: #39A900;
+                color: white;
+                text-decoration: none;
+                border-radius: 8px;
+                font-weight: bold;
+                display: inline-block;
+                transition: background 0.2s ease;
+            }
+            .eleccion a:hover {
+                background: #007832;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='eleccion'>
+            <h2>👋 ¡Bienvenido/a, {$usuario['nombres']}!</h2>
+            <p>¿Qué deseas hacer ahora?</p>
+            <a href='../php_login/editar_usuario.php'>✏️ Actualizar mis datos</a>
+            <a href='../../dashboard.php'>📋 Ir al panel de control</a>
+        </div>
+    </body>
+    </html>
+    ";
+    exit;
         }
-        exit;
-
-
-        header("Location: ../php_login/editar_usuario.php");
         exit;
     } else {
         echo "Contraseña incorrecta.";
         exit;
     }
 } else {
-    // Usuario no encontrado
     echo "
     <html>
     <head>
