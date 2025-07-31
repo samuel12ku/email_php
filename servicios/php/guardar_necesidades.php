@@ -58,7 +58,7 @@ if ($stmt->execute()) {
     <div class="card">
         <h1>¡Guardado con éxito!</h1>
         <p>Tus datos fueron almacenados correctamente.</p>
-        <a class="btn" href="../../dashboard.html">Volver</a>
+        <a class="btn" href="../../dashboard.php">Volver</a>
     </div>
 </body>
 </html>
