@@ -24,37 +24,38 @@ $resultado = $conexion->query("SELECT nombres, apellidos, numero_id, correo, cel
 <body>
     <div class="contenedor">
         <h2>📋 Lista de Emprendedores</h2>
-
-        <table class="tabla-emprendedores">
-            <thead>
-                <tr>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
-                    <th>Número de Documento</th>
-                    <th>Correo</th>
-                    <th>Celular</th>
-                    <th>Estado de Avance</th>
-                    <th>Desarrollo</th>
-                </tr>
-            </thead>
+        <!-- justo debajo del <h2> agregamos un contenedor para las tarjetas -->
+        <div class="cards-emprendedores"></div>     
+            <table class="tabla-emprendedores">
+                <thead>
+                    <tr>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Número de Documento</th>
+                        <th>Correo</th>
+                        <th>Celular</th>
+                        <th>Estado de Avance</th>
+                        <th>Desarrollo</th>
+                    </tr>
+                </thead>
             <tbody>
                 <?php while ($fila = $resultado->fetch_assoc()): ?>
                     <tr>
-                        <td><?= htmlspecialchars($fila['nombres']) ?></td>
-                        <td><?= htmlspecialchars($fila['apellidos']) ?></td>
-                        <td><?= htmlspecialchars($fila['numero_id']) ?></td>
-                        <td><?= htmlspecialchars($fila['correo']) ?></td>
-                        <td><?= htmlspecialchars($fila['celular']) ?></td>
-                        <td><?= htmlspecialchars($fila['estado_avance']) ?></td>
-                        <td><a href="ver_progreso.php?numero_id=<?= $fila['numero_id'] ?>">Ver progreso</a></td>
+                        <td data-label="Nombres"><?= htmlspecialchars($fila['nombres']) ?></td>
+                        <td data-label="Apellidos"><?= htmlspecialchars($fila['apellidos']) ?></td>
+                        <td data-label="Número de documento"><?= htmlspecialchars($fila['numero_id']) ?></td>
+                        <td data-label="Correo"><?= htmlspecialchars($fila['correo']) ?></td>
+                        <td data-label="Celular"><?= htmlspecialchars($fila['celular']) ?></td>
+                        <td data-label="Estado de avance"><?= htmlspecialchars($fila['estado_avance']) ?></td>
+                        <td data-label="Desarrollo"><a href="ver_progreso.php?numero_id=<?= $fila['numero_id'] ?>">Ver progreso</a></td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>
+        </div>
         </table>
-
         <div class="volver">
             <a href="panel_orientador.php">⬅️ Volver al panel</a>
-        </div>
     </div>
+        
 </body>
 </html>
