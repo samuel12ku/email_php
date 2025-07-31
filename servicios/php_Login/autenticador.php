@@ -184,7 +184,7 @@ if ($result->num_rows > 0) {
         }
         exit;
     } else {
-        echo "Contraseña incorrecta.";
+        header("Location: ../../login.php?error=" . urlencode("Contraseña incorrecta") . "&documento=" . urlencode($num_documento));
         exit;
     }
 } else {
@@ -228,7 +228,7 @@ if ($result->num_rows > 0) {
             <p>¿Desea registrarse?</p>
             <a href='../../formulario_emprendedores/registro_emprendedores.html'>Registrarse aquí</a>
             <br><br>
-            <a href='../../login.html' style='background:#ccc; color:#333;'>Volver al inicio</a>
+            <a href='../../login.php' style='background:#ccc; color:#333;'>Volver al inicio</a>
         </div>
     </body>
     </html>
