@@ -169,7 +169,8 @@ if ($result->num_rows > 0) {
                 background: #007832;
             }
 
-                       @media (max-width: 600px) {
+
+                @media (max-width: 600px) {
                 body {
                     padding: 10px;
                 }

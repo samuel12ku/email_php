@@ -1,13 +1,23 @@
 <?php
-include "../conexion.php";
+session_start();
+include "../conexion.php"; // Asegúrate que la ruta es correcta
+
 $conexion = ConectarDB();
 
-$id_usuario = $_POST['id_usuarios'];
-$nombres = $_POST['nombres'];
-$apellidos = $_POST['apellidos'];
-$numero_id = $_POST['numero_id'];
-$correo = $_POST['correo'];
-$celular = $_POST['celular'];
+
+
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: ../../login.php");
+    exit;
+}
+
+$id_usuario = $_SESSION['usuario_id'];      
+
+$nombres = isset($_POST['nombres']) ? trim($_POST['nombres']) : '';
+$apellidos = isset($_POST['apellidos']) ? trim($_POST['apellidos']) : '';
+$numero_id = isset($_POST['numero_id']) ? trim($_POST['numero_id']) : '';
+$correo = isset($_POST['correo']) ? trim($_POST['correo']) : '';
+$celular = isset($_POST['celular']) ? trim($_POST['celular']) : '';
 
 // Obtener el numero_id anterior
 $stmt0 = $conexion->prepare("SELECT numero_id FROM usuarios WHERE id_usuarios = ?");
@@ -17,35 +27,51 @@ $stmt0->bind_result($numero_id_anterior);
 $stmt0->fetch();
 $stmt0->close();
 
-// Cifrar la nueva contraseña igual al nuevo número de documento
-$contrasena_hash = password_hash($numero_id, PASSWORD_DEFAULT);
+// Obtener el rol actualizado del usuario
+$stmt3 = $conexion->prepare("SELECT rol FROM usuarios WHERE id_usuarios = ?");
+$stmt3->bind_param("i", $id_usuario);
+$stmt3->execute();
+$stmt3->bind_result($rol);
+$stmt3->fetch();
+$stmt3->close();
 
-// Actualizar tabla usuarios
-$stmt = $conexion->prepare("UPDATE usuarios SET nombres = ?, apellidos = ?, numero_id = ?, correo = ?, celular = ?, contrasena = ? WHERE id_usuarios = ?");
-$stmt->bind_param("ssssssi", $nombres, $apellidos, $numero_id, $correo, $celular, $contrasena_hash, $id_usuario);
+// Verificar si es orientador y si envió una nueva contraseña
+$contrasena = isset($_POST['contrasena']) ? trim($_POST['contrasena']) : null;
+
+if ($rol === 'orientador' && !empty($contrasena)) {
+    $contrasena_hash = password_hash($contrasena, PASSWORD_DEFAULT);
+
+    // Actualizar tabla usuarios con contraseña
+    $stmt = $conexion->prepare("UPDATE usuarios SET nombres = ?, apellidos = ?, numero_id = ?, correo = ?, celular = ?, contrasena = ? WHERE id_usuarios = ?");
+    $stmt->bind_param("ssssssi", $nombres, $apellidos, $numero_id, $correo, $celular, $contrasena_hash, $id_usuario);
+} else {
+    // Actualizar tabla usuarios sin contraseña
+    $stmt = $conexion->prepare("UPDATE usuarios SET nombres = ?, apellidos = ?, numero_id = ?, correo = ?, celular = ? WHERE id_usuarios = ?");
+    $stmt->bind_param("sssssi", $nombres, $apellidos, $numero_id, $correo, $celular, $id_usuario);
+}
 
 if (!$stmt) {
     die("Error en la preparación de la consulta: " . $conexion->error);
 }
 
-if ($stmt->execute()) {
-    // Actualizar tabla ruta_emprendedora usando el numero_id anterior
-    $stmt2 = $conexion->prepare("UPDATE ruta_emprendedora SET nombres = ?, apellidos = ?, numero_id = ?, correo = ?, celular = ? WHERE numero_id = ?");
-    $stmt2->bind_param("ssssss", $nombres, $apellidos, $numero_id, $correo, $celular, $numero_id_anterior);
-    $stmt2->execute();
+if ($stmt->execute()) {     
+    // Solo actualizar ruta_emprendedora si es emprendedor
+    if ($rol === 'emprendedor') {
+        $stmt2 = $conexion->prepare("UPDATE ruta_emprendedora SET nombres = ?, apellidos = ?, numero_id = ?, correo = ?, celular = ? WHERE numero_id = ?");
+        $stmt2->bind_param("ssssss", $nombres, $apellidos, $numero_id, $correo, $celular, $numero_id_anterior);
+        $stmt2->execute();
+        $stmt2->close();
+    }
 
-    // Obtener el rol actualizado del usuario
-    $stmt3 = $conexion->prepare("SELECT rol FROM usuarios WHERE id_usuarios = ?");
-    $stmt3->bind_param("i", $id_usuario);
-    $stmt3->execute();
-    $stmt3->bind_result($rol);
-    $stmt3->fetch();
-    $stmt3->close();
+    if ($rol === 'orientador') {
+    $_SESSION['nombre'] = $nombres;
+    $_SESSION['apellido'] = $apellidos;
+}
 
-    // Determinar redirección según rol
-    $ruta_redireccion = ($rol === 'orientador') ? '../php/panel_orientador.php' : '../../dashboard.php';
+
+    // Redirección según el rol
+    $ruta_redireccion = ($rol === 'orientador') ? "../php/panel_orientador.php" : "../../dashboard.php";
     ?>
-
     <!DOCTYPE html>
     <html lang="es">
     <head>
@@ -94,9 +120,10 @@ if ($stmt->execute()) {
         </div>
     </body>
     </html>
-
     <?php
+    exit;
 } else {
-    echo "Error al actualizar: " . $stmt->error;
+    echo "❌ Error al actualizar los datos: " . $stmt->error;
 }
+
 ?>
