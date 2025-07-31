@@ -79,3 +79,21 @@ input#numero_id {
     background-color: #e2e2e28c;
     
 }
+
+@media (max-width: 600px) {
+    .form-container {
+        padding: 25px 20px;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    button {
+        font-size: 0.95rem;
+        padding: 10px;
+    }
+}

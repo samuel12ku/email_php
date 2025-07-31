@@ -15,6 +15,7 @@ $resultado = $conexion->query("SELECT nombres, apellidos, numero_id, correo, cel
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>Lista de Emprendedores</title>
     <link rel="stylesheet" href="../../componentes/tabla_emprendedores.css">

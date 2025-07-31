@@ -168,6 +168,35 @@ if ($result->num_rows > 0) {
             .eleccion a:hover {
                 background: #007832;
             }
+
+                       @media (max-width: 600px) {
+                body {
+                    padding: 10px;
+                }
+
+            .eleccion,
+            .aviso,
+            .mensaje {
+                padding: 25px 20px;
+                width: 100%;
+                max-width: 320px;
+                margin: auto;
+            }
+
+            .eleccion h2,
+            .aviso h2,
+            .mensaje h2 {
+                font-size: 1.4rem;
+            }
+
+            .eleccion a,
+            .aviso a,
+            .mensaje a {
+                display: block;
+                margin: 10px 0;
+                font-size: 1rem;
+                padding: 20px;
+            }
         </style>
     </head>
     <body>
