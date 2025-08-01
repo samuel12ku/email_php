@@ -116,7 +116,26 @@ if ($exito) {
     <div class="card">
         <h1>¡Guardado con éxito!</h1>
         <p>Tus datos fueron almacenados correctamente.</p>
-        <a class="btn" href="../../dashboard.php">Volver</a>
+<button onclick="guardarAvance(2)" class="btn">Siguiente</button>
+
+<script>
+function guardarAvance(fase) {
+  fetch('guardar_avance.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: 'fase=' + fase
+  })
+  .then(response => response.text())
+  .then(data => {
+    console.log('Respuesta:', data);
+    if (data.includes('OK')) {
+      window.location.href = '../../dashboard.php';
+    } else {
+      alert('Error al guardar avance: ' + data);
+    }
+  });
+}
+</script>
     </div>
 </body>
 </html>

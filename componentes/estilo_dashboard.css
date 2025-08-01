@@ -347,6 +347,20 @@ img.encabezado-logo {
   display: block;
 }
 
+.fase.completada {
+  border: 3px solid #39A900;
+  background-color: #e7ffe7;
+  position: relative;
+}
+
+.fase.completada::after {
+  content: "✔️";
+  position: absolute;
+  right: 10px;
+  font-size: 2rem;
+}
+
+
 
 @media (max-width: 700px) {
   .encabezado-sena {

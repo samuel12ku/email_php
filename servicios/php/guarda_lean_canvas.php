@@ -119,7 +119,26 @@ if ($exito) {
             <h1>¡Tu Lean Canvas fue enviado con éxito!</h1>
             <p>Gracias por compartir tu modelo de negocio con nosotros.  
             Pronto nos pondremos en contacto contigo.</p>
-            <a href="../../dashboard.html">Volver al formulario</a>
+<a onclick="guardarAvance(4)" class="btn">Siguiente</a>
+
+<script>
+function guardarAvance(fase) {
+  fetch('guardar_avance.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: 'fase=' + fase
+  })
+  .then(response => response.text())
+  .then(data => {
+    console.log('Respuesta:', data);
+    if (data.includes('OK')) {
+      window.location.href = '../../dashboard.php';
+    } else {
+      alert('Error al guardar avance: ' + data);
+    }
+  });
+}
+</script>
         </div>
     </body>                                                                                                                                             
     </html>
