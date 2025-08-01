@@ -9,7 +9,28 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'orientador') {
 }
 
 $conexion = ConectarDB();
-$resultado = $conexion->query("SELECT nombres, apellidos, numero_id, correo, celular, estado_avance FROM usuarios WHERE rol = 'emprendedor'");
+$resultado = $conexion->query("
+  SELECT 
+    u.nombres, 
+    u.apellidos, 
+    u.numero_id, 
+    u.correo, 
+    u.celular, 
+    MAX(ph.fase) AS ultima_fase
+  FROM usuarios u
+  LEFT JOIN progreso_herramientas ph ON u.id_usuarios = ph.usuario_id
+  WHERE u.rol = 'emprendedor'
+  GROUP BY u.id_usuarios
+");
+
+
+$fases_totales = [
+    1 => 'Identificar Problema',
+    2 => 'Tarjeta Persona',
+    3 => 'Jobs To Be Done',
+    4 => 'Lean Canvas'
+];
+
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +67,7 @@ $resultado = $conexion->query("SELECT nombres, apellidos, numero_id, correo, cel
                         <td data-label="Número de documento"><?= htmlspecialchars($fila['numero_id']) ?></td>
                         <td data-label="Correo"><?= htmlspecialchars($fila['correo']) ?></td>
                         <td data-label="Celular"><?= htmlspecialchars($fila['celular']) ?></td>
-                        <td data-label="Estado de avance"><?= htmlspecialchars($fila['estado_avance']) ?></td>
+                        <td data-label="Estado de avance"><?= isset($fila['ultima_fase']) && $fila['ultima_fase'] ? $fases_totales[$fila['ultima_fase']] : 'Sin avance' ?></td>
                         <td data-label="Desarrollo"><a href="ver_progreso.php?numero_id=<?= $fila['numero_id'] ?>">Ver progreso</a></td>
                     </tr>
                 <?php endwhile; ?>
