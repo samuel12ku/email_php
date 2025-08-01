@@ -199,14 +199,15 @@ if ($result->num_rows > 0) {
                 padding: 20px;
             }
         </style>
-    </head>
+    </head> 
     <body>
         <div class='eleccion'>
-            <h2>👋 ¡Bienvenido/a, {$usuario['nombres']}!</h2>
-            <p>¿Qué deseas hacer ahora?</p>
-            <a href='../php_login/editar_usuario.php'>✏️ Actualizar mis datos</a>
-            <a href='../../dashboard.php'>📋 Ir al panel de control</a>
+            <h2>👋 ¡Bienvenido/a, {$usuario['nombres']} {$usuario['apellidos']}!</h2>
+            <p>Estuviste en la orientación y queremos saber si deseas continuar con el proceso de emprendimiento.</p>
+            <a href='../php/continuar_proceso.php'>✅ Sí, deseo continuar</a>
+            <a href='../../login.php'>🚫 No deseo continuar por ahora</a>
         </div>
+
     </body>
     </html>
     ";

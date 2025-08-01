@@ -142,7 +142,7 @@ if ($exito) {
         <div class="card">
             <h1>¡Datos enviados con éxito!</h1>
             <p>Gracias por registrar tu información.</p>
-            <a class="btn" href="../../dashboard.php">Volver</a>
+            <a class="btn" href="../../login.php">Volver</a>
         </div>
     </body>
     </html>
