@@ -31,8 +31,8 @@ switch ($nivel_formacion) {
 }
 
 // Variables del formulario
-$nombres = ucfirst(mb_strtolower(trim($_POST['nombres']), 'UTF-8'));
-$apellidos = ucfirst(mb_strtolower(trim($_POST['apellidos']), 'UTF-8'));
+$nombres = mb_convert_case(trim($_POST['nombres']), MB_CASE_TITLE, "UTF-8");
+$apellidos = mb_convert_case(trim($_POST['apellidos']), MB_CASE_TITLE, "UTF-8");
 $numero_id = mb_strtoupper(trim($_POST['numero_id']), 'UTF-8');
 $correo = filter_var(strtolower(trim($_POST['correo'])), FILTER_SANITIZE_EMAIL);
 $orientador_nombre = ucfirst(mb_strtolower(trim($_POST['orientador']), 'UTF-8'));

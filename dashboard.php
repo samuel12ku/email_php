@@ -1,5 +1,5 @@
 <?php
-session_start(); // Muy importante
+session_start();
 include_once "servicios/conexion.php";
 $conexion = ConectarDB();
 
@@ -114,38 +114,33 @@ while ($row = $result->fetch_assoc()) {
             </strong>
         </span>
       </div>
-      <div class="dashboard-manual">
-        <strong>Uso del aplicativo</strong>
-        <ul>
-          <li>
-            Usa <b>correos masivos</b> para mensajes generales (no
-            personalizados) a muchos destinatarios simultáneamente.
-          </li>
-          <li>
-            Usa <b>correos personalizados</b> si necesitas incluir datos
-            diferentes para cada persona (nombre, documento, etc) a partir de un
-            <b><u>archivo CSV o en block de notas separadas por coma.</u></b>
-          </li>
-          <li>
-            Adjunta imágenes solo si es necesario y revisa el orden de
-            presentación (texto antes o después de la imagen).
-          </li>
-          <li>
-            Respeta la <b>imagen institucional</b>: lenguaje formal, incluye
-            logo SENA y firma corporativa cuando corresponda.
-          </li>
-          <li>
-            Consulta la
-            <a
-              href="https://www.sena.edu.co/es-co/Documents/MANUAL_IDENTIDAD_VISUAL_SENA_2024.pdf"
-              target="_blank"
-              >guía de identidad SENA</a
-            >
-            para dudas sobre colores, logos y redacción.
-          </li>
-          
-        </ul>
-      </div>
+            <div class="dashboard-manual">
+              <strong>Uso del aplicativo</strong>
+              <ul>
+                <li>
+                  Este panel te guía paso a paso a través de las <b>herramientas de ideación</b> del Fondo Emprender.
+                </li>
+                <li>
+                  Cada fase debe ser <b>completada en orden</b>. Al finalizar una, se habilitará la siguiente automáticamente.
+                </li>
+                <li>
+                  Las fases completadas se pueden realizar nuevamente. Si deseas añadir otra respuesta, el sistema te consultará antes de continuar.
+                </li>
+                <li>
+                  La plataforma guarda tu progreso y lo asocia con tu usuario registrado.
+                </li>
+                <li>
+                  Mantén un <b>lenguaje claro y profesional</b> en cada herramienta. Esto facilitará el desarrollo posterior de tu idea de negocio.
+                </li>
+                <li>
+                  Para dudas sobre la presentación visual y redacción, puedes consultar la 
+                  <a href="https://www.sena.edu.co/es-co/Documents/MANUAL_IDENTIDAD_VISUAL_SENA_2024.pdf" target="_blank">
+                    guía de identidad SENA
+                  </a>.
+                </li>
+              </ul>
+            </div>
+
       
       
       <!-- Grupo: Herramientas de Ideación -->
