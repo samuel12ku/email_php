@@ -188,36 +188,49 @@ setupCampoOtro('departamento', 'dpto_otro');
 setupCampoOtro('programa', 'programa_otro');
 setupCampoOtro('situacion_negocio', 'negocio_otro');
 
-
-// Restricción para campos de fecha
+// Restricción de fecha para los campos de nacimiento, expedición y orientación
 document.addEventListener('DOMContentLoaded', function () {
-  // Obtener la fecha de hoy en formato YYYY-MM-DD
-  const hoy = new Date().toISOString().split('T')[0];
-  const minimo = '1900-01-01';
+  const hoy = new Date();
+  const minFecha = '1900-01-01';
+  const fecha18 = new Date(hoy.getFullYear() - 18, hoy.getMonth(), hoy.getDate()).toISOString().split('T')[0];
 
-  // Seleccionar todos los input de tipo date
-  document.querySelectorAll('input[type="date"]').forEach(campo => {
-    campo.max = hoy;
-    campo.min = minimo
-  });
+  const campoNacimiento = document.getElementById('fecha_nacimiento');
+  const campoExpedicion = document.getElementById('fecha_expedicion');
+  const campoOrientacion = document.getElementById('fecha_orientacion');
 
-  campo.addEventListener('input', function () {
-  const fechaSeleccionada = campo.value;
-  if (fechaSeleccionada < '1900-01-01') {
-    campo.setCustomValidity('La fecha no puede ser anterior a 1900.');
-  } else {
-    campo.setCustomValidity('');
+  if (campoNacimiento) {
+    campoNacimiento.setAttribute('max', fecha18);
+    campoNacimiento.setAttribute('min', minFecha);
+    campoNacimiento.addEventListener('input', () => {
+      const seleccionada = campoNacimiento.value;
+      if (seleccionada > fecha18) {
+        campoNacimiento.setCustomValidity('Debes tener al menos 18 años.');
+      } else {
+        campoNacimiento.setCustomValidity('');
+      }
+    });
   }
 
-    // Limitar específicamente fecha_orientacion a máximo 2025-12-31
-  const fechaOrientacion = document.getElementById('fecha_orientacion');
-  if (fechaOrientacion) {
-    fechaOrientacion.max = hoy;
-    fechaOrientacion.min = '2010-01-01';
+  if (campoExpedicion) {
+    campoExpedicion.setAttribute('max', fecha18);
+    campoExpedicion.setAttribute('min', minFecha);
+    campoExpedicion.addEventListener('input', () => {
+      const seleccionada = campoExpedicion.value;
+      if (seleccionada > fecha18) {
+        campoExpedicion.setCustomValidity('La fecha de expedición no puede ser menor de 18 años.');
+      } else {
+        campoExpedicion.setCustomValidity('');
+      }
+    });
   }
 
+  if (campoOrientacion) {
+    const maxOrientacion = hoy.toISOString().split('T')[0];
+    campoOrientacion.setAttribute('max', maxOrientacion);
+    campoOrientacion.setAttribute('min', '2010-01-01');
+  }
 });
-});
+
 
 
 // Restricción dinámica para campo ficha (solo números o 'no aplica')
