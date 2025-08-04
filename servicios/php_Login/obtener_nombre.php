@@ -1,6 +1,8 @@
 <?php
-session_start();
-include __DIR__ . "../../conexion.php"; // Ruta corregida
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+include_once __DIR__ . "../../conexion.php";
 
 if (!isset($_SESSION['usuario_id'])) {
     echo "Invitado";

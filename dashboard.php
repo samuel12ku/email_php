@@ -1,3 +1,52 @@
+<?php
+session_start(); // Muy importante
+include_once "servicios/conexion.php";
+$conexion = ConectarDB();
+
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: login.php");
+    exit;
+}
+$usuario_id = $_SESSION['usuario_id'];
+
+$fases_completadas = [];
+
+$fases = [
+  1 => [
+    'nombre' => 'Identificar Problema',
+    'url' => 'herramientas_ideacion/identificar_problema/necesidades.html',
+    'icono' => '🔍',
+    'descripcion' => 'Detecta el problema raíz a resolver.'
+  ],
+  2 => [
+    'nombre' => 'Tarjeta Persona',
+    'url' => 'herramientas_ideacion/tarjeta_persona/tarjeta_persona.html',
+    'icono' => '🔲',
+    'descripcion' => 'Crea el retrato perfecto de tu usuario clave.'
+  ],
+  3 => [
+    'nombre' => 'Jobs To Be Done',
+    'url' => 'herramientas_ideacion/jobs_to_be_done/main.html',
+    'icono' => '👨‍💼',
+    'descripcion' => 'Comprende las necesidades reales de tus usuarios.'
+  ],
+  4 => [
+    'nombre' => 'Lean Canvas',
+    'url' => 'herramientas_ideacion/form_lean_canvas/formulario_lean_canvas.html',
+    'icono' => '🧩',
+    'descripcion' => 'Modelo visual para estructurar tu idea de negocio.'
+  ]
+];
+
+
+$result = $conexion->query("SELECT fase FROM progreso_herramientas WHERE usuario_id = $usuario_id");
+while ($row = $result->fetch_assoc()) {
+    $fases_completadas[] = intval($row['fase']);
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -11,6 +60,7 @@
     />
   </head>
   <body>
+?>
     <!-- Encabezado institucional -->
     <header class="encabezado-sena">
       <div class="encabezado-logo-titulo">
@@ -101,13 +151,8 @@
       <!-- Grupo: Herramientas de Ideación -->
       <fieldset class="grupo-seccion">
         <legend class="titulo-seccion">🧠 Herramientas de Ideación</legend>
-        <div class="dashboard-tarjetas">
-          <!-- <a class="tarjeta-interactiva" href="formulario_emprendedores/registro_emprendedores.html">
-            <div class="tarjeta-icono">📃</div>
-            <div class="tarjeta-titulo">Formulario del emprendedor</div>
-            <div class="tarjeta-desc">Brinda información de ti mismo emprendedor</div>
-          </a> -->
-          <a class="tarjeta-interactiva fase fase-1" href="herramientas_ideacion/identificar_problema/necesidades.html" name="identificar_problema" id="identificar_problema">
+        <div class="dashboard-tarjetas">          
+          <!-- <a class="tarjeta-interactiva fase fase-1" href="herramientas_ideacion/identificar_problema/necesidades.html" name="identificar_problema" id="identificar_problema">
             <div class="tarjeta-icono">🔍</div>
             <div class="tarjeta-titulo">Identificar Problema</div>
               <div class="tarjeta-desc">Detecta el problema raíz a resolver.</div>
@@ -127,7 +172,41 @@
             <div class="tarjeta-icono">🧩</div>
             <div class="tarjeta-titulo">Lean Canvas</div>
             <div class="tarjeta-desc">Modelo visual para estructurar tu idea de negocio.</div>
-          </a>
+          </a> -->
+          <?php
+              foreach ($fases as $num => $fase) {
+                  $icono = $fase['icono'];
+                  $descripcion = $fase['descripcion'];
+                  $completada = in_array($num, $fases_completadas);
+                  $bloqueada = ($num > 1 && !in_array($num - 1, $fases_completadas));
+
+                  if ($completada) {
+                      echo "
+                      <a class='tarjeta-interactiva fase-completada' href='{$fase['url']}' name='fase-$num' id='fase-$num' data-fase='{$num}' data-url='{$fase['url']}'>
+                        <div class='tarjeta-icono'>{$icono}</div>
+                        <div class='tarjeta-titulo'>{$fase['nombre']}</div>
+                        <div class='desc'>{$descripcion}</div>
+                        <div class='tarjeta-desc'>Completada ✔️</div>
+                      </a>";
+                  } elseif ($bloqueada) {
+                      echo "
+                      <div class='tarjeta-bloqueada' name='fase-$num' id='fase-$num'>
+                        <div class='tarjeta-icono'>{$icono}</div>
+                        <div class='tarjeta-titulo'>{$fase['nombre']}</div>
+                        <div class='desc'>{$descripcion}</div>
+                        <div class='tarjeta-desc'>Fase bloqueada. Completa la anterior. 🔒</div>
+                      </div>";
+                  } else {
+                      echo "
+                      <a class='tarjeta-interactiva fase-activa' href='{$fase['url']}' name='fase-$num' id='fase-$num'>
+                        <div class='tarjeta-icono'>{$icono}</div>
+                        <div class='tarjeta-titulo'>{$fase['nombre']}</div>
+                        <div class='desc'>{$descripcion}</div>
+                        <div class='tarjeta-desc'>Haz clic en la tarjeta  para comenzar</div>
+                      </a>";
+                  }
+              }
+            ?>
 
     <a class="tarjeta-interactiva" href="#">
       <div class="tarjeta-icono">🚧</div>
@@ -160,17 +239,17 @@
 </fieldset>
 
     </div>
-<?php
-include_once "servicios/conexion.php";
-$usuario_id = $_SESSION['usuario_id'];
-$fases_completadas = [];
 
-$result = $conexion->query("SELECT fase FROM progreso_herramientas WHERE usuario_id = $usuario_id");
-while ($row = $result->fetch_assoc()) {
-    $fases_completadas[] = $row['fase'];
-}
-?>
-
+  <div id="modalReabrir" class="modal" style="display:none;">
+    <div class="modal-contenido">
+      <p>Esta fase ya está completada.<br>¿Deseas crear una nueva?</p>
+      <div class="modal-botones">
+        <button id="confirmarReabrir">Sí, continuar</button>
+        <button id="cancelarReabrir">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</body>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const fases = <?= json_encode($fases_completadas) ?>;
@@ -181,7 +260,32 @@ while ($row = $result->fetch_assoc()) {
       }
     });
   });
-</script>
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('modalReabrir');
+  const btnConfirmar = document.getElementById('confirmarReabrir');
+  const btnCancelar = document.getElementById('cancelarReabrir');
 
-  </body>
+  let urlParaAbrir = null;
+
+  // Interceptar clics en fases completadas
+  document.querySelectorAll('.fase-completada').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      urlParaAbrir = link.getAttribute('data-url');
+      modal.style.display = 'flex';
+    });
+  });
+
+  btnConfirmar.addEventListener('click', () => {
+    if (urlParaAbrir) {
+      window.location.href = urlParaAbrir;
+    }
+  });
+
+  btnCancelar.addEventListener('click', () => {
+    modal.style.display = 'none';
+    urlParaAbrir = null;
+  });
+});
+</script>
 </html>

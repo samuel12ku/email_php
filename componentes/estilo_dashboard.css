@@ -143,7 +143,7 @@ img.encabezado-logo {
 
 .dashboard-contenedor {
   max-width: 820px;
-  margin: 150px auto 50px auto;   /* Antes era: margin: 50px auto; */
+  margin: 120px auto 50px auto;   /* Antes era: margin: 50px auto; */
   background: rgba(255,255,255,0.97);
   border-radius: 25px;
   box-shadow: 0 20px 44px rgba(0, 60, 15, 0.18);
@@ -226,7 +226,9 @@ img.encabezado-logo {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 12px 16px 12px;
+  justify-content: space-between;
+  height: 190px; /* puedes ajustar esto para dar más verticalidad */
+  padding: 24px 16px 20px 16px;  /* más espacio interno */
   margin-bottom: 8px;
   position: relative;
   transition: 
@@ -269,30 +271,42 @@ img.encabezado-logo {
 }
 
 .tarjeta-icono {
-  font-size: 1.8rem;
-  margin-bottom: 7px;
+  font-size: 2.2rem;
+  margin-bottom: 14px; /* sube el espacio entre ícono y título */
   filter: drop-shadow(0 2px 8px #a2f6b6a1);
   transition: font-size 0.16s;
 }
-.tarjeta-interactiva:hover .tarjeta-icono {
-  font-size: 2.15rem;
+.tarjeta-interactiva, .tarjeta-bloqueada {
+  width: 220px;
+  min-height: 165px;
+  text-align: center;
+  border-radius: 12px;
+  padding: 16px 10px;
+  transition: all 0.25s ease;
 }
 
+/* .tarjeta-icono {
+  font-size: 2rem;
+  margin-bottom: 8px;
+} */
+
 .tarjeta-titulo {
-  font-size: 1.01rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  margin-bottom: 4px;
   color: #007832;
-  letter-spacing: 0.01em;
-  text-align: center;
+  margin-bottom: 3px; /* más espacio con el texto siguiente */
+  line-height: 1.4em;
 }
 
 .tarjeta-desc {
-  font-size: 0.92rem;
+  font-size: 0.96rem;
   color: #255d2b;
+  line-height: 1.45em; /* mejora el interlineado */
+  margin-top: 6px;
+  margin-bottom: 5px;
   text-align: center;
-  line-height: 1.25em;
 }
+
 
 /* Lista desplegable del header tipo dropdown */
 .dropdown {
@@ -347,19 +361,99 @@ img.encabezado-logo {
   display: block;
 }
 
-.fase.completada {
-  border: 3px solid #39A900;
-  background-color: #e7ffe7;
-  position: relative;
+.fase-completada {
+  background-color: #e8ffed;
+  border: 2px solid #39A900;
+  box-shadow: 0 3px 8px #39a90030;
+  transition: 0.2s ease;
 }
 
-.fase.completada::after {
-  content: "✔️";
-  position: absolute;
-  right: 10px;
-  font-size: 2rem;
+.fase-completada .tarjeta-icono {
+  color: #2a9d46;
 }
 
+.fase-activa {
+  background-color: #fffde6;
+  border: 2px solid #FFD700;
+  box-shadow: 0 3px 6px #ffd9003a;
+  transition: 0.2s ease;
+}
+
+.fase-activa:hover {
+  background-color: #fff8cb;
+  border-color: #f1cd01d0;
+  transform: translateY(-4px);
+}
+
+.tarjeta-bloqueada {
+  background-color: #f5f5f5;
+  border: 2px dashed #bbb;
+  color: #aaa;
+  box-shadow: none;
+  cursor: no-drop;
+  opacity: 0.8;
+}
+
+.tarjeta-bloqueada .tarjeta-icono {
+  filter: grayscale(100%);
+  opacity: 0.5;
+}
+
+.tarjeta-icono {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+  transition: transform 0.2s;
+}
+
+#fase-1 .tarjeta-desc { font-weight: bold; } /* Identificar Problema */
+#fase-2 .tarjeta-desc { font-weight: bold; } /* Tarjeta Persona */
+#fase-3 .tarjeta-desc { font-weight: bold; } /* Jobs To Be Done */
+#fase-4 .tarjeta-desc { font-weight: bold; } /* Lean Canvas */
+
+
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.modal-contenido {
+  background: #fff;
+  padding: 25px 35px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  max-width: 400px;
+  width: 90%;
+}
+
+.modal-botones {
+  margin-top: 20px;
+}
+
+.modal-botones button {
+  margin: 5px 10px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#confirmarReabrir {
+  background-color: #39A900;
+  color: white;
+}
+
+#cancelarReabrir {
+  background-color: #ccc;
+  color: #333;
+}
 
 
 @media (max-width: 700px) {
@@ -393,14 +487,13 @@ img.encabezado-logo {
   }
   .dashboard-tarjetas {
     flex-direction: column;
-    gap: 12px;
-    align-items: center;
+    gap: 14px;
   }
-  .tarjeta-interactiva {
-    min-width: 0;
-    width: 99%;
-    max-width: 320px;
-    padding: 18px 8px 13px 8px;
+
+  .tarjeta-interactiva,
+  .tarjeta-bloqueada {
+    width: 95%;
+    max-width: 330px;
   }
 }
 
