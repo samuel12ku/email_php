@@ -56,7 +56,11 @@ $rol = $usuario['rol'];
             <label>Teléfono:</label>
             <input type="text" name="celular" pattern="[0-9]{10}" title="Ingrese un número de teléfono válido de 10 dígitos" minlength="10" maxlength="10" value="<?= htmlspecialchars($usuario['celular']) ?>">
 
-            <button type="submit">Guardar Cambios</button>
+            <button class="boton-guardar" type="submit">Guardar Cambios</button>
+            <a href="../../dashboard.php">
+                <button type="button" class="boton-cancelar">Cancelar</button>
+            </a>
+
         </form>
     </div>
 </body>

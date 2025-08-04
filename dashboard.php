@@ -59,6 +59,67 @@ while ($row = $result->fetch_assoc()) {
       rel="stylesheet"
     />
   </head>
+
+<?php if (isset($_SESSION['mostrar_modal_confirmacion'])): ?>
+    <div id="modal-confirmacion" class="modal">
+        <div class="modal-contenido">
+            <h2>✅ Solicitud enviada</h2>
+            <p>Tu solicitud fue enviada al orientador. Pronto se comunicará contigo.</p>
+            <button onclick="cerrarModal()">Aceptar</button>
+        </div>
+    </div>
+    <script>
+        function cerrarModal() {
+            document.getElementById("modal-confirmacion").style.display = "none";
+        }
+    </script>
+    <style>
+        .modal {
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-contenido {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-contenido h2 {
+            color: green;
+            margin-bottom: 10px;
+        }
+
+        .modal-contenido button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal-contenido button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <?php unset($_SESSION['mostrar_modal_confirmacion']); ?>
+<?php endif; ?>
+
   <body>
 ?>
     <!-- Encabezado institucional -->

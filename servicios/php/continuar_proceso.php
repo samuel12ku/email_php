@@ -49,7 +49,10 @@ $mensaje = "$nombre_emprendedor ha indicado que desea continuar con el proceso d
 $exito = enviarCorreo($para, $asunto, $mensaje);
 
 if ($exito) {
-    echo "<p>Tu solicitud fue enviada al orientador. Pronto se comunicará contigo.</p>";
+    $_SESSION['mostrar_modal_confirmacion'] = true;
+    header("Location: ../../dashboard.php");
+    exit;
+
 } else {
     echo "<p>Hubo un error al enviar el correo. Intenta nuevamente más tarde.</p>";
 }

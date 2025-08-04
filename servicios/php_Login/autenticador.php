@@ -118,10 +118,18 @@ if ($result->num_rows > 0) {
         }
 
         // Si todo está completo, redirige al panel
-        if ($usuario['rol'] === 'orientador') {
-            header("Location: ../php/panel_orientador.php");
-        } else {
-            // Mostrar elección visual al emprendedor
+if ($usuario['rol'] === 'orientador') {
+    header("Location: ../php/panel_orientador.php");
+    exit;
+} else {
+    // Solo para emprendedores
+    if ($usuario['estado_proceso'] !== 'pendiente') {
+        // Ya aceptó continuar, redirige directo al dashboard
+        header("Location: ../../dashboard.php");
+        exit;
+    }
+
+    // Si aún está pendiente, mostrar elección visual
     echo "
     <html>
     <head>
@@ -168,35 +176,25 @@ if ($result->num_rows > 0) {
             .eleccion a:hover {
                 background: #007832;
             }
-
-
-                @media (max-width: 600px) {
+            @media (max-width: 600px) {
                 body {
                     padding: 10px;
                 }
-
-            .eleccion,
-            .aviso,
-            .mensaje {
-                padding: 25px 20px;
-                width: 100%;
-                max-width: 320px;
-                margin: auto;
-            }
-
-            .eleccion h2,
-            .aviso h2,
-            .mensaje h2 {
-                font-size: 1.4rem;
-            }
-
-            .eleccion a,
-            .aviso a,
-            .mensaje a {
-                display: block;
-                margin: 10px 0;
-                font-size: 1rem;
-                padding: 20px;
+                .eleccion {
+                    padding: 25px 20px;
+                    width: 100%;
+                    max-width: 320px;
+                    margin: auto;
+                }
+                .eleccion h2 {
+                    font-size: 1.4rem;
+                }
+                .eleccion a {
+                    display: block;
+                    margin: 10px 0;
+                    font-size: 1rem;
+                    padding: 20px;
+                }
             }
         </style>
     </head> 
@@ -207,12 +205,12 @@ if ($result->num_rows > 0) {
             <a href='../php/continuar_proceso.php'> Sí, deseo continuar</a>
             <a href='../../login.php'> No deseo continuar por ahora</a>
         </div>
-
     </body>
     </html>
     ";
     exit;
-        }
+    }
+
         exit;
     } else {
         header("Location: ../../login.php?error=" . urlencode("Contraseña incorrecta") . "&documento=" . urlencode($num_documento));

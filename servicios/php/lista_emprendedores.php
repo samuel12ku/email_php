@@ -9,7 +9,12 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'orientador') {
 }
 
 $conexion = ConectarDB();
-$resultado = $conexion->query("
+
+// ID del orientador logueado
+$id_orientador = $_SESSION['usuario_id'];
+
+// Obtener emprendedores asignados a este orientador
+$resultado = $conexion->prepare("
   SELECT 
     u.nombres, 
     u.apellidos, 
@@ -19,10 +24,13 @@ $resultado = $conexion->query("
     MAX(ph.fase) AS ultima_fase
   FROM usuarios u
   LEFT JOIN progreso_herramientas ph ON u.id_usuarios = ph.usuario_id
-  WHERE u.rol = 'emprendedor'
+  WHERE u.rol = 'emprendedor' AND u.orientador_id = ?
   GROUP BY u.id_usuarios
 ");
 
+$resultado->bind_param("i", $id_orientador);
+$resultado->execute();
+$res = $resultado->get_result();
 
 $fases_totales = [
     1 => 'Identificar Problema',
@@ -30,7 +38,6 @@ $fases_totales = [
     3 => 'Jobs To Be Done',
     4 => 'Lean Canvas'
 ];
-
 ?>
 
 <!DOCTYPE html>
@@ -45,22 +52,21 @@ $fases_totales = [
 <body>
     <div class="contenedor">
         <h2>📋 Lista de Emprendedores</h2>
-        <!-- justo debajo del <h2> agregamos un contenedor para las tarjetas -->
         <div class="cards-emprendedores"></div>     
-            <table class="tabla-emprendedores">
-                <thead>
-                    <tr>
-                        <th>Nombres</th>
-                        <th>Apellidos</th>
-                        <th>Número de Documento</th>
-                        <th>Correo</th>
-                        <th>Celular</th>
-                        <th>Estado de Avance</th>
-                        <th>Desarrollo</th>
-                    </tr>
-                </thead>
+        <table class="tabla-emprendedores">
+            <thead>
+                <tr>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Número de Documento</th>
+                    <th>Correo</th>
+                    <th>Celular</th>
+                    <th>Estado de Avance</th>
+                    <th>Desarrollo</th>
+                </tr>
+            </thead>
             <tbody>
-                <?php while ($fila = $resultado->fetch_assoc()): ?>
+                <?php while ($fila = $res->fetch_assoc()): ?>
                     <tr>
                         <td data-label="Nombres"><?= htmlspecialchars($fila['nombres']) ?></td>
                         <td data-label="Apellidos"><?= htmlspecialchars($fila['apellidos']) ?></td>
@@ -72,11 +78,10 @@ $fases_totales = [
                     </tr>
                 <?php endwhile; ?>
             </tbody>
-        </div>
         </table>
         <div class="volver">
             <a href="panel_orientador.php">⬅️ Volver al panel</a>
+        </div>
     </div>
-        
 </body>
 </html>

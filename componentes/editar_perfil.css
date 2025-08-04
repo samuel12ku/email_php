@@ -65,10 +65,13 @@ button {
     margin-top: 20px;
 }
 
-button:hover {
+.boton-guardar:hover {
     background-color: #005f3a;
 }
 
+.boton-cancelar:hover{
+    background-color: #ce1616;
+}
 .cancelar {
     text-decoration: none;
     color: #666;
@@ -96,4 +99,10 @@ input#numero_id {
         font-size: 0.95rem;
         padding: 10px;
     }
+}
+
+.boton-cancelar {
+    background-color: #ff0000;
+    color: #ffffff;
+    border: 1px solid #ccc;
 }
