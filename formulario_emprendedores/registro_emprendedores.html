@@ -183,31 +183,14 @@
             <label for="celular"
               >6. Número de Celular <span style="color: red">*</span></label
             ><br />
-            <input
-              type="tel"
-              id="celular"
-              name="celular"
-              class="form-control"
-              title="Solo se deben ingresar números"
-              pattern="[0-9]{10,10}"
-              maxlength="10"
-              minlength="10"
-              required
-            />
+            <input type="tel" id="celular" name="celular" class="form-control" title="Solo se deben ingresar números" pattern="[0-9]{10,10}" maxlength="10" minlength="10" required/>
           </div>
 
           <div class="form-grupo">
             <label for="fecha_nacimiento"
               >7. Fecha de nacimiento <span style="color: red">*</span></label
             ><br />
-            <input
-              type="date"
-              id="fecha_nacimiento"
-              name="fecha_nacimiento"
-              required
-              class="form-control"
-              title="Seleccione una fecha válida"
-            />
+            <inpu type="date id="fecha_nacimiento name="fecha_nacimiento require class="form-control title="Seleccione una fecha válida"/>
           </div>
 
           <div class="form-grupo">
@@ -216,14 +199,7 @@
               >8.Fecha de expedición del documento
               <span style="color: red">*</span></label
             ><br />
-            <input
-              type="date"
-              id="fecha_expedicion"
-              name="fecha_expedicion"
-              required
-              class="form-control"
-              title="Seleccione una fecha válida"
-            />
+            <input type="date" id="fecha_expedicion" name="fecha_expedicion" required class="form-control" title="Seleccione una fecha válida"/>
           </div>
         </div>
 
@@ -234,7 +210,7 @@
           <div class="form-grupo">
             <label for="pais">9. País <span style="color: red">*</span></label
             ><br />
-            <select id="pais" name="pais_origen" required class="form-control">
+            <select id="pais" name="pais_origen" class="form-control" required>
               <option value="" disabled>-- Selecciona un país --</option>
             </select>
           </div>
@@ -242,17 +218,7 @@
           <div class="form-grupo">
             <label>10. Nacionalidad <span style="color: red">*</span></label
             ><br />
-            <span
-              id="nacionalidad"
-              class="form-control"
-              name="nacionalidad"
-              style="
-                display: inline-block;
-                min-height: 38px;
-                padding: 8px 20px;
-                margin-top: 10px;
-              "
-            ></span>
+            <span id="nacionalidad" class="form-control" name="nacionalidad" style=" display: inline-block; min-height: 38px; padding: 8px 20px; margin-top: 10px; "></span>
           </div>
           <div class="form-grupo">
             <label for="departamento"
@@ -260,12 +226,7 @@
               otro país, seleccione otro )
               <span style="color: red">*</span></label
             ><br />
-            <select
-              id="departamento"
-              name="departamento"
-              required
-              class="form-control"
-            >
+            <select id="departamento" name="departamento" class="form-control" required>
               <option value="" disabled selected>
                 -- Selecciona un departamento --
               </option>
@@ -307,29 +268,14 @@
               <option value="Otro">Otro</option>
             </select>
             <!-- Campo que solo se muestra si la opción es "Otro" -->
-            <input
-              type="text"
-              id="dpto_otro"
-              name="departamento_otro"
-              placeholder="Especifique cuál"
-              class="form-control"
-              style="display: none; margin-top: 8px"
-            />
+            <input type="text" id="dpto_otro" name="departamento_otro" placeholder="Especifique cuál" class="form-control" style="display: none; margin-top: 8px"/>
           </div>
 
           <div class="form-grupo">
             <label for="municipio"
               >12. Municipio <span style="color: red">*</span></label
             ><br />
-            <input
-              type="text"
-              id="municipio"
-              name="municipio"
-              required
-              class="form-control"
-              pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]{2,25}"
-              title="Solo ingrese letras"
-            />
+            <input type="text" id="municipio" name="municipio" class="form-control" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]{2,25}" title="Solo ingrese letras" required/>
           </div>
         </div>
 
@@ -344,7 +290,7 @@
             <label for="genero"
               >14. Sexo <span style="color: red">*</span></label
             ><br />
-            <select id="genero" name="genero" required class="form-control">
+            <select id="genero" name="genero" class="form-control" required>
               <option value="">-- Selecciona --</option>
               <option value="Mujer">Mujer</option>
               <option value="Hombre">Hombre</option>
@@ -359,11 +305,7 @@
             <label for="clasificacion"
               >15. Clasificación de población (si aplica)</label
             ><br />
-            <select
-              id="clasificacion"
-              name="clasificacion"
-              class="form-control"
-            >
+            <select id="clasificacion" name="clasificacion" class="form-control">
               <option value="" disabled selected>
                 -- Selecciona una opción --
               </option>
@@ -451,12 +393,7 @@
             <label for="tipo_emprendedor"
               >17. Tipo de Emprendedor <span style="color: red">*</span></label
             ><br />
-            <select
-              id="tipo_emprendedor"
-              name="tipo_emprendedor"
-              required
-              class="form-control"
-            >
+            <select id="tipo_emprendedor" name="tipo_emprendedor" required class="form-control">
               <option value="" disabled selected>
                 -- Selecciona una opción --
               </option>
@@ -496,12 +433,7 @@
             </select>
 
             <!-- Select dinámico que se oculta/muestra -->
-            <select
-              id="carrera_tecnologo"
-              name="carrera_tecnologo"
-              style="display: none; margin-top: 8px"
-              class="form-control"
-            >
+            <select id="carrera_tecnologo" name="carrera_tecnologo" style="display: none; margin-top: 8px" class="form-control">
               <option value="" disabled selected>
                 -- Elige tu Tecnólogo --
               </option>
@@ -533,12 +465,7 @@
               <option>Mecanización agrícola y producción agrícola</option>
             </select>
 
-            <select
-              id="carrera_tecnico"
-              name="carrera_tecnico"
-              style="display: none; margin-top: 8px"
-              class="form-control"
-            >
+            <select id="carrera_tecnico" name="carrera_tecnico" style="display: none; margin-top: 8px" class="form-control">
               <option value="" disabled selected>-- Elige tu Técnico --</option>
               <option>Asistencia administrativa</option>
               <option>Cocina</option>
@@ -584,12 +511,7 @@
               </option>
             </select>
 
-            <select
-              id="carrera_operario"
-              name="carrera_operario"
-              style="display: none; margin-top: 8px"
-              class="form-control"
-            >
+            <select id="carrera_operario" name="carrera_operario" style="display: none; margin-top: 8px" class="form-control">
               <option value="" disabled selected>
                 -- Elige tu Operario --
               </option>
@@ -600,11 +522,7 @@
               <option>Instalaciones eléctricas para viviendas</option>
             </select>
 
-            <select
-              id="carrera_auxiliar"
-              name="carrera_auxiliar"
-              style="display: none; margin: 8px 4px 0 4px"
-              class="form-control"
+            <select id="carrera_auxiliar" name="carrera_auxiliar" style="display: none; margin: 8px 4px 0 4px" class="form-control"
             >
               <option value="" disabled selected>
                 -- Elige tu Auxiliar --
@@ -619,15 +537,7 @@
               <b>número de ficha.</b> De lo contrario, escribe "no aplica"
               <span style="color: red">*</span></label
             ><br />
-            <input
-              type="text"
-              id="ficha"
-              name="ficha"
-              class="form-control"
-              placeholder="2825817"
-              title="debes llenar este campo"
-              required
-            />
+            <input type="text" id="ficha" name="ficha" class="form-control" placeholder="2825817" title="debes llenar este campo" required/>
           </div>
         </div>
 
@@ -640,12 +550,7 @@
               >20. Eres un emprendedor que tiene…
               <span style="color: red">*</span></label
             ><br />
-            <select
-              id="situacion_negocio"
-              name="situacion_negocio"
-              required
-              class="form-control"
-            >
+            <select id="situacion_negocio" name="situacion_negocio" required class="form-control">
               <option value="" disabled selected>-- Selecciona --</option>
               <option value="Ninguno">Ninguno</option>
               <option value="Idea de negocio">Una idea de negocio</option>
