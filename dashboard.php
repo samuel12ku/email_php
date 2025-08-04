@@ -106,7 +106,7 @@ while ($row = $result->fetch_assoc()) {
         .modal-contenido button {
             margin-top: 15px;
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #39A900;
             border: none;
             color: white;
             border-radius: 5px;
@@ -114,7 +114,7 @@ while ($row = $result->fetch_assoc()) {
         }
 
         .modal-contenido button:hover {
-            background-color: #0056b3;
+            background-color: #39A900;
         }
     </style>
     <?php unset($_SESSION['mostrar_modal_confirmacion']); ?>
@@ -274,7 +274,7 @@ while ($row = $result->fetch_assoc()) {
 </fieldset>
 
 <!-- Grupo: Correos Institucionales -->
-<fieldset class="grupo-seccion">
+<!-- <fieldset class="grupo-seccion">
   <legend class="titulo-seccion">📬 Envío de Correos Institucionales</legend>
   <div class="dashboard-tarjetas">
     <a class="tarjeta-interactiva" href="correos_masivos/mail.html">
@@ -292,7 +292,7 @@ while ($row = $result->fetch_assoc()) {
       </div>
     </a>
   </div>
-</fieldset>
+</fieldset> -->
 
     </div>
 

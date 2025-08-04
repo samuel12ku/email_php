@@ -45,6 +45,27 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] !== 'orientador') {
         <!-- Puedes agregar más opciones aquí -->
       </ul>
     </section>
+
+    <!-- Grupo: Correos Institucionales -->
+<section class="grupo-seccion">
+  <legend class="titulo-seccion">📬 Envío de Correos Institucionales</legend>
+  <div class="dashboard-tarjetas">
+    <a class="tarjeta-interactiva" href="../../correos_masivos/mail.html">
+      <div class="tarjeta-icono">📨</div>
+      <div class="tarjeta-titulo">Correos Masivos</div>
+      <div class="tarjeta-desc">
+        Envía un mensaje igual a varios destinatarios.<br /><b>Sin personalización</b>
+      </div>
+    </a>
+    <a class="tarjeta-interactiva" href="../../correos_personalizados/email.html">
+      <div class="tarjeta-icono">✉️</div>
+      <div class="tarjeta-titulo">Correos Personalizados</div>
+      <div class="tarjeta-desc">
+        Envía mensajes personalizados a partir de CSV o separado por comas.<br /><b>Para comunicaciones individualizadas</b>
+      </div>
+    </a>
+  </div>
+</section>
   </main>
 </body>
 </html>
