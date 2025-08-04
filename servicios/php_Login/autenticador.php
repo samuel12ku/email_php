@@ -204,8 +204,8 @@ if ($result->num_rows > 0) {
         <div class='eleccion'>
             <h2>👋 ¡Bienvenido/a, {$usuario['nombres']} {$usuario['apellidos']}!</h2>
             <p>Estuviste en la orientación y queremos saber si deseas continuar con el proceso de emprendimiento.</p>
-            <a href='../php/continuar_proceso.php'>✅ Sí, deseo continuar</a>
-            <a href='../../login.php'>🚫 No deseo continuar por ahora</a>
+            <a href='../php/continuar_proceso.php'> Sí, deseo continuar</a>
+            <a href='../../login.php'> No deseo continuar por ahora</a>
         </div>
 
     </body>
