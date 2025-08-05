@@ -17,10 +17,10 @@
     }
 
     // Mostrar/Ocultar contraseña con íconos
-    const toggleBtn = document.getElementById('togglePassword');
+    const toggleBtn = document.getElementById('mostrarConstrasena');
     const passInput = document.getElementById('contrasena');
-    const eyeOpen = document.getElementById('eyeOpen');
-    const eyeClosed = document.getElementById('eyeClosed');
+    const eyeOpen = document.getElementById('ojoAbierto');
+    const eyeClosed = document.getElementById('ojoCerrado');
 
     toggleBtn.addEventListener('click', function () {
         const isPassword = passInput.type === 'password';
