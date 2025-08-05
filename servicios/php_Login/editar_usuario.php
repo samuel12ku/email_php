@@ -57,9 +57,13 @@ $rol = $usuario['rol'];
             <input type="text" name="celular" pattern="[0-9]{10}" title="Ingrese un número de teléfono válido de 10 dígitos" minlength="10" maxlength="10" value="<?= htmlspecialchars($usuario['celular']) ?>">
 
             <button class="boton-guardar" type="submit">Guardar Cambios</button>
-            <a href="../../dashboard.php">
+            <?php
+                $cancel_url = ($rol === 'orientador') ? '../php/panel_orientador.php' : '../../dashboard.php';
+            ?>
+            <a href="<?= $cancel_url ?>">
                 <button type="button" class="boton-cancelar">Cancelar</button>
             </a>
+
 
         </form>
     </div>
