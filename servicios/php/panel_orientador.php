@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] !== 'orientador') {
-    header("Location: ../../login.html");
+    header("Location: ../../login.php");
     exit;
 }
 ?>

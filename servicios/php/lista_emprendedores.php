@@ -4,7 +4,7 @@ include "../conexion.php";
 
 // Verifica que sea un orientador
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'orientador') {
-    header("Location: ../../login.html");
+    header("Location: ../../login.php");
     exit;
 }
 

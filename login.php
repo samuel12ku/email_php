@@ -28,7 +28,23 @@
 
         <div class="form-grupo">
             <label for="contrasena">Contraseña</label>
-            <input type="password" id="contrasena" name="contrasena" required class="form-control" pattern="[0-9]{4,10}" minlength="8" maxlength="10" />
+            <div style="position:relative;">
+                <input type="password" id="contrasena" name="contrasena" required class="form-control"
+                    pattern="[0-9]{4,10}" minlength="8" maxlength="10" style="padding-right:38px;" />
+                <button type="button" id="mostrarConstrasena" 
+                    style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; padding:0;">
+                    <!-- OJO ABIERTO SVG (por defecto visible) -->
+                    <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#19985B">
+                        <ellipse cx="12" cy="12" rx="8" ry="6" stroke-width="2"/>
+                        <circle cx="12" cy="12" r="2" fill="#19985B"/>
+                    </svg>
+                    <!-- OJO CERRADO SVG (por defecto oculto) -->
+                    <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#A0A0A0" style="display:none;">
+                        <ellipse cx="12" cy="12" rx="8" ry="6" stroke-width="2"/>
+                        <line x1="5" y1="19" x2="19" y2="5" stroke="#A0A0A0" stroke-width="2"/>
+                    </svg>
+                </button>
+            </div>
         </div>
 
         <?php if (isset($_GET['error'])): ?>
@@ -41,24 +57,6 @@
     </form>
 </div>
 
-<script>
-    // Ocultar el mensaje de error al empezar a escribir la contraseña
-    const inputContrasena = document.getElementById('contrasena');
-    const mensajeError = document.getElementById('errorMensaje');
-
-    if (inputContrasena && mensajeError) {
-        inputContrasena.addEventListener('input', () => {
-            mensajeError.style.display = 'none';
-        });
-    }
-
-    // Eliminar parámetros de error de la URL para evitar que se mantenga al refrescar
-    if (window.location.search.includes('error') || window.location.search.includes('documento')) {
-        const url = new URL(window.location);
-        url.searchParams.delete('error');
-        url.searchParams.delete('documento');
-        window.history.replaceState({}, document.title, url.pathname);
-    }
-</script>
+<script src="componentes/js/login.js"></script>
 </body>
 </html>

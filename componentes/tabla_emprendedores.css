@@ -320,6 +320,7 @@ h2 {
   }
   .filtros-barra-titulo {
     display: none;
+    font:inherit
   }
   .filtro-barra-campo {
     width: 100%;
