@@ -33,6 +33,7 @@ body::before {
   z-index: -1;
   animation: movimientoFondo 15s ease infinite;
   opacity: 0.3;
+  overflow: hidden;
 }
 
 
@@ -42,6 +43,7 @@ body {
   animation: movimientoFondo 15s ease infinite;
   color: var(--color-texto-claro);
   padding: 40px;
+  overflow: hidden;
 }
 
 @keyframes movimientoFondo {
@@ -331,6 +333,7 @@ h2 {
 
   body {
     padding: 30px;
+    overflow: hidden;
   }
 
   .tabla-emprendedores {
