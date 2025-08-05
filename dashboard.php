@@ -273,6 +273,22 @@ while ($row = $result->fetch_assoc()) {
   </div>
 </fieldset>
 
+
+<!-- Grupo: Pitch -->
+<fieldset class="grupo-seccion" id="grupo-pitch">  
+  <legend class="titulo-seccion">🎤 Pitch (después llenar la herramientas de ideación)</legend
+  <div class="dashboard-tarjetas" id="fases-pitch">
+    <a class="tarjeta-interactiva fase fase-5" href="herramientas_pitch/pitch.html" name="pitch" id="pitch">
+      <div class="tarjeta-icono">🎤</div>
+      <div class="tarjeta-titulo">Pitch (en proceso)</div>
+      <div class="tarjeta-desc">
+        Presenta tu idea de negocio de forma clara y concisa.<br />
+        <b>¡Prepárate para impresionar!</b>
+      </div>
+    </a>
+  </div>
+</fieldset>
+
 <!-- Grupo: Correos Institucionales -->
 <!-- <fieldset class="grupo-seccion">
   <legend class="titulo-seccion">📬 Envío de Correos Institucionales</legend>

@@ -52,8 +52,31 @@ $fases_totales = [
 <body>
     <div class="contenedor">
         <h2>📋 Lista de Emprendedores</h2>
-        <div class="cards-emprendedores"></div>     
-        <table class="tabla-emprendedores">
+        <div class="cards-emprendedores"></div>
+
+        <div class="filtros-emprendedores-barra">
+        <span class="filtros-barra-titulo">🔎 Filtrar y ordenar emprendedores</span>
+        <div class="filtro-barra-campo">
+            <label for="ordenFiltro">Ordenar por:</label>
+            <select id="ordenFiltro">
+            <option value="alfabetico">A-Z</option>
+            <option value="alfabetico_desc">Z-A</option>
+            <option value="recientes">Más recientes primero</option>
+            <option value="antiguos">Más antiguos primero</option>
+            </select>
+        </div>
+        <div class="filtro-barra-campo">
+            <label for="estadoFiltro">Estado:</label>
+            <select id="estadoFiltro">
+            <option value="todos">Todos</option>
+            <option value="completados">Completados</option>
+            <option value="no_completados">No completados</option>
+            </select>
+        </div>
+        </div>
+
+
+        <table class="tabla-emprendedores" id="tablaEmprendedores">
             <thead>
                 <tr>
                     <th>Nombres</th>
@@ -65,7 +88,7 @@ $fases_totales = [
                     <th>Desarrollo</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tbodyEmprendedores">
                 <?php while ($fila = $res->fetch_assoc()): ?>
                     <tr>
                         <td data-label="Nombres"><?= htmlspecialchars($fila['nombres']) ?></td>
@@ -84,4 +107,6 @@ $fases_totales = [
         </div>
     </div>
 </body>
+<script src="../../componentes/js/tabla_emprendedores.js"></script>
+
 </html>

@@ -158,6 +158,64 @@ h2 {
   }
 }
 
+.filtros-emprendedores-barra, .filtro-barra-campo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 32px;
+  align-items: center;
+  background: transparent;
+  padding: 2px 8px 18px 8px;
+  margin-bottom: 5px;
+  border-radius: 0;
+  justify-content: center;
+}
+
+.filtros-barra-titulo {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #faf8f8;
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.01em;
+}
+
+.filtro-barra-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 160px;
+}
+
+.filtro-barra-campo label {
+  font-size: 1rem;
+  color: #f9fbff;
+  font-weight: 600;
+  margin-bottom: 1px;
+}
+
+.filtro-barra-campo select {
+  padding: 7px 14px;
+  border: 1.4px solid var(--color-azulmas-oscuro);
+  border-radius: 22px;
+  background: var(--color-azul-oscuro);
+  color: #f2faf3;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.16s, background 0.2s;
+  font-family: 'Work Sans', Arial, sans-serif;
+  margin-top: 1px;
+  box-shadow: 0 1px 4px #33f18e15;
+}
+
+.filtro-barra-campo select:focus, .filtro-barra-campo select:hover {
+  border-color: #0e4286;
+  background: #071d3f;
+  color: #ffffff;
+}
+
+
 @media screen and (max-width: 768px) {
   body{
     height: 100vh;
@@ -199,6 +257,12 @@ h2 {
   .tabla-emprendedores td:last-child {
     border-bottom: none;
   }
+
+  .filtros-barra-titulo {
+    margin-bottom: 20px;
+    font-size: 1.08rem;
+    justify-content: center;
+  }
 }
 @media screen and (max-width: 820px) {
   body{
@@ -215,7 +279,7 @@ h2 {
   .tabla-emprendedores {
     border: 0;
     overflow:hidden;
-    
+    overflow-x: hidden;
   }
 
   .tabla-emprendedores thead {
@@ -247,6 +311,19 @@ h2 {
 
   .tabla-emprendedores td:last-child {
     border-bottom: none;
+  }
+    .filtros-emprendedores-barra {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 7px 0;
+    padding: 0 0 18px 0;
+  }
+  .filtros-barra-titulo {
+    display: none;
+  }
+  .filtro-barra-campo {
+    width: 100%;
+    min-width: unset;
   }
 }
 @media screen and (max-width: 300px) {
