@@ -407,7 +407,6 @@ img.encabezado-logo {
 #fase-3 .tarjeta-desc { font-weight: bold; } /* Jobs To Be Done */
 #fase-4 .tarjeta-desc { font-weight: bold; } /* Lean Canvas */
 
-
 .modal {
   position: fixed;
   top: 0; left: 0;
@@ -427,6 +426,7 @@ img.encabezado-logo {
   box-shadow: 0 5px 20px rgba(0,0,0,0.3);
   max-width: 400px;
   width: 90%;
+  font:inherit;
 }
 
 .modal-botones {

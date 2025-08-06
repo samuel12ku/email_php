@@ -65,10 +65,34 @@ button {
     margin-top: 20px;
 }
 
+.botones-acciones {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.boton-guardar, .boton-cancelar {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background 0.18s;
+    color:#f6f6f6;
+}
+
+
 .boton-guardar:hover {
     background-color: #005f3a;
 }
 
+.boton-cancelar {
+    background-color: #a50808;
+    color: #f6f6f6;
+}
 .boton-cancelar:hover{
     background-color: #ce1616;
 }
