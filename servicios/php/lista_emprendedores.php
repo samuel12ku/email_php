@@ -50,6 +50,24 @@ $fases_totales = [
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <?php if (isset($_SESSION['mensaje_exito'])): ?>
+    <div id="modalExito" class="modal">
+        <div class="modal-contenido">
+            <p><?= $_SESSION['mensaje_exito'] ?></p>
+            <button onclick="cerrarModal('modalExito')">Cerrar</button>
+        </div>
+    </div>
+    <?php unset($_SESSION['mensaje_exito']); endif; ?>
+
+    <?php if (isset($_SESSION['mensaje_error'])): ?>
+    <div id="modalError" class="modal">
+        <div class="modal-contenido">
+            <p><?= $_SESSION['mensaje_error'] ?></p>
+            <button onclick="cerrarModal('modalError')">Cerrar</button>
+        </div>
+    </div>
+    <?php unset($_SESSION['mensaje_error']); endif; ?>
+
     <div class="contenedor">
         <h2>📋 Lista de Emprendedores</h2>
         <div class="cards-emprendedores"></div>
@@ -97,7 +115,16 @@ $fases_totales = [
                         <td data-label="Correo"><?= htmlspecialchars($fila['correo']) ?></td>
                         <td data-label="Celular"><?= htmlspecialchars($fila['celular']) ?></td>
                         <td data-label="Estado de avance"><?= isset($fila['ultima_fase']) && $fila['ultima_fase'] ? $fases_totales[$fila['ultima_fase']] : 'Sin avance' ?></td>
-                        <td data-label="Desarrollo"><a href="ver_progreso.php?numero_id=<?= $fila['numero_id'] ?>">Ver progreso</a></td>
+                        <td data-label="Desarrollo">
+                            <a href="ver_progreso.php?numero_id=<?= $fila['numero_id'] ?>">Ver progreso</a>
+                            <form method="POST" action="habilitar_dashboard.php" style="margin-top: 5px;">
+                                <input type="hidden" name="numero_id" value="<?= $fila['numero_id'] ?>">
+                                <button type="submit" onclick="return confirm('¿Estás seguro de habilitar el acceso al dashboard para este emprendedor?')">
+                                    Habilitar acceso
+                                </button>
+                            </form>
+                        </td>
+
                     </tr>
                 <?php endwhile; ?>
             </tbody>
@@ -108,5 +135,11 @@ $fases_totales = [
     </div>
 </body>
 <script src="../../componentes/js/tabla_emprendedores.js"></script>
+<script>
+function cerrarModal(id) {
+    document.getElementById(id).style.display = 'none';
+}
+</script>
+
 
 </html>
