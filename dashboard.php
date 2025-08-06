@@ -1,78 +1,46 @@
 <?php
 session_start();
-include_once "servicios/conexion.php";
-$conexion = ConectarDB();
+include "servicios/conexion.php";
 
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: login.php");
     exit;
 }
-$usuario_id = $_SESSION['usuario_id'];
 
-$fases_completadas = [];
-
-$fases = [
-  1 => [
-    'nombre' => 'Identificar Problema',
-    'url' => 'herramientas_ideacion/identificar_problema/necesidades.html',
-    'icono' => '🔍',
-    'descripcion' => 'Detecta el problema raíz a resolver.'
-  ],
-  2 => [
-    'nombre' => 'Tarjeta Persona',
-    'url' => 'herramientas_ideacion/tarjeta_persona/tarjeta_persona.html',
-    'icono' => '🔲',
-    'descripcion' => 'Crea el retrato perfecto de tu usuario clave.'
-  ],
-  3 => [
-    'nombre' => 'Jobs To Be Done',
-    'url' => 'herramientas_ideacion/jobs_to_be_done/main.html',
-    'icono' => '👨‍💼',
-    'descripcion' => 'Comprende las necesidades reales de tus usuarios.'
-  ],
-  4 => [
-    'nombre' => 'Lean Canvas',
-    'url' => 'herramientas_ideacion/form_lean_canvas/formulario_lean_canvas.html',
-    'icono' => '🧩',
-    'descripcion' => 'Modelo visual para estructurar tu idea de negocio.'
-  ]
-];
+// Consulta al usuario
+$conexion = ConectarDB();
+$id_usuario = $_SESSION['usuario_id'];
+$stmt = $conexion->prepare("SELECT * FROM usuarios WHERE id_usuarios = ?");
+$stmt->bind_param("i", $id_usuario);
+$stmt->execute();
+$resultado = $stmt->get_result();
+$usuario = $resultado->fetch_assoc();
 
 
-$result = $conexion->query("SELECT fase FROM progreso_herramientas WHERE usuario_id = $usuario_id");
-while ($row = $result->fetch_assoc()) {
-    $fases_completadas[] = intval($row['fase']);
-}
-?>
-
-
-
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Control Fondo Emprender SENA</title>
-    <link rel="stylesheet" href="componentes/estilo_dashboard.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-
-<?php if (isset($_SESSION['mostrar_modal_confirmacion'])): ?>
+if (isset($_SESSION['mostrar_modal_confirmacion'])) {
+    echo '
     <div id="modal-confirmacion" class="modal">
         <div class="modal-contenido">
             <h2>✅ Solicitud enviada</h2>
             <p>Tu solicitud fue enviada al orientador. Pronto se comunicará contigo.</p>
-            <button onclick="cerrarModal()">Aceptar</button>
+            <button onclick="mostrarModalRevision()">Aceptar</button>
         </div>
     </div>
+
+    <div id="modal-revision" class="modal" style="display:none;">
+        <div class="modal-contenido">
+            <p>Tu proceso está en revisión. Aún no puedes acceder a las herramientas. Te enviaremos una notificación cuando tu orientador confirme la siguiente cita.</p>
+            <a href="login.php"><button>Cerrar sesión</button></a>
+        </div>
+    </div>
+
     <script>
-        function cerrarModal() {
+        function mostrarModalRevision() {
             document.getElementById("modal-confirmacion").style.display = "none";
+            document.getElementById("modal-revision").style.display = "flex";
         }
     </script>
+
     <style>
         .modal {
             position: fixed;
@@ -116,9 +84,109 @@ while ($row = $result->fetch_assoc()) {
         .modal-contenido button:hover {
             background-color: #39A900;
         }
-    </style>
-    <?php unset($_SESSION['mostrar_modal_confirmacion']); ?>
-<?php endif; ?>
+    </style>';
+    unset($_SESSION['mostrar_modal_confirmacion']);
+    exit;
+}
+
+// Mostrar modal de revisión si acceso_panel sigue siendo 0 (y no se mostró confirmación antes)
+if ($usuario['acceso_panel'] == 0) {
+    echo '
+    <div class="modal">
+        <div class="modal-contenido">
+            <p>Tu proceso está en revisión. Aún no puedes acceder a las herramientas. Te enviaremos una notificación cuando tu orientador confirme la siguiente cita.</p>
+            <a href="login.php"><button>Cerrar sesión</button></a>
+        </div>
+    </div>
+    <style>
+        .modal {
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-contenido {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-contenido button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #39A900;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal-contenido button:hover {
+            background-color: #39A900;
+        }
+    </style>';
+    exit;
+}
+
+
+// Definir las fases y las fases completadas
+$fases = [
+    1 => [
+        'nombre' => 'Identificar Problema',
+        'url' => 'herramientas_ideacion/identificar_problema/necesidades.html',
+        'icono' => '🔍',
+        'descripcion' => 'Detecta el problema raíz a resolver.'
+    ],
+    2 => [
+        'nombre' => 'Tarjeta Persona',
+        'url' => 'herramientas_ideacion/tarjeta_persona/tarjeta_persona.html',
+        'icono' => '🔲',
+        'descripcion' => 'Crea el retrato perfecto de tu usuario clave.'
+    ],
+    3 => [
+        'nombre' => 'Jobs To Be Done',
+        'url' => 'herramientas_ideacion/jobs_to_be_done/main.html',
+        'icono' => '👨‍💼',
+        'descripcion' => 'Comprende las necesidades reales de tus usuarios.'
+    ],
+    4 => [
+        'nombre' => 'Lean Canvas',
+        'url' => 'herramientas_ideacion/form_lean_canvas/formulario_lean_canvas.html',
+        'icono' => '🧩',
+        'descripcion' => 'Modelo visual para estructurar tu idea de negocio.'
+    ]
+];
+
+$fases_completadas = [];
+$result = $conexion->query("SELECT fase FROM progreso_herramientas WHERE usuario_id = $id_usuario");
+while ($row = $result->fetch_assoc()) {
+    $fases_completadas[] = intval($row['fase']);
+}
+?>
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control Fondo Emprender SENA</title>
+    <link rel="stylesheet" href="componentes/estilo_dashboard.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
   <body>
 ?>
