@@ -61,7 +61,7 @@ $rol = $usuario['rol'];
                 $cancel_url = ($rol === 'orientador') ? '../php/panel_orientador.php' : '../../dashboard.php';
             ?>
             <a href="<?= $cancel_url ?>">
-                <button type="button" class="boton-cancelar">Cancelar</button>
+                <button type="button" class="boton-cancelar" class="boton">Cancelar</button>
             </a>
 
 

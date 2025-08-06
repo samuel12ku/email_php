@@ -75,7 +75,7 @@ $fases_totales = [
         </div>
         </div>
 
-
+    <div class ="tabla-scroll">
         <table class="tabla-emprendedores" id="tablaEmprendedores">
             <thead>
                 <tr>
@@ -102,6 +102,7 @@ $fases_totales = [
                 <?php endwhile; ?>
             </tbody>
         </table>
+    </div>
         <div class="volver">
             <a href="panel_orientador.php">⬅️ Volver al panel</a>
         </div>
