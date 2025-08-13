@@ -190,7 +190,7 @@
             <label for="fecha_nacimiento"
               >7. Fecha de nacimiento <span style="color: red">*</span></label
             ><br />
-            <inpu type="date id="fecha_nacimiento name="fecha_nacimiento require class="form-control title="Seleccione una fecha válida"/>
+            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" require class="form-control" title="Seleccione una fecha válida"/>
           </div>
 
           <div class="form-grupo">
@@ -600,6 +600,31 @@
             <!-- Campo que solo se muestra si la opción es "Otro" -->
             <!-- <input type="text" id="programa_otro" name="programa_otro" placeholder="Especifique cuál" class="form-control" style="display:none; margin-top:8px;" required> -->
           </div>
+          
+          <div class="form-grupo">
+            <label
+              >21. ¿Usted ejerce la actividad relacionada con el proyecto que desea presentar?, ya sea manera informal o formal?
+              <span style="color: red">*</span></label
+            ><br />
+            <select id="programa" name="programa" required class="form-control">
+              <option value="" disabled selected hidden>-- Selecciona --</option>
+              <option value="SI">Si</option>
+              <option value="NO">No</option>
+            </select>
+          </div>
+
+          <div class="form-grupo">
+            <label
+              >22. ¿Usted tiene empresa Formalizada ante Cámara de Comercio?
+              <span style="color: red">*</span></label
+            ><br />
+            <select id="programa" name="programa" required class="form-control">
+              <option value="" disabled selected hidden>-- Selecciona --</option>
+              <option value="SI">Si</option>
+              <option value="NO">No</option>
+            </select>
+          </div>
+
         </div>
 
         <!-- FASE 7 -->
@@ -607,7 +632,7 @@
           <div class="titulo-seccion">🏢 Centro y Orientador</div>
           <div class="form-grupo">
             <label for="centro_orientacion"
-              >21. ¿Cuál es el Centro de Desarrollo Empresarial que brinda la
+              >23. ¿Cuál es el Centro de Desarrollo Empresarial que brinda la
               orientación? <span style="color: red">*</span></label
             ><br />
             <select
@@ -651,7 +676,7 @@
           </div>
           <div class="form-grupo">
             <label for="orientador"
-              >22. ¿Cuál fue el orientador que brindó la orientación?
+              >24. ¿Cuál fue el orientador que brindó la orientación?
               <span style="color: red">*</span></label
             ><br />
             <select id="orientador" name="orientador" required class="form-control">
