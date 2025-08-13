@@ -60,6 +60,8 @@ $programa = ($_POST['programa'] === 'Otro' && !empty($_POST['programa_especial_o
 $situacion_negocio = ($_POST['situacion_negocio'] === 'Otro' && !empty($_POST['situacion_negocio_otro']))
     ? ucfirst(mb_strtolower(trim($_POST['situacion_negocio_otro']), 'UTF-8'))
     : ucfirst(mb_strtolower(trim($_POST['situacion_negocio']), 'UTF-8'));
+$ejercer_actividad = ucfirst(mb_strtolower(trim($_POST['ejercer_actividad_proyecto']), 'UTF-8'));
+$empresa_formalizada = ucfirst(mb_strtolower(trim($_POST['empresa_formalizada']), 'UTF-8'));
 $ficha = ucfirst(mb_strtolower(trim($_POST['ficha']), 'UTF-8'));
 $centro_orientacion = mb_strtoupper(trim($_POST['centro_orientacion']), 'UTF-8');
 
@@ -77,17 +79,17 @@ $sql = "INSERT INTO ruta_emprendedora
         (nombres, apellidos, departamento, municipio, pais, tipo_id, numero_id,
         fecha_nacimiento, fecha_expedicion, fecha_orientacion, genero, nacionalidad, pais_origen,
         correo, clasificacion, discapacidad, tipo_emprendedor, nivel_formacion,
-        carrera, celular, programa, situacion_negocio, ficha,
+        carrera, celular, programa, situacion_negocio, ejercer_actividad_proyecto, empresa_formalizada, ficha,
         centro_orientacion, orientador)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param(
-    'sssssssssssssssssssssssss',
+    'sssssssssssssssssssssssssss',
     $nombres, $apellidos, $departamento, $municipio, $pais, $tipo_id, $numero_id,
     $fecha_nacimiento, $fecha_expedicioncc, $fecha_orientacion, $genero, $nacionalidad, $pais_origen,
     $correo, $clasificacion, $discapacidad, $tipo_emprendedor, $nivel_formacion,
-    $carrera, $celular, $programa, $situacion_negocio, $ficha,
+    $carrera, $celular, $programa, $situacion_negocio, $ejercer_actividad, $empresa_formalizada, $ficha,
     $centro_orientacion, $orientador_id
 );
 
