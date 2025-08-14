@@ -23,14 +23,14 @@
     <form action="servicios/php_Login/autenticador.php" method="post" class="persona-form">
         <div class="form-grupo">
             <label for="numeroDocumento">Número de documento</label>
-            <input type="text" id="numeroDocumento" name="numeroDocumento" pattern="[A-Z0-9]{1,10}" maxlength="20" min="10" title="Ingrese un número de documento válido" required class="form-control" value="<?= isset($_GET['documento']) ? htmlspecialchars($_GET['documento']) : '' ?>" />
+            <input type="text" id="numeroDocumento" name="numeroDocumento" pattern="[A-Z0-9]{1,20}" maxlength="20" min="10" title="Ingrese un número de documento válido" required class="form-control" value="<?= isset($_GET['documento']) ? htmlspecialchars($_GET['documento']) : '' ?>" />
         </div>
 
         <div class="form-grupo">
             <label for="contrasena">Contraseña</label>
             <div style="position:relative;">
                 <input type="password" id="contrasena" name="contrasena" required class="form-control"
-                    pattern="[0-9]{4,10}" minlength="8" maxlength="10" style="padding-right:38px;" />
+                    pattern="[0-9]{6,10}" minlength="6" maxlength="10" style="padding-right:38px;" />
                 <button type="button" id="mostrarConstrasena" 
                     style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; padding:0;">
                     <!-- OJO ABIERTO SVG (por defecto visible) -->

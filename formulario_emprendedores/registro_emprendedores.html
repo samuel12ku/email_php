@@ -88,7 +88,7 @@
           formulario sean recolectados, almacenados, usados, circulados,
           suprimidos y en general, sean tratados por parte del Centro de
           Desarrollo Empresarial virtual SENA (Ley de Protección de Datos
-          Personales).
+          Personales Ley 1581 de 2012).
         </p>
       </div>
 
@@ -148,12 +148,12 @@
                 <option value="" disabled selected>
                   -- Selecciona una opción --
                 </option>
+                <option value="TI">Tarjeta de Identidad (TI)</option>
                 <option value="CC">Cédula de Ciudadanía (CC)</option>
                 <option value="CE">Cédula de Extranjería (CE)</option>
-                <option value="PEP">
-                  Permiso Especial de Permanencia (PEP)
-                </option>
-                <option value="P">Pasaporte (P)</option>
+                <option value="PEP">Permiso Especial de Permanencia (PEP)</option>
+                <option value="PAS">Pasaporte (P)</option>
+                <option value="PPT">Permiso Temporal de Protección (PPT)</option>
               </select>
             </div>
 
@@ -162,7 +162,9 @@
                 >4. Número de Identificación
                 <span style="color: red">*</span></label
               ><br />
-              <input type="text" id="numero_id" name="numero_id"  class="form-control" pattern="[a-zA-Z0-9]{6,20}" minlength="6" maxlength="20" required />
+              <input type="text" id="numero_id" name="numero_id" inputmode="numeric" class="form-control" pattern="[a-zA-Z0-9]{6,20}" minlength="6" maxlength="20" required />
+              <small id="numero_id_hint" style="display:block;color:#666;margin-top:4px;"></small>
+
             </div>
           </div>
           <div class="form-grupo">
@@ -282,10 +284,16 @@
         <!-- FASE 3 -->
         <div class="fase">
           <div class="titulo-seccion">📆 Información Adicional</div>
-          <!-- <div class="form-grupo">
-          <label for="fecha_orientacion">13. Fecha de orientación <span style="color:red">*</span></label><br/>
-          <input type="date" id="fecha_orientacion" name="fecha_orientacion" required class="form-control" />
-        </div> -->
+          <div class="form-grupo">
+          <label for="fecha_orientacion">13. Fecha de orientación</label><br/>
+          <!-- Campo visible solo para mostrar la fecha de hoy (no se envía) -->
+        <input type="text" id="fecha_orientacion_display" value="" readonly class="form-control">
+
+        <!-- Campos ocultos que sí se envían -->
+        <input type="hidden" name="fecha_orientacion" id="fecha_orientacion"> <!-- opcional: solo fecha -->
+        <input type="hidden" name="ts_inicio" id="ts_inicio"> <!-- fecha y hora de inicio -->
+
+        </div>
           <div class="form-grupo">
             <label for="genero"
               >13. Sexo <span style="color: red">*</span></label
@@ -680,7 +688,7 @@
               <span style="color: red">*</span></label
             ><br />
             <select id="orientador" name="orientador" required class="form-control">
-              <option value="" disabled>
+              <option value="" disabled selected>
                 -- Selecciona primero un centro --
               </option>
             </select>
