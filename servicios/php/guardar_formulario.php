@@ -51,7 +51,6 @@ $departamento = (($_POST['departamento'] ?? '') === 'Otro' && !empty($_POST['dep
     : ucfirst(mb_strtolower(trim($_POST['departamento']       ?? ''), 'UTF-8'));
 
 $municipio            = ucfirst(mb_strtolower(trim($_POST['municipio']          ?? ''), 'UTF-8'));
-$pais                 = ucfirst(mb_strtolower(trim($_POST['pais']               ?? ''), 'UTF-8'));
 $fecha_nacimiento     = (string)($_POST['fecha_nacimiento']   ?? '');
 $fecha_expedicioncc   = (string)($_POST['fecha_expedicion']   ?? '');
 
@@ -141,18 +140,18 @@ if (!empty($duplicados)) {
 // ------- INSERT en ruta_emprendedora (27 columnas) -------
 // Guardamos fecha y hora en fecha_orientacion con $ts_inicio
 $sql = "INSERT INTO ruta_emprendedora
-        (nombres, apellidos, departamento, municipio, pais, tipo_id, numero_id,
+        (nombres, apellidos, departamento, municipio, tipo_id, numero_id,
          fecha_nacimiento, fecha_expedicion, fecha_orientacion, genero, nacionalidad, pais_origen,
          correo, clasificacion, discapacidad, tipo_emprendedor, nivel_formacion,
          carrera, celular, programa, situacion_negocio, ejercer_actividad_proyecto, empresa_formalizada, ficha,
          centro_orientacion, orientador)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
-$types = str_repeat('s', 27);
+$types = str_repeat('s', 26);
 $stmt->bind_param(
     $types,
-    $nombres, $apellidos, $departamento, $municipio, $pais, $tipo_id, $numero_id,
+    $nombres, $apellidos, $departamento, $municipio, $tipo_id, $numero_id,
     $fecha_nacimiento, $fecha_expedicioncc, $ts_inicio, // <-- DATETIME
     $genero, $nacionalidad, $pais_origen,
     $correo, $clasificacion, $discapacidad, $tipo_emprendedor, $nivel_formacion,
