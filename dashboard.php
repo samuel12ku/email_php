@@ -57,7 +57,14 @@ if (isset($_SESSION['mostrar_modal_confirmacion'])) {
     </script>
 
     <style>
-        .modal {
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+
+        body{
+            font-family: "Work Sans", sans-serif;
+            height: 100%;
+        }
+            .modal {
             position: fixed;
             z-index: 9999;
             left: 0;
@@ -69,6 +76,7 @@ if (isset($_SESSION['mostrar_modal_confirmacion'])) {
             display: flex;
             justify-content: center;
             align-items: center;
+            font-family: "Work Sans", sans-serif;
         }
         .modal-contenido {
             background-color: #fff;
@@ -78,10 +86,18 @@ if (isset($_SESSION['mostrar_modal_confirmacion'])) {
             width: 90%;
             max-width: 400px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            font: inherit;
+            font-family: "Work Sans", sans-serif;
         }
         .modal-contenido h2 {
             color: green;
             margin-bottom: 10px;
+            font-family: inherit;
+        }
+
+        .modal-contenido p {
+            font-family: inherit;
+            color: #333;
         }
         .modal-contenido button {
             margin-top: 15px;
@@ -91,6 +107,7 @@ if (isset($_SESSION['mostrar_modal_confirmacion'])) {
             color: white;
             border-radius: 5px;
             cursor: pointer;
+            font-family: inherit;
         }
         .modal-contenido button:hover {
             background-color: #39A900;
@@ -103,6 +120,8 @@ if (isset($_SESSION['mostrar_modal_confirmacion'])) {
 // Mostrar modal de revisión si acceso_panel sigue siendo 0
 if (isset($usuario['acceso_panel']) && (int)$usuario['acceso_panel'] === 0) {
     echo '
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
     <div class="modal">
         <div class="modal-contenido">
             <p>Tu proceso está en revisión. Aún no puedes acceder a las herramientas. Te enviaremos una notificación cuando tu orientador confirme la siguiente cita.</p>
@@ -110,6 +129,12 @@ if (isset($usuario['acceso_panel']) && (int)$usuario['acceso_panel'] === 0) {
         </div>
     </div>
     <style>
+
+
+        body{
+        height: 100%;
+        }
+        
         .modal {
             position: fixed;
             z-index: 9999;
@@ -122,6 +147,7 @@ if (isset($usuario['acceso_panel']) && (int)$usuario['acceso_panel'] === 0) {
             display: flex;
             justify-content: center;
             align-items: center;
+            fotn-family: "Work Sans", sans-serif;
         }
         .modal-contenido {
             background-color: #fff;
@@ -144,7 +170,7 @@ if (isset($usuario['acceso_panel']) && (int)$usuario['acceso_panel'] === 0) {
         .modal-contenido button:hover {
             background-color: #39A900;
         }
-    </style>';
+    </>';
     exit;
 }
 

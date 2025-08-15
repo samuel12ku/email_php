@@ -33,14 +33,14 @@
       <!-- Botón hamburguesa solo en móviles -->
 
       <!-- Menú desplegable que se muestra en móviles -->
-      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+      <!-- <button class="menu-toggle" onclick="toggleMenu()">☰</button>
       <nav id="navMenu" class="menu-desplegable">
         <ul>
           <li><a href="../dashboard.php">Inicio</a></li>
           <li><a href="#">Servicios</a></li>
           <li><a href="#">Contacto</a></li>
         </ul>
-      </nav>
+      </nav> -->
 
       <!-- Encabezado de escritorio -->
       <nav class="encabezado-nav">
@@ -88,7 +88,7 @@
           formulario sean recolectados, almacenados, usados, circulados,
           suprimidos y en general, sean tratados por parte del Centro de
           Desarrollo Empresarial virtual SENA (Ley de Protección de Datos
-          Personales).
+          Personales Ley 1581 de 2012).
         </p>
       </div>
 
@@ -148,12 +148,12 @@
                 <option value="" disabled selected>
                   -- Selecciona una opción --
                 </option>
+                <option value="TI">Tarjeta de Identidad (TI)</option>
                 <option value="CC">Cédula de Ciudadanía (CC)</option>
                 <option value="CE">Cédula de Extranjería (CE)</option>
-                <option value="PEP">
-                  Permiso Especial de Permanencia (PEP)
-                </option>
-                <option value="P">Pasaporte (P)</option>
+                <option value="PEP">Permiso Especial de Permanencia (PEP)</option>
+                <option value="PAS">Pasaporte (P)</option>
+                <option value="PPT">Permiso Temporal de Protección (PPT)</option>
               </select>
             </div>
 
@@ -162,7 +162,9 @@
                 >4. Número de Identificación
                 <span style="color: red">*</span></label
               ><br />
-              <input type="text" id="numero_id" name="numero_id"  class="form-control" pattern="[a-zA-Z0-9]{6,20}" minlength="6" maxlength="20" required />
+              <input type="text" id="numero_id" name="numero_id" inputmode="numeric" class="form-control" pattern="[a-zA-Z0-9]{6,20}" minlength="6" maxlength="20" required />
+              <small id="numero_id_hint" style="display:block;color:#666;margin-top:4px;"></small>
+
             </div>
           </div>
           <div class="form-grupo">
@@ -190,7 +192,7 @@
             <label for="fecha_nacimiento"
               >7. Fecha de nacimiento <span style="color: red">*</span></label
             ><br />
-            <inpu type="date id="fecha_nacimiento name="fecha_nacimiento require class="form-control title="Seleccione una fecha válida"/>
+            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" require class="form-control" title="Seleccione una fecha válida"/>
           </div>
 
           <div class="form-grupo">
@@ -275,17 +277,23 @@
             <label for="municipio"
               >12. Municipio <span style="color: red">*</span></label
             ><br />
-            <input type="text" id="municipio" name="municipio" class="form-control" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]{2,25}" title="Solo ingrese letras" required/>
+            <input type="text" id="municipio" name="municipio" class="form-control" pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]{2,45}" title="Solo ingrese letras" required/>
           </div>
         </div>
 
         <!-- FASE 3 -->
         <div class="fase">
           <div class="titulo-seccion">📆 Información Adicional</div>
-          <!-- <div class="form-grupo">
-          <label for="fecha_orientacion">13. Fecha de orientación <span style="color:red">*</span></label><br/>
-          <input type="date" id="fecha_orientacion" name="fecha_orientacion" required class="form-control" />
-        </div> -->
+          <div class="form-grupo">
+          <label for="fecha_orientacion">13. Fecha de orientación</label><br/>
+          <!-- Campo visible solo para mostrar la fecha de hoy (no se envía) -->
+        <input type="text" id="fecha_orientacion_display" value="" readonly class="form-control">
+
+        <!-- Campos ocultos que sí se envían -->
+        <input type="hidden" name="fecha_orientacion" id="fecha_orientacion"> <!-- opcional: solo fecha -->
+        <input type="hidden" name="ts_inicio" id="ts_inicio"> <!-- fecha y hora de inicio -->
+
+        </div>
           <div class="form-grupo">
             <label for="genero"
               >13. Sexo <span style="color: red">*</span></label
@@ -600,6 +608,31 @@
             <!-- Campo que solo se muestra si la opción es "Otro" -->
             <!-- <input type="text" id="programa_otro" name="programa_otro" placeholder="Especifique cuál" class="form-control" style="display:none; margin-top:8px;" required> -->
           </div>
+          
+          <div class="form-grupo">
+            <label
+              >21. ¿Usted ejerce la actividad relacionada con el proyecto que desea presentar?, ya sea manera informal o formal?
+              <span style="color: red">*</span></label
+            ><br />
+            <select id="ejercer_actividad_proyecto" name="ejercer_actividad_proyecto" required class="form-control">
+              <option value="" disabled selected hidden>-- Selecciona --</option>
+              <option value="SI">Si</option>
+              <option value="NO">No</option>
+            </select>
+          </div>
+
+          <div class="form-grupo">
+            <label
+              >22. ¿Usted tiene empresa Formalizada ante Cámara de Comercio?
+              <span style="color: red">*</span></label
+            ><br />
+            <select id="empresa_formalizada" name="empresa_formalizada" required class="form-control">
+              <option value="" disabled selected hidden>-- Selecciona --</option>
+              <option value="SI">Si</option>
+              <option value="NO">No</option>
+            </select>
+          </div>
+
         </div>
 
         <!-- FASE 7 -->
@@ -607,7 +640,7 @@
           <div class="titulo-seccion">🏢 Centro y Orientador</div>
           <div class="form-grupo">
             <label for="centro_orientacion"
-              >21. ¿Cuál es el Centro de Desarrollo Empresarial que brinda la
+              >23. ¿Cuál es el Centro de Desarrollo Empresarial que brinda la
               orientación? <span style="color: red">*</span></label
             ><br />
             <select
@@ -651,11 +684,11 @@
           </div>
           <div class="form-grupo">
             <label for="orientador"
-              >22. ¿Cuál fue el orientador que brindó la orientación?
+              >24. ¿Cuál fue el orientador que brindó la orientación?
               <span style="color: red">*</span></label
             ><br />
             <select id="orientador" name="orientador" required class="form-control">
-              <option value="" disabled>
+              <option value="" disabled selected>
                 -- Selecciona primero un centro --
               </option>
             </select>

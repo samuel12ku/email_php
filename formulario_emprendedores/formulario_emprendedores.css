@@ -364,7 +364,7 @@ textarea.tocado:valid {
 }
 
 /* Botón de menú hamburguesa */
-.menu-toggle {
+/* .menu-toggle {
   display: none;
   font-size: 28px;
   background: none;
@@ -377,7 +377,6 @@ textarea.tocado:valid {
   z-index: 1001;
 }
 
-/* Estilos del menú desplegable */
 .menu-desplegable {
   display: none;
   position: absolute;
@@ -410,7 +409,7 @@ textarea.tocado:valid {
 
 .menu-desplegable li a:hover {
   background-color: #f5f5f5;
-}
+} */
 
 @media (max-width: 768px) {
 

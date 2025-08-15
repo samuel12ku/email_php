@@ -154,6 +154,8 @@ crearBotones();
 mostrarFase(faseActual);
 
 
+
+
 document.querySelectorAll('input, select, textarea').forEach(campo => {
   campo.addEventListener('blur', () => {
     campo.classList.add('tocado');
@@ -183,6 +185,91 @@ function setupCampoOtro(selectId, inputId) {
   }
 }
 
+// Reglas por tipo de documento (ajústalas si tus rangos reales difieren)
+const REGLAS_ID = {
+  TI:  { min: 6,  max: 10,  soloNumeros: true,  etiqueta: 'Tarjeta de Identidad' },
+  CC:  { min: 6,  max: 12,  soloNumeros: true,  etiqueta: 'Cédula de Ciudadanía' }, // amplié max a 12 por casos largos
+  CE:  { min: 6,  max: 15,  soloNumeros: false, etiqueta: 'Cédula de Extranjería' },
+  PEP: { min: 6,  max: 15,  soloNumeros: false, etiqueta: 'Permiso Especial de Permanencia' },
+  PPT: { min: 6,  max: 15,  soloNumeros: false, etiqueta: 'Permiso por Protección Temporal' },
+  PAS: { min: 6,  max: 15,  soloNumeros: false, etiqueta: 'Pasaporte' }
+};
+
+function actualizarReglasNumeroId() {
+  const tipo = document.getElementById('tipo_id');
+  const input = document.getElementById('numero_id');
+  const hint  = document.getElementById('numero_id_hint');
+  if (!tipo || !input) return;
+
+  const regla = REGLAS_ID[tipo.value];
+
+  if (!regla) {
+    input.removeAttribute('maxlength');
+    input.removeAttribute('minlength');
+    input.removeAttribute('pattern');
+    input.placeholder = '';
+    if (hint) hint.textContent = '';
+    return;
+  }
+
+  input.maxLength = regla.max;
+  input.minLength = regla.min;
+
+  if (regla.soloNumeros) {
+    input.setAttribute('pattern', `\\d{${regla.min},${regla.max}}`);
+    input.setAttribute('inputmode', 'numeric');
+    input.placeholder = `Solo números (${regla.min}-${regla.max} dígitos)`;
+  } else {
+    // Alfanumérico sin espacios (si necesitas guiones, avísame y lo habilitamos)
+    input.setAttribute('pattern', `[A-Za-z0-9]{${regla.min},${regla.max}}`);
+    input.setAttribute('inputmode', 'text');
+    input.placeholder = `Letras y/o números (${regla.min}-${regla.max} caracteres)`;
+  }
+
+  if (hint) {
+    const tipoTxt = regla.etiqueta || tipo.value;
+    hint.textContent = `${tipoTxt}: ${regla.min}-${regla.max} ${regla.soloNumeros ? 'dígitos (solo números)' : 'caracteres alfanuméricos'}.`;
+  }
+
+  input.oninvalid = () => {
+    input.setCustomValidity(
+      regla.soloNumeros
+        ? `Ingresa de ${regla.min} a ${regla.max} dígitos numéricos.`
+        : `Ingresa de ${regla.min} a ${regla.max} caracteres alfanuméricos (sin espacios).`
+    );
+  };
+  input.oninput = () => input.setCustomValidity('');
+}
+
+function filtroNumeroIdEnVivo() {
+  const tipo = document.getElementById('tipo_id');
+  const input = document.getElementById('numero_id');
+  if (!tipo || !input) return;
+
+  const regla = REGLAS_ID[tipo.value];
+  if (!regla) return;
+
+  if (regla.soloNumeros) {
+    const limpio = input.value.replace(/\D+/g, '');
+    if (limpio !== input.value) input.value = limpio;
+  } else {
+    // Quita todo lo que no sea letra o número
+    const limpio = input.value.replace(/[^A-Za-z0-9]+/g, '');
+    if (limpio !== input.value) input.value = limpio;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const tipo = document.getElementById('tipo_id');
+  const input = document.getElementById('numero_id');
+  if (tipo) {
+    tipo.addEventListener('change', actualizarReglasNumeroId);
+    actualizarReglasNumeroId();
+  }
+  if (input) input.addEventListener('input', filtroNumeroIdEnVivo);
+});
+
+
 // Configurar todos los campos que usan "Otro"
 setupCampoOtro('departamento', 'dpto_otro');
 setupCampoOtro('programa', 'programa_otro');
@@ -192,7 +279,7 @@ setupCampoOtro('situacion_negocio', 'negocio_otro');
 document.addEventListener('DOMContentLoaded', function () {
   const hoy = new Date();
   const minFecha = '1900-01-01';
-  const fecha18 = new Date(hoy.getFullYear() - 18, hoy.getMonth(), hoy.getDate()).toISOString().split('T')[0];
+  const fecha18 = new Date(hoy.getFullYear() - 16, hoy.getMonth(), hoy.getDate()).toISOString().split('T')[0];
 
   const campoNacimiento = document.getElementById('fecha_nacimiento');
   const campoExpedicion = document.getElementById('fecha_expedicion');
@@ -204,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function () {
     campoNacimiento.addEventListener('input', () => {
       const seleccionada = campoNacimiento.value;
       if (seleccionada > fecha18) {
-        campoNacimiento.setCustomValidity('Debes tener al menos 18 años.');
+        campoNacimiento.setCustomValidity('Debes tener al menos 16 años.');
       } else {
         campoNacimiento.setCustomValidity('');
       }
@@ -217,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function () {
     campoExpedicion.addEventListener('input', () => {
       const seleccionada = campoExpedicion.value;
       if (seleccionada > fecha18) {
-        campoExpedicion.setCustomValidity('La fecha de expedición no puede ser menor de 18 años.');
+        campoExpedicion.setCustomValidity('La fecha de expedición no puede ser menor de 16 años.');
       } else {
         campoExpedicion.setCustomValidity('');
       }
@@ -229,6 +316,32 @@ document.addEventListener('DOMContentLoaded', function () {
     campoOrientacion.setAttribute('max', maxOrientacion);
     campoOrientacion.setAttribute('min', '2010-01-01');
   }
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const d = new Date();
+
+  const yyyy = d.getFullYear();
+  const mm   = String(d.getMonth() + 1).padStart(2, '0');
+  const dd   = String(d.getDate()).padStart(2, '0');
+  const hh   = String(d.getHours()).padStart(2, '0');
+  const mi   = String(d.getMinutes()).padStart(2, '0');
+  const ss   = String(d.getSeconds()).padStart(2, '0');
+
+  const soloFecha = `${yyyy}-${mm}-${dd}`;
+  const fechaHoraInicio = `${yyyy}-${mm}-${dd} ${hh}:${mi}:${ss}`;
+
+  // visible y no editable
+  const display = document.getElementById('fecha_orientacion_display');
+  if (display) display.value = soloFecha;
+
+  // ocultos que se envían
+  const hiddenFecha = document.getElementById('fecha_orientacion');
+  if (hiddenFecha) hiddenFecha.value = soloFecha;
+
+  const hiddenTs = document.getElementById('ts_inicio');
+  if (hiddenTs) hiddenTs.value = fechaHoraInicio;
 });
 
 
