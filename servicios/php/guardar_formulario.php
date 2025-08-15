@@ -13,21 +13,23 @@ mysqli_set_charset($conn, 'utf8mb4');
 $nivel_formacion = isset($_POST['nivel_formacion']) ? mb_strtoupper(trim($_POST['nivel_formacion']), 'UTF-8') : '';
 $carrera = '';
 switch ($nivel_formacion) {
-    case 'TÉCNICO':   $carrera = trim($_POST['carrera_tecnico']   ?? ''); break;
-    case 'TECNÓLOGO': $carrera = trim($_POST['carrera_tecnologo'] ?? ''); break;
-    case 'OPERARIO':  $carrera = trim($_POST['carrera_operario']  ?? ''); break;
-    case 'AUXILIAR':  $carrera = trim($_POST['carrera_auxiliar']  ?? ''); break;
+    case 'TÉCNICO':
+    case 'TECNICO':    $carrera = trim($_POST['carrera_tecnico']   ?? ''); break;
+    case 'TECNÓLOGO':
+    case 'TECNOLOGO':  $carrera = trim($_POST['carrera_tecnologo'] ?? ''); break;
+    case 'OPERARIO':   $carrera = trim($_POST['carrera_operario']  ?? ''); break;
+    case 'AUXILIAR':   $carrera = trim($_POST['carrera_auxiliar']  ?? ''); break;
 }
 
-// ------- Variables del formulario (todas como string) -------
-$nombres            = mb_convert_case(trim($_POST['nombres']      ?? ''), MB_CASE_TITLE, "UTF-8");
-$apellidos          = mb_convert_case(trim($_POST['apellidos']    ?? ''), MB_CASE_TITLE, "UTF-8");
+// ------- Variables del formulario (strings normalizados) -------
+$nombres    = mb_convert_case(trim($_POST['nombres']   ?? ''), MB_CASE_TITLE, "UTF-8");
+$apellidos  = mb_convert_case(trim($_POST['apellidos'] ?? ''), MB_CASE_TITLE, "UTF-8");
 
 // Tipo y número de identificación con validación
-$tipo_id            = mb_strtoupper(trim($_POST['tipo_id']        ?? ''), 'UTF-8');
-$numero_id          = mb_strtoupper(trim($_POST['numero_id']      ?? ''), 'UTF-8');
+$tipo_id   = mb_strtoupper(trim($_POST['tipo_id']   ?? ''), 'UTF-8');
+$numero_id = mb_strtoupper(trim($_POST['numero_id'] ?? ''), 'UTF-8');
 
-// Reglas espejo del front (incluye PEP, PPT, PAS)
+// Reglas de número de identificación
 $reglas = [
   'TI'  => ['min' => 6, 'max' => 10, 'soloNumeros' => true ],
   'CC'  => ['min' => 6, 'max' => 12, 'soloNumeros' => true ],
@@ -39,186 +41,168 @@ $reglas = [
 if (!isset($reglas[$tipo_id])) { http_response_code(422); exit('Tipo de identificación inválido.'); }
 $rg  = $reglas[$tipo_id];
 $len = mb_strlen($numero_id, 'UTF-8');
-if ($len < $rg['min'] || $len > $rg['max'])           { http_response_code(422); exit("Número de identificación inválido: debe tener entre {$rg['min']} y {$rg['max']} caracteres."); }
+if ($len < $rg['min'] || $len > $rg['max'])                   { http_response_code(422); exit("Número de identificación inválido: debe tener entre {$rg['min']} y {$rg['max']} caracteres."); }
 if ($rg['soloNumeros'] && !preg_match('/^\d+$/', $numero_id)) { http_response_code(422); exit("Número de identificación inválido: solo se permiten dígitos."); }
 if (!$rg['soloNumeros'] && !preg_match('/^[A-Za-z0-9]+$/', $numero_id)) { http_response_code(422); exit("Número de identificación inválido: solo letras y/o números, sin espacios ni símbolos."); }
 
-$correo             = filter_var(strtolower(trim($_POST['correo'] ?? '')), FILTER_SANITIZE_EMAIL);
-$orientador_nombre  = preg_replace('/\s+/', ' ', trim($_POST['orientador'] ?? '')); // nombre completo
+$correo  = filter_var(strtolower(trim($_POST['correo'] ?? '')), FILTER_SANITIZE_EMAIL);
+$celular = (string)trim($_POST['celular'] ?? '');
+
+// Aceptar 'sexo' o 'genero' desde el front
+$sexo = ucfirst(mb_strtolower(trim($_POST['sexo'] ?? $_POST['genero'] ?? ''), 'UTF-8'));
 
 $departamento = (($_POST['departamento'] ?? '') === 'Otro' && !empty($_POST['departamento_otro']))
     ? ucfirst(mb_strtolower(trim($_POST['departamento_otro'] ?? ''), 'UTF-8'))
     : ucfirst(mb_strtolower(trim($_POST['departamento']       ?? ''), 'UTF-8'));
 
-$municipio            = ucfirst(mb_strtolower(trim($_POST['municipio']          ?? ''), 'UTF-8'));
-$fecha_nacimiento     = (string)($_POST['fecha_nacimiento']   ?? '');
-$fecha_expedicioncc   = (string)($_POST['fecha_expedicion']   ?? '');
+$municipio          = ucfirst(mb_strtolower(trim($_POST['municipio']        ?? ''), 'UTF-8'));
+$fecha_nacimiento   = (string)($_POST['fecha_nacimiento'] ?? '');
+$fecha_expedicion   = (string)($_POST['fecha_expedicion'] ?? ''); // nueva columna a guardar
 
-// Fecha + hora (del inicio del formulario). Si no llega, usa la del servidor.
+// Tiempos
 date_default_timezone_set('America/Bogota');
-$fehca_orientacion = $_POST['ts_inicio'] ?? date('Y-m-d H:i:s');
+$ts_inicio      = $_POST['ts_inicio']   ?? date('Y-m-d H:i:s'); // fecha_orientacion (inicio de diligenciamiento)
+$fecha_registro = date('Y-m-d H:i:s');                          // nueva columna a guardar (servidor)
 
-$pais_origen          = (string)($_POST['pais_origen']        ?? '');
-$celular              = (string)trim($_POST['celular']        ?? '');
-$sexo               = ucfirst(mb_strtolower(trim($_POST['sexo']             ?? ''), 'UTF-8'));
-$nacionalidad         = ucfirst(mb_strtolower(trim($_POST['nacionalidad']       ?? ''), 'UTF-8'));
-$clasificacion        = ucfirst(mb_strtolower(trim($_POST['clasificacion']      ?? ''), 'UTF-8'));
-$discapacidad         = ucfirst(mb_strtolower(trim($_POST['discapacidad']       ?? ''), 'UTF-8'));
-$tipo_emprendedor     = ucfirst(mb_strtolower(trim($_POST['tipo_emprendedor']   ?? ''), 'UTF-8'));
+// País y nacionalidad
+$pais_origen  = (string)($_POST['pais_origen']  ?? '');
+$nacionalidad = ucfirst(mb_strtolower(trim($_POST['nacionalidad'] ?? ''), 'UTF-8'));
+$pais         = $pais_origen;
+
+$clasificacion       = ucfirst(mb_strtolower(trim($_POST['clasificacion']      ?? ''), 'UTF-8'));
+$discapacidad        = ucfirst(mb_strtolower(trim($_POST['discapacidad']       ?? ''), 'UTF-8'));
+$tipo_emprendedor    = ucfirst(mb_strtolower(trim($_POST['tipo_emprendedor']   ?? ''), 'UTF-8'));
 $programa = (($_POST['programa'] ?? '') === 'Otro' && !empty($_POST['programa_especial_otro']))
     ? ucfirst(mb_strtolower(trim($_POST['programa_especial_otro'] ?? ''), 'UTF-8'))
     : ucfirst(mb_strtolower(trim($_POST['programa']                ?? ''), 'UTF-8'));
 $situacion_negocio = (($_POST['situacion_negocio'] ?? '') === 'Otro' && !empty($_POST['situacion_negocio_otro']))
     ? ucfirst(mb_strtolower(trim($_POST['situacion_negocio_otro'] ?? ''), 'UTF-8'))
     : ucfirst(mb_strtolower(trim($_POST['situacion_negocio']      ?? ''), 'UTF-8'));
-$ejercer_actividad    = mb_strtoupper(trim($_POST['ejercer_actividad_proyecto'] ?? ''), 'UTF-8');
-$empresa_formalizada  = mb_strtoupper(trim($_POST['empresa_formalizada']        ?? ''), 'UTF-8');
-$ficha                = ucfirst(mb_strtolower(trim($_POST['ficha']              ?? ''), 'UTF-8'));
-$centro_orientacion   = mb_strtoupper(trim($_POST['centro_orientacion']         ?? ''), 'UTF-8');
 
-// ------- Validación mínima de orientador (obligatorio como nombre) -------
+$ejercer_actividad   = mb_strtoupper(trim($_POST['ejercer_actividad_proyecto'] ?? ''), 'UTF-8');
+$empresa_formalizada = mb_strtoupper(trim($_POST['empresa_formalizada']        ?? ''), 'UTF-8');
+$ficha               = ucfirst(mb_strtolower(trim($_POST['ficha']              ?? ''), 'UTF-8'));
+$centro_orientacion  = mb_strtoupper(trim($_POST['centro_orientacion']         ?? ''), 'UTF-8');
+
+// Orientador (obligatorio por nombre) y búsqueda de orientador_id
+$orientador_nombre = preg_replace('/\s+/', ' ', trim($_POST['orientador'] ?? ''));
 if ($orientador_nombre === '') {
     http_response_code(422);
     ?>
-    <!DOCTYPE html>
-    <html lang="es"><head>
-        <meta charset="UTF-8"><title>Falta el orientador</title>
-    <style>
-    body{
-        font-family:sans-serif;
-        background:#fff7f7;
-        color:#b71c1c;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        height:100vh;
-        margin:0
-    }
-
-    .card{
-        background:#fff;
-        padding:28px 32px;
-        border-radius:10px;
-        box-shadow:0 10px 25px rgba(0,0,0,.08);
-        max-width:640px;
-        text-align:center
-    }
-    .btn{
-        display:inline-block;
-        margin-top:14px;
-        padding:10px 18px;
-        background:#b71c1c;
-        color:#fff;
-        border-radius:6px;
-        text-decoration:none;
-    }
-        </style>
-        </head>
-    <body><div class="card"><h2>Debes seleccionar un orientador</h2><a class="btn" href="javascript:history.back()">Volver</a></div></body></html>
+    <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Falta el orientador</title>
+    <style>body{font-family:sans-serif;background:#fff7f7;color:#b71c1c;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}.card{background:#fff;padding:28px 32px;border-radius:10px;box-shadow:0 10px 25px rgba(0,0,0,.08);max-width:640px;text-align:center}.btn{display:inline-block;margin-top:14px;padding:10px 18px;background:#b71c1c;color:#fff;border-radius:6px;text-decoration:none}</style>
+    </head><body><div class="card"><h2>Debes seleccionar un orientador</h2><a class="btn" href="javascript:history.back()">Volver</a></div></body></html>
     <?php
     exit;
 }
 
-// ------- Chequeo de DUPLICADOS (ruta_emprendedora) -------
+
+
+// ------- Chequeo de duplicados en la MISMA tabla de orientación -------
 $duplicados = [];
 
 // ¿Número de identificación ya existe?
 $chk1 = $conn->prepare("SELECT 1 FROM orientacion_rcde2025_valle WHERE numero_id = ? LIMIT 1");
 $chk1->bind_param("s", $numero_id);
-$chk1->execute();
-$chk1->store_result();
+$chk1->execute(); $chk1->store_result();
 if ($chk1->num_rows > 0) { $duplicados[] = "El número de identificación ya está registrado."; }
 $chk1->close();
 
 // ¿Correo ya existe?
 $chk2 = $conn->prepare("SELECT 1 FROM orientacion_rcde2025_valle WHERE correo = ? LIMIT 1");
 $chk2->bind_param("s", $correo);
-$chk2->execute();
-$chk2->store_result();
+$chk2->execute(); $chk2->store_result();
 if ($chk2->num_rows > 0) { $duplicados[] = "El correo ya está registrado."; }
 $chk2->close();
 
 if (!empty($duplicados)) {
-    http_response_code(409); // Conflicto
-    ?>
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-      <meta charset="UTF-8">
-      <title>Datos duplicados</title>
-      <style>
-        body{font-family:sans-serif;background:#fff7f7;color:#b71c1c;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
-        .card{background:#fff;padding:28px 32px;border-radius:10px;box-shadow:0 10px 25px rgba(0,0,0,.08);max-width:680px}
-        ul{margin:8px 0 0 18px}
-        .btn{display:inline-block;margin-top:14px;padding:10px 18px;background:#b71c1c;color:#fff;border-radius:6px;text-decoration:none}
-      </style>
-    </head>
-    <body>
-      <div class="card">
-        <h2>No pudimos guardar: se encontraron datos duplicados</h2>
-        <ul>
-          <?php foreach ($duplicados as $msg) { echo "<li>".htmlspecialchars($msg)."</li>"; } ?>
-        </ul>
-        <a class="btn" href="javascript:history.back()">Volver y corregir</a>
-      </div>
-    </body>
-    </html>
-    <?php
+    http_response_code(409); ?>
+    <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Datos duplicados</title>
+    <style>body{font-family:sans-serif;background:#fff7f7;color:#b71c1c;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}.card{background:#fff;padding:28px 32px;border-radius:10px;box-shadow:0 10px 25px rgba(0,0,0,.08);max-width:680px}.btn{display:inline-block;margin-top:14px;padding:10px 18px;background:#b71c1c;color:#fff;border-radius:6px;text-decoration:none}ul{margin:8px 0 0 18px}</style>
+    </head><body><div class="card"><h2>No pudimos guardar: se encontraron datos duplicados</h2><ul>
+    <?php foreach ($duplicados as $msg) { echo "<li>".htmlspecialchars($msg)."</li>"; } ?>
+    </ul><a class="btn" href="javascript:history.back()">Volver y corregir</a></div></body></html><?php
     exit;
 }
 
-// ------- INSERT en ruta_emprendedora (27 columnas) -------
-// Guardamos fecha y hora en fecha_orientacion con $ts_inicio
+// ------- Defaults solicitados -------
+$rol                = 'emprendedor';
+$contrasena_hash    = password_hash($numero_id, PASSWORD_DEFAULT);
+$estado_proceso_def = 'pendiente';
+$acceso_panel_def   = 0; // INT
+
+// Buscar orientador_id a partir del nombre completo elegido en el form
+// En orientadores: nombres = "Celiced", apellidos = "Castaño Barco"
+$orientador_id = 0;
+
+// Normaliza espacios a uno solo
+$orientador_nombre_normal = preg_replace('/\s+/', ' ', trim($orientador_nombre));
+
+// 1) Match por nombre completo: CONCAT(nombres, ' ', apellidos)
+if ($q1 = $conn->prepare(" SELECT id_orientador FROM orientadores WHERE CONCAT_WS(' ', TRIM(nombres), TRIM(apellidos)) COLLATE utf8mb4_spanish_ci = ? LIMIT 1
+")) {
+    $q1->bind_param("s", $orientador_nombre_normal);
+    $q1->execute();
+    $q1->bind_result($tmpId1);
+    if ($q1->fetch()) { $orientador_id = (int)$tmpId1; }
+    $q1->close();
+}
+
+// 2) Fallback: primer token como 'nombres', resto como 'apellidos'
+if ($orientador_id === 0) {
+    $partes = explode(' ', $orientador_nombre_normal, 2);
+    $nombre_primero = $partes[0] ?? '';
+    $apellidos_rest = $partes[1] ?? '';
+    if ($nombre_primero !== '' && $apellidos_rest !== '') {
+        if ($q2 = $conn->prepare(" SELECT id_orientador FROM orientadores WHERE TRIM(nombres)   COLLATE utf8mb4_spanish_ci = ? AND TRIM(apellidos) COLLATE utf8mb4_spanish_ci = ? LIMIT 1
+        ")) {
+            $q2->bind_param("ss", $nombre_primero, $apellidos_rest);
+            $q2->execute();
+            $q2->bind_result($tmpId2);
+            if ($q2->fetch()) { $orientador_id = (int)$tmpId2; }
+            $q2->close();
+        }
+    }
+}
+
+
+$orientador_id = $orientador_id ?? 0;  // si no lo encuentra, 0
+
+// ------- INSERT principal (ORDEN EXACTO requerido) -------
+// Incluye: fecha_expedicion, fecha_registro y orientador_id ANTES de 'orientador'
 $sql = "INSERT INTO orientacion_rcde2025_valle
         (nombres, apellidos, tipo_id, numero_id, correo,
          celular, pais, nacionalidad, departamento, municipio, fecha_nacimiento,
          fecha_orientacion, sexo, clasificacion, discapacidad, tipo_emprendedor,
          nivel_formacion, ficha, carrera, programa, situacion_negocio, centro_orientacion,
-         orientador, pais_origen, rol, ejercer_actividad_proyecto, empresa_formalizada)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+         fecha_expedicion, fecha_registro, orientador_id, orientador, pais_origen, rol,
+         ejercer_actividad_proyecto, empresa_formalizada, contrasena, estado_proceso, acceso_panel)
+        VALUES
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
-$types = str_repeat('s', 27);
+
+// 24 's' (hasta fecha_registro), 1 'i' (orientador_id), 7 's' (incluye estado_proceso), 1 'i' (acceso_panel)
+$types = str_repeat('s', 24) . 'i' . str_repeat('s', 7) . 'i';
+ 
+
 $stmt->bind_param(
     $types,
-    $nombres, $apellidos, $tipo_id, $numero_id, $correo, $celular,
-    $pais, $nacionalidad, $departamento, 
-    $municipio, $fecha_nacimiento, $fehca_orientacion,
+    $nombres, $apellidos, $tipo_id, $numero_id, $correo,
+    $celular, $pais, $nacionalidad, $departamento,
+    $municipio, $fecha_nacimiento, $ts_inicio,
     $sexo, $clasificacion, $discapacidad, $tipo_emprendedor, $nivel_formacion,
-    $ficha, $carrera, $programa, $situacion_negocio, $centro_orientacion, $orientador_nombre, $pais_origen,
-    $rol, $ejercer_actividad, $empresa_formalizada  
+    $ficha, $carrera, $programa, $situacion_negocio, $centro_orientacion,
+    $fecha_expedicion, $fecha_registro, $orientador_id, $orientador_nombre, $pais_origen, $rol,
+    $ejercer_actividad, $empresa_formalizada, $contrasena_hash, $estado_proceso_def, $acceso_panel_def
 );
 
 $exito = $stmt->execute();
 $stmt->close();
 
 if ($exito) {
-    // Usuarios: sin orientador_id por ahora
-    $rol_usuario     = 'emprendedor';
-    $contrasena_hash = password_hash($numero_id, PASSWORD_DEFAULT);
-
-    $verificar = $conn->prepare("SELECT id_orientador FROM orientadores WHERE numero_id = ?");
-    $verificar->bind_param("s", $numero_id);
-    $verificar->execute();
-    $verificar->store_result();
-
-    if ($verificar->num_rows === 0) {
-        $insertUser = $conn->prepare("INSERT INTO orientacion_rcde2025_valle (nombres, apellidos, correo, numero_id, celular, contrasena, rol)
-        VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $insertUser->bind_param("sssssss", $nombres, $apellidos, $correo, $numero_id, $celular, $contrasena_hash, $rol_usuario);
-        $insertUser->execute();
-        $insertUser->close();
-    } else {
-        $updateUser = $conn->prepare("UPDATE usuarios SET nombres = ?, apellidos = ?, correo = ?, celular = ? WHERE numero_id = ?");
-        $updateUser->bind_param("sssss", $nombres, $apellidos, $correo, $celular, $numero_id);
-        $updateUser->execute();
-        $updateUser->close();
-    }
-
-    $verificar->close();
     $conn->close();
-
-    // Éxito
+    // ÉXITO
     ?>
     <!DOCTYPE html>
     <html lang="es">
@@ -233,23 +217,15 @@ if ($exito) {
             .card p{margin:0 0 25px}
             .btn{display:inline-block;padding:12px 26px;background:#39a900;color:#fff;border-radius:6px;text-decoration:none;transition:.3s}
             .btn:hover{background:#2e7d32}
-
-            @media (max-width: 480px) {
-                .card{padding:30px 40px}
-                .card h1{font-size:1.5rem}
-                .btn{padding:10px 20px;font-size:0.9rem}
-            }
-
-            @media (max-width: 760px) {
-                .card{max-width:90%;padding:30px 20px}
-            }
+            @media (max-width: 480px){.card{padding:30px 40px}.card h1{font-size:1.5rem}.btn{padding:10px 20px;font-size:0.9rem}}
+            @media (max-width: 760px){.card{max-width:90%;padding:30px 20px}}
         </style>
     </head>
     <body>
         <div class="card">
             <h1>¡Datos enviados con éxito!</h1>
             <p>Gracias por registrar tu información.</p>
-            <a class="btn" href="../../login.php">Ir al inicio de sesión    </a>
+            <a class="btn" href="../../login.php">Ir al inicio de sesión</a>
         </div>
     </body>
     </html>
@@ -260,4 +236,3 @@ if ($exito) {
     $conn->close();
     echo "❌ Error al guardar en la base de datos. Detalle: " . htmlspecialchars($err);
 }
-?>
