@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->Port = 587;
         $mail->SMTPSecure = 'tls';
         // Remitente y destinatario real (visible)
-        $mail->setFrom('LuzrecursosH@gmail.com', 'AdministracionCAB');
+        $mail->setFrom('LuzrecursosH@gmail.com', 'LorenaGil');
         $mail->addAddress($destinatario);
 
 

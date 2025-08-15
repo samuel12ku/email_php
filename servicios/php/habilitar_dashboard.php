@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['numero_id'])) {
     $numero_id = $_POST['numero_id'];
     $conexion = ConectarDB();
 
-    $stmt = $conexion->prepare("UPDATE usuarios SET acceso_panel = 1 WHERE numero_id = ?");
+    $stmt = $conexion->prepare("UPDATE orientacion_rcde2025_valle SET acceso_panel = 1 WHERE numero_id = ?");
     $stmt->bind_param("s", $numero_id);
 
     if ($stmt->execute()) {

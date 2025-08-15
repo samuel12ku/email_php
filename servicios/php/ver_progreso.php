@@ -11,7 +11,7 @@ $conexion = ConectarDB();
 
 // Obtener ID del usuario con su número de documento
 $numero_id = intval($_GET['numero_id']);
-$resultado = $conexion->query("SELECT id_usuarios, nombres, apellidos FROM usuarios WHERE numero_id = $numero_id LIMIT 1");
+$resultado = $conexion->query("SELECT id, nombres, apellidos FROM orientacion_rcde2025_valle WHERE numero_id = $numero_id LIMIT 1");
 
 if (!$resultado || $resultado->num_rows === 0) {
     echo "Usuario no encontrado.";
@@ -19,7 +19,7 @@ if (!$resultado || $resultado->num_rows === 0) {
 }
 
 $usuario = $resultado->fetch_assoc();
-$usuario_id = $usuario['id_usuarios'];
+$usuario_id = $usuario['id'];
 
 // Obtener fases completadas
 $fases_result = $conexion->query("SELECT fase FROM progreso_herramientas WHERE usuario_id = $usuario_id");

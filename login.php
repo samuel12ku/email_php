@@ -23,7 +23,7 @@
     <form action="servicios/php_Login/autenticador.php" method="post" class="persona-form">
         <div class="form-grupo">
             <label for="numeroDocumento">Número de documento</label>
-            <input type="text" id="numeroDocumento" name="numeroDocumento" pattern="[A-Z0-9]{1,10}" maxlength="20" min="10" title="Ingrese un número de documento válido" required class="form-control" value="<?= isset($_GET['documento']) ? htmlspecialchars($_GET['documento']) : '' ?>" />
+            <input type="text" id="numeroDocumento" name="numeroDocumento" pattern="[a-zA-Z0-9@._-]{1-40}" maxlength="40" min="10" title="Ingrese un número de documento válido" required class="form-control" value="<?= isset($_GET['documento']) ? htmlspecialchars($_GET['documento']) : '' ?>" />
         </div>
 
         <div class="form-grupo">

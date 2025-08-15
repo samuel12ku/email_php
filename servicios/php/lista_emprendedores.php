@@ -16,17 +16,17 @@ $id_orientador = $_SESSION['usuario_id'];
 // Obtener emprendedores asignados a este orientador
 $resultado = $conexion->prepare("
   SELECT 
-    u.nombres, 
-    u.apellidos, 
-    u.numero_id, 
-    u.correo, 
-    u.celular, 
+    e.nombres, 
+    e.apellidos, 
+    e.numero_id, 
+    e.correo, 
+    e.celular,
+    e.acceso_panel,
     MAX(ph.fase) AS ultima_fase
-  FROM usuarios u
-  LEFT JOIN progreso_herramientas ph ON u.id_usuarios = ph.usuario_id
-  WHERE u.rol = 'emprendedor' AND u.orientador_id = ?
-  GROUP BY u.id_usuarios
-");
+  FROM orientacion_rcde2025_valle e
+  LEFT JOIN progreso_herramientas ph ON e.id = ph.usuario_id
+  WHERE e.rol = 'emprendedor' AND e.orientador_id = ?
+  GROUP BY  e.id");
 
 $resultado->bind_param("i", $id_orientador);
 $resultado->execute();
@@ -104,6 +104,7 @@ $fases_totales = [
                     <th>Celular</th>
                     <th>Estado de Avance</th>
                     <th>Desarrollo</th>
+                    <th>Acceso</th>
                 </tr>
             </thead>
             <tbody id="tbodyEmprendedores">
@@ -116,19 +117,44 @@ $fases_totales = [
                         <td data-label="Celular"><?= htmlspecialchars($fila['celular']) ?></td>
                         <td data-label="Estado de avance"><?= isset($fila['ultima_fase']) && $fila['ultima_fase'] ? $fases_totales[$fila['ultima_fase']] : 'Sin avance' ?></td>
                         <td data-label="Desarrollo">
-                            <a href="ver_progreso.php?numero_id=<?= $fila['numero_id'] ?>">Ver progreso</a>
-                            <form method="POST" action="habilitar_dashboard.php" style="margin-top: 5px;">
-                                <input type="hidden" name="numero_id" value="<?= $fila['numero_id'] ?>">
-                                <button type="submit" onclick="return confirm('¿Estás seguro de habilitar el acceso al dashboard para este emprendedor?')">
-                                    Habilitar acceso
+                            <a href="ver_progreso.php?numero_id=<?= $fila['numero_id'] ?>">Ver progreso</a></td>
+                        <td data-label="Acceso">
+                            <?php if ($fila['acceso_panel'] == 1): ?>
+                                <button type="button" onclick="mostrarModalYaHabilitado('<?= $fila['nombres'] . ' ' . $fila['apellidos'] ?>')">
+                                    Habilitado
                                 </button>
-                            </form>
-                        </td>
+                            <?php else: ?>
+                                <form method="POST" action="habilitar_dashboard.php" 
+                                    onsubmit="return confirmarHabilitar('<?= $fila['nombres'] . ' ' . $fila['apellidos'] ?>', this)">
+                                    <input type="hidden" name="numero_id" value="<?= $fila['numero_id'] ?>">
+                                    <button type="submit">Habilitar acceso</button>
+                                </form>
+                            <?php endif; ?>
+                        </td>  
 
                     </tr>
                 <?php endwhile; ?>
             </tbody>
         </table>
+        <div id="modalConfirmar" class="modal" style="display:none;">
+            <div class="modal-contenido">
+                <p id="textoConfirmacion"></p>
+                <div style="text-align: right;">
+                    <button onclick="cerrarModal('modalConfirmar')">Cancelar</button>
+                    <button id="confirmarBtn">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalYaHabilitado" class="modal" style="display:none;">
+            <div class="modal-contenido">
+                <p id="textoYaHabilitado"></p>
+                <div style="text-align: right;">
+                    <button onclick="cerrarModal('modalYaHabilitado')">Cerrar</button>
+                </div>
+            </div>
+        </div>
+
     </div>
         <div class="volver">
             <a href="panel_orientador.php">⬅️ Volver al panel</a>
@@ -137,9 +163,35 @@ $fases_totales = [
 </body>
 <script src="../../componentes/js/tabla_emprendedores.js"></script>
 <script>
+
+let formParaEnviar = null; // variable global para el form
+let modal = document.getElementById('modalConfirmar'); // variable global para la modal
+
+function confirmarHabilitar(nombreCompleto, form) {
+    formParaEnviar = form;
+    document.getElementById('textoConfirmacion').innerText =
+        `¿Estás seguro de habilitar el acceso al panel para ${nombreCompleto}?`;
+    modal.style.display = 'flex';
+    return false; // evita que se envíe el form de inmediato
+}
+
+document.getElementById('confirmarBtn').onclick = function() {
+    modal.style.display = 'none'; // cerrar modal
+    if (formParaEnviar) {
+        formParaEnviar.submit(); // enviar el form
+    }
+};
+
+function mostrarModalYaHabilitado(nombreCompleto) {
+    document.getElementById('textoYaHabilitado').innerText =
+        `${nombreCompleto} ya tiene el acceso habilitado al panel.`;
+    document.getElementById('modalYaHabilitado').style.display = 'flex';
+}
+
 function cerrarModal(id) {
     document.getElementById(id).style.display = 'none';
 }
+
 </script>
 
 

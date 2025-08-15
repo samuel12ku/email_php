@@ -7,16 +7,31 @@ if (!isset($_SESSION['usuario_id'])) {
     exit;
 }
 
-// Consulta al usuario
+// Opcional: si un orientador intenta entrar aquí, redirígelo a su panel
+if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'orientador') {
+    header("Location: servicios/php/panel_orientador.php");
+    exit;
+}
+
 $conexion = ConectarDB();
-$id_usuario = $_SESSION['usuario_id'];
-$stmt = $conexion->prepare("SELECT * FROM usuarios WHERE id_usuarios = ?");
+$id_usuario = (int) $_SESSION['usuario_id'];
+
+// ===== OJO: ahora leemos al EMPRENDEDOR desde orientacion_rcde2025_valle =====
+$stmt = $conexion->prepare("SELECT * FROM orientacion_rcde2025_valle WHERE id = ?");
 $stmt->bind_param("i", $id_usuario);
 $stmt->execute();
 $resultado = $stmt->get_result();
 $usuario = $resultado->fetch_assoc();
+$stmt->close();
 
+if (!$usuario) {
+    // Si no existe, sesión inconsistente
+    session_destroy();
+    header("Location: login.php?error=" . urlencode("Usuario no encontrado"));
+    exit;
+}
 
+// Si viene de continuar_proceso.php, mostramos modal de confirmación + luego revisión
 if (isset($_SESSION['mostrar_modal_confirmacion'])) {
     echo '
     <div id="modal-confirmacion" class="modal">
@@ -55,7 +70,6 @@ if (isset($_SESSION['mostrar_modal_confirmacion'])) {
             justify-content: center;
             align-items: center;
         }
-
         .modal-contenido {
             background-color: #fff;
             padding: 30px;
@@ -65,12 +79,10 @@ if (isset($_SESSION['mostrar_modal_confirmacion'])) {
             max-width: 400px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
         }
-
         .modal-contenido h2 {
             color: green;
             margin-bottom: 10px;
         }
-
         .modal-contenido button {
             margin-top: 15px;
             padding: 10px 20px;
@@ -80,7 +92,6 @@ if (isset($_SESSION['mostrar_modal_confirmacion'])) {
             border-radius: 5px;
             cursor: pointer;
         }
-
         .modal-contenido button:hover {
             background-color: #39A900;
         }
@@ -89,8 +100,8 @@ if (isset($_SESSION['mostrar_modal_confirmacion'])) {
     exit;
 }
 
-// Mostrar modal de revisión si acceso_panel sigue siendo 0 (y no se mostró confirmación antes)
-if ($usuario['acceso_panel'] == 0) {
+// Mostrar modal de revisión si acceso_panel sigue siendo 0
+if (isset($usuario['acceso_panel']) && (int)$usuario['acceso_panel'] === 0) {
     echo '
     <div class="modal">
         <div class="modal-contenido">
@@ -112,7 +123,6 @@ if ($usuario['acceso_panel'] == 0) {
             justify-content: center;
             align-items: center;
         }
-
         .modal-contenido {
             background-color: #fff;
             padding: 30px;
@@ -122,7 +132,6 @@ if ($usuario['acceso_panel'] == 0) {
             max-width: 400px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
         }
-
         .modal-contenido button {
             margin-top: 15px;
             padding: 10px 20px;
@@ -132,7 +141,6 @@ if ($usuario['acceso_panel'] == 0) {
             border-radius: 5px;
             cursor: pointer;
         }
-
         .modal-contenido button:hover {
             background-color: #39A900;
         }
@@ -140,8 +148,7 @@ if ($usuario['acceso_panel'] == 0) {
     exit;
 }
 
-
-// Definir las fases y las fases completadas
+// Definir fases
 $fases = [
     1 => [
         'nombre' => 'Identificar Problema',
@@ -166,14 +173,19 @@ $fases = [
         'url' => 'herramientas_ideacion/form_lean_canvas/formulario_lean_canvas.html',
         'icono' => '🧩',
         'descripcion' => 'Modelo visual para estructurar tu idea de negocio.'
-    ]
+    ],
 ];
 
+// Fases completadas del usuario (misma tabla de progreso)
 $fases_completadas = [];
-$result = $conexion->query("SELECT fase FROM progreso_herramientas WHERE usuario_id = $id_usuario");
-while ($row = $result->fetch_assoc()) {
-    $fases_completadas[] = intval($row['fase']);
+$stmt = $conexion->prepare("SELECT fase FROM progreso_herramientas WHERE usuario_id = ?");
+$stmt->bind_param("i", $id_usuario);
+$stmt->execute();
+$res = $stmt->get_result();
+while ($row = $res->fetch_assoc()) {
+    $fases_completadas[] = (int)$row['fase'];
 }
+$stmt->close();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -182,36 +194,20 @@ while ($row = $result->fetch_assoc()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Control Fondo Emprender SENA</title>
     <link rel="stylesheet" href="componentes/estilo_dashboard.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
   </head>
 
   <body>
-?>
     <!-- Encabezado institucional -->
     <header class="encabezado-sena">
       <div class="encabezado-logo-titulo">
-        <a
-          href="dashboard.php"
-          class="encabezado-logo-link"
-          title="Ir al inicio"
-        >
-          <img
-            src="componentes/img/logosena.png"
-            alt="Logo SENA"
-            class="encabezado-logo"
-          />
+        <a href="dashboard.php" class="encabezado-logo-link" title="Ir al inicio">
+          <img src="componentes/img/logosena.png" alt="Logo SENA" class="encabezado-logo"/>
         </a>
-        <span class="encabezado-titulo"
-          >Herramientas Fondo Emprender - SENA</span
-        >
+        <span class="encabezado-titulo">Herramientas Fondo Emprender - SENA</span>
       </div>
       <nav class="encabezado-nav">
-        <div class="nav-izquierda">
-          <!-- (opcional) contenido a la izquierda, o dejar vacío -->
-        </div>
+        <div class="nav-izquierda"></div>
         <div class="nav-centro">
           <a href="dashboard.php" class="encabezado-nav-link">Inicio</a>
         </div>
@@ -225,207 +221,140 @@ while ($row = $result->fetch_assoc()) {
           </div>
         </div>
       </nav>
-
-
     </header>
+
     <div class="dashboard-contenedor">
       <div class="dashboard-header">
-        <img
-          src="componentes/img/logoFondoEmprender.svg"
-          alt="Logo SENA"
-          class="dashboard-logo"
-        />
+        <img src="componentes/img/logoFondoEmprender.svg" alt="Logo SENA" class="dashboard-logo"/>
         <h2><b>PANEL DE CONTROL - FONDO EMPRENDER SENA</b></h2>
         <span class="dashboard-titulo">
             Bienvenido/a,
             <strong>
-              <?php include "servicios/php_Login/obtener_nombre.php"; ?>
+              <?php
+                echo htmlspecialchars(($usuario['nombres'] ?? '') . ' ' . ($usuario['apellidos'] ?? ''));
+              ?>
             </strong>
         </span>
       </div>
-            <div class="dashboard-manual">
-              <strong>Uso del aplicativo</strong>
-              <ul>
-                <li>
-                  Este panel te guía paso a paso a través de las <b>herramientas de ideación</b> del Fondo Emprender.
-                </li>
-                <li>
-                  Cada fase debe ser <b>completada en orden</b>. Al finalizar una, se habilitará la siguiente automáticamente.
-                </li>
-                <li>
-                  Las fases completadas se pueden realizar nuevamente. Si deseas añadir otra respuesta, el sistema te consultará antes de continuar.
-                </li>
-                <li>
-                  La plataforma guarda tu progreso y lo asocia con tu usuario registrado.
-                </li>
-                <li>
-                  Mantén un <b>lenguaje claro y profesional</b> en cada herramienta. Esto facilitará el desarrollo posterior de tu idea de negocio.
-                </li>
-                <li>
-                  Para dudas sobre la presentación visual y redacción, puedes consultar la 
-                  <a href="https://www.sena.edu.co/es-co/Documents/MANUAL_IDENTIDAD_VISUAL_SENA_2024.pdf" target="_blank">
-                    guía de identidad SENA
-                  </a>.
-                </li>
-              </ul>
-            </div>
 
-      
-      
+      <div class="dashboard-manual">
+        <strong>Uso del aplicativo</strong>
+        <ul>
+          <li>Este panel te guía paso a paso a través de las <b>herramientas de ideación</b> del Fondo Emprender.</li>
+          <li>Cada fase debe ser <b>completada en orden</b>. Al finalizar una, se habilitará la siguiente automáticamente.</li>
+          <li>Las fases completadas se pueden realizar nuevamente. Si deseas añadir otra respuesta, el sistema te consultará antes de continuar.</li>
+          <li>La plataforma guarda tu progreso y lo asocia con tu usuario registrado.</li>
+          <li>Mantén un <b>lenguaje claro y profesional</b> en cada herramienta.</li>
+          <li>Para dudas de redacción/visual, puedes consultar la guía de identidad SENA.</li>
+        </ul>
+      </div>
+
       <!-- Grupo: Herramientas de Ideación -->
       <fieldset class="grupo-seccion">
         <legend class="titulo-seccion">🧠 Herramientas de Ideación</legend>
-        <div class="dashboard-tarjetas">          
-          <!-- <a class="tarjeta-interactiva fase fase-1" href="herramientas_ideacion/identificar_problema/necesidades.html" name="identificar_problema" id="identificar_problema">
-            <div class="tarjeta-icono">🔍</div>
-            <div class="tarjeta-titulo">Identificar Problema</div>
-              <div class="tarjeta-desc">Detecta el problema raíz a resolver.</div>
-            </a>
-            <a class="tarjeta-interactiva fase fase-2" href="herramientas_ideacion/tarjeta_persona/tarjeta_persona.html" name="tarjeta_persona" id="tarjeta_persona">
-              <div class="tarjeta-icono">🔲</div>
-              <div class="tarjeta-titulo">Tarjeta persona</div>
-              <div class="tarjeta-desc">Crea el retrato perfecto de tu usuario clave.</div>
-            </a>
-            <a class="tarjeta-interactiva fase fase-3" href="herramientas_ideacion/jobs_to_be_done/main.html" name="jobs_to_be_done" id="jobs_to_be_done">
-              <div class="tarjeta-icono">👨‍💼</div>
-              <div class="tarjeta-titulo">Jobs To Be Done</div>
-              <div class="tarjeta-desc">Comprende las necesidades reales de tus usuarios.</div>
-            </a>
-            
-          <a class="tarjeta-interactiva fase fase-4" href="herramientas_ideacion/form_lean_canvas/formulario_lean_canvas.html" name="lean_canvas" id="lean_canvas">
-            <div class="tarjeta-icono">🧩</div>
-            <div class="tarjeta-titulo">Lean Canvas</div>
-            <div class="tarjeta-desc">Modelo visual para estructurar tu idea de negocio.</div>
-          </a> -->
+        <div class="dashboard-tarjetas">
           <?php
-              foreach ($fases as $num => $fase) {
-                  $icono = $fase['icono'];
-                  $descripcion = $fase['descripcion'];
-                  $completada = in_array($num, $fases_completadas);
-                  $bloqueada = ($num > 1 && !in_array($num - 1, $fases_completadas));
+            foreach ($fases as $num => $fase) {
+                $icono = $fase['icono'];
+                $descripcion = $fase['descripcion'];
+                $completada = in_array($num, $fases_completadas, true);
+                $bloqueada = ($num > 1 && !in_array($num - 1, $fases_completadas, true));
 
-                  if ($completada) {
-                      echo "
-                      <a class='tarjeta-interactiva fase-completada' href='{$fase['url']}' name='fase-$num' id='fase-$num' data-fase='{$num}' data-url='{$fase['url']}'>
-                        <div class='tarjeta-icono'>{$icono}</div>
-                        <div class='tarjeta-titulo'>{$fase['nombre']}</div>
-                        <div class='desc'>{$descripcion}</div>
-                        <div class='tarjeta-desc'>Completada ✔️</div>
-                      </a>";
-                  } elseif ($bloqueada) {
-                      echo "
-                      <div class='tarjeta-bloqueada' name='fase-$num' id='fase-$num'>
-                        <div class='tarjeta-icono'>{$icono}</div>
-                        <div class='tarjeta-titulo'>{$fase['nombre']}</div>
-                        <div class='desc'>{$descripcion}</div>
-                        <div class='tarjeta-desc'>Fase bloqueada. Completa la anterior. 🔒</div>
-                      </div>";
-                  } else {
-                      echo "
-                      <a class='tarjeta-interactiva fase-activa' href='{$fase['url']}' name='fase-$num' id='fase-$num'>
-                        <div class='tarjeta-icono'>{$icono}</div>
-                        <div class='tarjeta-titulo'>{$fase['nombre']}</div>
-                        <div class='desc'>{$descripcion}</div>
-                        <div class='tarjeta-desc'>Haz clic en la tarjeta  para comenzar</div>
-                      </a>";
-                  }
-              }
-            ?>
+                if ($completada) {
+                    echo "
+                    <a class='tarjeta-interactiva fase-completada' href='{$fase['url']}' name='fase-$num' id='fase-$num' data-fase='{$num}' data-url='{$fase['url']}'>
+                      <div class='tarjeta-icono'>{$icono}</div>
+                      <div class='tarjeta-titulo'>{$fase['nombre']}</div>
+                      <div class='desc'>{$descripcion}</div>
+                      <div class='tarjeta-desc'>Completada ✔️</div>
+                    </a>";
+                } elseif ($bloqueada) {
+                    echo "
+                    <div class='tarjeta-bloqueada' name='fase-$num' id='fase-$num'>
+                      <div class='tarjeta-icono'>{$icono}</div>
+                      <div class='tarjeta-titulo'>{$fase['nombre']}</div>
+                      <div class='desc'>{$descripcion}</div>
+                      <div class='tarjeta-desc'>Fase bloqueada. Completa la anterior. 🔒</div>
+                    </div>";
+                } else {
+                    echo "
+                    <a class='tarjeta-interactiva fase-activa' href='{$fase['url']}' name='fase-$num' id='fase-$num'>
+                      <div class='tarjeta-icono'>{$icono}</div>
+                      <div class='tarjeta-titulo'>{$fase['nombre']}</div>
+                      <div class='desc'>{$descripcion}</div>
+                      <div class='tarjeta-desc'>Haz clic en la tarjeta para comenzar</div>
+                    </a>";
+                }
+            }
+          ?>
 
-    <a class="tarjeta-interactiva" href="#">
-      <div class="tarjeta-icono">🚧</div>
-      <div class="tarjeta-titulo">Proximamente...</div>
-      <div class="tarjeta-desc">En construcción........</div>
-    </a>
-        </a>
-  </div>
-</fieldset>
+          <a class="tarjeta-interactiva" href="#">
+            <div class="tarjeta-icono">🚧</div>
+            <div class="tarjeta-titulo">Próximamente...</div>
+            <div class="tarjeta-desc">En construcción…</div>
+          </a>
+        </div>
+      </fieldset>
 
-
-<!-- Grupo: Pitch -->
-<fieldset class="grupo-seccion" id="grupo-pitch">  
-  <legend class="titulo-seccion">🎤 Pitch (después llenar la herramientas de ideación)</legend
-  <div class="dashboard-tarjetas" id="fases-pitch">
-    <a class="tarjeta-interactiva fase fase-5" href="herramientas_pitch/pitch.html" name="pitch" id="pitch">
-      <div class="tarjeta-icono">🎤</div>
-      <div class="tarjeta-titulo">Pitch (en proceso)</div>
-      <div class="tarjeta-desc">
-        Presenta tu idea de negocio de forma clara y concisa.<br />
-        <b>¡Prepárate para impresionar!</b>
-      </div>
-    </a>
-  </div>
-</fieldset>
-
-<!-- Grupo: Correos Institucionales -->
-<!-- <fieldset class="grupo-seccion">
-  <legend class="titulo-seccion">📬 Envío de Correos Institucionales</legend>
-  <div class="dashboard-tarjetas">
-    <a class="tarjeta-interactiva" href="correos_masivos/mail.html">
-      <div class="tarjeta-icono">📨</div>
-      <div class="tarjeta-titulo">Correos Masivos</div>
-      <div class="tarjeta-desc">
-        Envía un mensaje igual a varios destinatarios.<br /><b>Sin personalización</b>
-      </div>
-    </a>
-    <a class="tarjeta-interactiva" href="correos_personalizados/email.html">
-      <div class="tarjeta-icono">✉️</div>
-      <div class="tarjeta-titulo">Correos Personalizados</div>
-      <div class="tarjeta-desc">
-        Envía mensajes personalizados a partir de CSV o separado por comas.<br /><b>Para comunicaciones individualizadas</b>
-      </div>
-    </a>
-  </div>
-</fieldset> -->
-
+      <!-- Grupo: Pitch -->
+      <fieldset class="grupo-seccion" id="grupo-pitch">
+        <legend class="titulo-seccion">🎤 Pitch (después de ideación)</legend>
+        <div class="dashboard-tarjetas" id="fases-pitch">
+          <a class="tarjeta-interactiva fase fase-5" href="herramientas_pitch/pitch.html" name="pitch" id="pitch">
+            <div class="tarjeta-icono">🎤</div>
+            <div class="tarjeta-titulo">Pitch (en proceso)</div>
+            <div class="tarjeta-desc">
+              Presenta tu idea de negocio de forma clara y concisa.<br/>
+              <b>¡Prepárate para impresionar!</b>
+            </div>
+          </a>
+        </div>
+      </fieldset>
     </div>
 
-  <div id="modalReabrir" class="modal" style="display:none;">
-    <div class="modal-contenido">
-      <p>Esta fase ya está completada.<br>¿Deseas crear una nueva?</p>
-      <div class="modal-botones">
-        <button id="confirmarReabrir">Sí, continuar</button>
-        <button id="cancelarReabrir">Cancelar</button>
+    <div id="modalReabrir" class="modal" style="display:none;">
+      <div class="modal-contenido">
+        <p>Esta fase ya está completada.<br>¿Deseas crear una nueva?</p>
+        <div class="modal-botones">
+          <button id="confirmarReabrir">Sí, continuar</button>
+          <button id="cancelarReabrir">Cancelar</button>
+        </div>
       </div>
     </div>
-  </div>
-</body>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const fases = <?= json_encode($fases_completadas) ?>;
-    fases.forEach(fase => {
-      const el = document.querySelector('.fase-' + fase);
-      if (el) {
-        el.classList.add('completada');
-      }
-    });
-  });
-document.addEventListener('DOMContentLoaded', () => {
-  const modal = document.getElementById('modalReabrir');
-  const btnConfirmar = document.getElementById('confirmarReabrir');
-  const btnCancelar = document.getElementById('cancelarReabrir');
 
-  let urlParaAbrir = null;
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const fases = <?= json_encode($fases_completadas) ?>;
+        fases.forEach(fase => {
+          const el = document.querySelector('.fase-' + fase);
+          if (el) el.classList.add('completada');
+        });
+      });
 
-  // Interceptar clics en fases completadas
-  document.querySelectorAll('.fase-completada').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      urlParaAbrir = link.getAttribute('data-url');
-      modal.style.display = 'flex';
-    });
-  });
+      document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('modalReabrir');
+        const btnConfirmar = document.getElementById('confirmarReabrir');
+        const btnCancelar = document.getElementById('cancelarReabrir');
 
-  btnConfirmar.addEventListener('click', () => {
-    if (urlParaAbrir) {
-      window.location.href = urlParaAbrir;
-    }
-  });
+        let urlParaAbrir = null;
 
-  btnCancelar.addEventListener('click', () => {
-    modal.style.display = 'none';
-    urlParaAbrir = null;
-  });
-});
-</script>
+        document.querySelectorAll('.fase-completada').forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            urlParaAbrir = link.getAttribute('data-url');
+            modal.style.display = 'flex';
+          });
+        });
+
+        btnConfirmar.addEventListener('click', () => {
+          if (urlParaAbrir) window.location.href = urlParaAbrir;
+        });
+
+        btnCancelar.addEventListener('click', () => {
+          modal.style.display = 'none';
+          urlParaAbrir = null;
+        });
+      });
+    </script>
+  </body>
 </html>
