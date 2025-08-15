@@ -3,7 +3,7 @@
 $host = 'localhost';
 $user = 'root';
 $pass = '';
-$db   = 'fondo_emprender';
+$db   = 'bdd_fondo';
 
 $conn = mysqli_connect($host, $user, $pass, $db);
 if (!$conn) { http_response_code(500); exit('Error de conexión'); }
@@ -56,11 +56,11 @@ $fecha_expedicioncc   = (string)($_POST['fecha_expedicion']   ?? '');
 
 // Fecha + hora (del inicio del formulario). Si no llega, usa la del servidor.
 date_default_timezone_set('America/Bogota');
-$ts_inicio            = $_POST['ts_inicio'] ?? date('Y-m-d H:i:s');
+$fehca_orientacion = $_POST['ts_inicio'] ?? date('Y-m-d H:i:s');
 
 $pais_origen          = (string)($_POST['pais_origen']        ?? '');
 $celular              = (string)trim($_POST['celular']        ?? '');
-$genero               = ucfirst(mb_strtolower(trim($_POST['genero']             ?? ''), 'UTF-8'));
+$sexo               = ucfirst(mb_strtolower(trim($_POST['sexo']             ?? ''), 'UTF-8'));
 $nacionalidad         = ucfirst(mb_strtolower(trim($_POST['nacionalidad']       ?? ''), 'UTF-8'));
 $clasificacion        = ucfirst(mb_strtolower(trim($_POST['clasificacion']      ?? ''), 'UTF-8'));
 $discapacidad         = ucfirst(mb_strtolower(trim($_POST['discapacidad']       ?? ''), 'UTF-8'));
@@ -80,10 +80,40 @@ $centro_orientacion   = mb_strtoupper(trim($_POST['centro_orientacion']         
 if ($orientador_nombre === '') {
     http_response_code(422);
     ?>
-    <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Falta el orientador</title>
-    <style>body{font-family:sans-serif;background:#fff7f7;color:#b71c1c;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
-    .card{background:#fff;padding:28px 32px;border-radius:10px;box-shadow:0 10px 25px rgba(0,0,0,.08);max-width:640px;text-align:center}
-    .btn{display:inline-block;margin-top:14px;padding:10px 18px;background:#b71c1c;color:#fff;border-radius:6px;text-decoration:none}</style></head>
+    <!DOCTYPE html>
+    <html lang="es"><head>
+        <meta charset="UTF-8"><title>Falta el orientador</title>
+    <style>
+    body{
+        font-family:sans-serif;
+        background:#fff7f7;
+        color:#b71c1c;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        height:100vh;
+        margin:0
+    }
+
+    .card{
+        background:#fff;
+        padding:28px 32px;
+        border-radius:10px;
+        box-shadow:0 10px 25px rgba(0,0,0,.08);
+        max-width:640px;
+        text-align:center
+    }
+    .btn{
+        display:inline-block;
+        margin-top:14px;
+        padding:10px 18px;
+        background:#b71c1c;
+        color:#fff;
+        border-radius:6px;
+        text-decoration:none;
+    }
+        </style>
+        </head>
     <body><div class="card"><h2>Debes seleccionar un orientador</h2><a class="btn" href="javascript:history.back()">Volver</a></div></body></html>
     <?php
     exit;
@@ -93,7 +123,7 @@ if ($orientador_nombre === '') {
 $duplicados = [];
 
 // ¿Número de identificación ya existe?
-$chk1 = $conn->prepare("SELECT 1 FROM ruta_emprendedora WHERE numero_id = ? LIMIT 1");
+$chk1 = $conn->prepare("SELECT 1 FROM orientacion_rcde2025_valle WHERE numero_id = ? LIMIT 1");
 $chk1->bind_param("s", $numero_id);
 $chk1->execute();
 $chk1->store_result();
@@ -101,7 +131,7 @@ if ($chk1->num_rows > 0) { $duplicados[] = "El número de identificación ya est
 $chk1->close();
 
 // ¿Correo ya existe?
-$chk2 = $conn->prepare("SELECT 1 FROM ruta_emprendedora WHERE correo = ? LIMIT 1");
+$chk2 = $conn->prepare("SELECT 1 FROM orientacion_rcde2025_valle WHERE correo = ? LIMIT 1");
 $chk2->bind_param("s", $correo);
 $chk2->execute();
 $chk2->store_result();
@@ -139,24 +169,24 @@ if (!empty($duplicados)) {
 
 // ------- INSERT en ruta_emprendedora (27 columnas) -------
 // Guardamos fecha y hora en fecha_orientacion con $ts_inicio
-$sql = "INSERT INTO ruta_emprendedora
-        (nombres, apellidos, departamento, municipio, tipo_id, numero_id,
-         fecha_nacimiento, fecha_expedicion, fecha_orientacion, genero, nacionalidad, pais_origen,
-         correo, clasificacion, discapacidad, tipo_emprendedor, nivel_formacion,
-         carrera, celular, programa, situacion_negocio, ejercer_actividad_proyecto, empresa_formalizada, ficha,
-         centro_orientacion, orientador)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO orientacion_rcde2025_valle
+        (nombres, apellidos, tipo_id, numero_id, correo,
+         celular, pais, nacionalidad, departamento, municipio, fecha_nacimiento,
+         fecha_orientacion, sexo, clasificacion, discapacidad, tipo_emprendedor,
+         nivel_formacion, ficha, carrera, programa, situacion_negocio, centro_orientacion,
+         orientador, pais_origen, rol, ejercer_actividad_proyecto, empresa_formalizada)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
-$types = str_repeat('s', 26);
+$types = str_repeat('s', 27);
 $stmt->bind_param(
     $types,
-    $nombres, $apellidos, $departamento, $municipio, $tipo_id, $numero_id,
-    $fecha_nacimiento, $fecha_expedicioncc, $ts_inicio, // <-- DATETIME
-    $genero, $nacionalidad, $pais_origen,
-    $correo, $clasificacion, $discapacidad, $tipo_emprendedor, $nivel_formacion,
-    $carrera, $celular, $programa, $situacion_negocio, $ejercer_actividad, $empresa_formalizada, $ficha,
-    $centro_orientacion, $orientador_nombre
+    $nombres, $apellidos, $tipo_id, $numero_id, $correo, $celular,
+    $pais, $nacionalidad, $departamento, 
+    $municipio, $fecha_nacimiento, $fehca_orientacion,
+    $sexo, $clasificacion, $discapacidad, $tipo_emprendedor, $nivel_formacion,
+    $ficha, $carrera, $programa, $situacion_negocio, $centro_orientacion, $orientador_nombre, $pais_origen,
+    $rol, $ejercer_actividad, $empresa_formalizada  
 );
 
 $exito = $stmt->execute();
@@ -167,13 +197,13 @@ if ($exito) {
     $rol_usuario     = 'emprendedor';
     $contrasena_hash = password_hash($numero_id, PASSWORD_DEFAULT);
 
-    $verificar = $conn->prepare("SELECT id_usuarios FROM usuarios WHERE numero_id = ?");
+    $verificar = $conn->prepare("SELECT id_orientador FROM orientadores WHERE numero_id = ?");
     $verificar->bind_param("s", $numero_id);
     $verificar->execute();
     $verificar->store_result();
 
     if ($verificar->num_rows === 0) {
-        $insertUser = $conn->prepare("INSERT INTO usuarios (nombres, apellidos, correo, numero_id, celular, contrasena, rol)
+        $insertUser = $conn->prepare("INSERT INTO orientacion_rcde2025_valle (nombres, apellidos, correo, numero_id, celular, contrasena, rol)
         VALUES (?, ?, ?, ?, ?, ?, ?)");
         $insertUser->bind_param("sssssss", $nombres, $apellidos, $correo, $numero_id, $celular, $contrasena_hash, $rol_usuario);
         $insertUser->execute();

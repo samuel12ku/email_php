@@ -29,7 +29,7 @@
         <div class="form-grupo">
             <label for="contrasena">Contraseña</label>
             <div style="position:relative;">
-                <input type="password" id="contrasena" name="contrasena" required class="form-control"
+                <input type="password" id="contrasena" name="contrasena" title="solo se permiten numeros minimo 6 maximo 10" required class="form-control"
                     pattern="[0-9]{6,10}" minlength="6" maxlength="10" style="padding-right:38px;" />
                 <button type="button" id="mostrarConstrasena" 
                     style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; padding:0;">
