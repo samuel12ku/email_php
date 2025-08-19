@@ -32,7 +32,7 @@ $numero_id = mb_strtoupper(trim($_POST['numero_id'] ?? ''), 'UTF-8');
 // Reglas de número de identificación
 $reglas = [
   'TI'  => ['min' => 6, 'max' => 10, 'soloNumeros' => true ],
-  'CC'  => ['min' => 6, 'max' => 12, 'soloNumeros' => true ],
+  'CC'  => ['min' => 6, 'max' => 10, 'soloNumeros' => true ],
   'CE'  => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
   'PEP' => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
   'PPT' => ['min' => 6, 'max' => 15, 'soloNumeros' => false],

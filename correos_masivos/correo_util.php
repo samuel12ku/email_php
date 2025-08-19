@@ -16,7 +16,7 @@ function enviarCorreo($destinatario, $asunto, $contenido, $orden = 'texto') {
         $mail->Port = 587;
         $mail->SMTPSecure = 'tls';
 
-        $mail->setFrom('LuzrecursosH@gmail.com', 'AdministracionCAB');
+        $mail->setFrom('LuzrecursosH@gmail.com', 'Fondo emprender CAB');
         $mail->addAddress($destinatario);
 
         // Opcional: prioridad

@@ -188,7 +188,7 @@ function setupCampoOtro(selectId, inputId) {
 // Reglas por tipo de documento (ajústalas si tus rangos reales difieren)
 const REGLAS_ID = {
   TI:  { min: 6,  max: 10,  soloNumeros: true,  etiqueta: 'Tarjeta de Identidad' },
-  CC:  { min: 6,  max: 12,  soloNumeros: true,  etiqueta: 'Cédula de Ciudadanía' }, // amplié max a 12 por casos largos
+  CC:  { min: 6,  max: 10,  soloNumeros: true,  etiqueta: 'Cédula de Ciudadanía' }, // amplié max a 12 por casos largos
   CE:  { min: 6,  max: 15,  soloNumeros: false, etiqueta: 'Cédula de Extranjería' },
   PEP: { min: 6,  max: 15,  soloNumeros: false, etiqueta: 'Permiso Especial de Permanencia' },
   PPT: { min: 6,  max: 15,  soloNumeros: false, etiqueta: 'Permiso por Protección Temporal' },
@@ -281,6 +281,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const minFecha = '1900-01-01';
   const fecha18 = new Date(hoy.getFullYear() - 16, hoy.getMonth(), hoy.getDate()).toISOString().split('T')[0];
 
+
   const campoNacimiento = document.getElementById('fecha_nacimiento');
   const campoExpedicion = document.getElementById('fecha_expedicion');
   const campoOrientacion = document.getElementById('fecha_orientacion');
@@ -298,13 +299,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  if (campoExpedicion) {
-    campoExpedicion.setAttribute('max', fecha18);
+  if (campoExpedicion) {  
+    const fechaExpedicion = hoy.toISOString().split('T')[0];
+    campoExpedicion.setAttribute('max', fechaExpedicion);
     campoExpedicion.setAttribute('min', minFecha);
     campoExpedicion.addEventListener('input', () => {
       const seleccionada = campoExpedicion.value;
-      if (seleccionada > fecha18) {
-        campoExpedicion.setCustomValidity('La fecha de expedición no puede ser menor de 16 años.');
+      if (seleccionada > fechaExpedicion) {
+        campoExpedicion.setCustomValidity('La fecha de expedición no puede pasarse de el día en curso.');
       } else {
         campoExpedicion.setCustomValidity('');
       }
@@ -344,6 +346,65 @@ document.addEventListener('DOMContentLoaded', () => {
   if (hiddenTs) hiddenTs.value = fechaHoraInicio;
 });
 
+ const form  = document.querySelector('#formEmprendedores'); // <form id="formEmprendedores">
+  const nivel_formacion = document.querySelector('#nivel_formacion');
+
+  // Mapa: nivel -> id del select de carrera
+  const mapaCarreras = {
+    'Tecnólogo': '#carrera_tecnologo',
+    'Técnico':   '#carrera_tecnico',
+    'Operario':  '#carrera_operario',
+    'Auxiliar':  '#carrera_auxiliar'
+  };
+
+  const todosCarrera = Object.values(mapaCarreras).map(sel => document.querySelector(sel));
+
+  function resetCarreras() {
+    todosCarrera.forEach(s => {
+      s.style.display = 'none';   // oculto
+      s.required = false;         // que no sea obligatorio si está oculto
+      s.disabled = true;          // no se envía al backend
+      s.value = '';               // reset
+    });
+  }
+
+  function syncCarreraConNivel() {
+    resetCarreras();
+    const val = nivel_formacion.value;
+    if (mapaCarreras[val]) {
+      const s = document.querySelector(mapaCarreras[val]);
+      s.style.display = '';       // mostrar (block/inline según tu CSS)
+      s.disabled = false;         // habilitar envío
+      s.required = true;          // obligatorio
+    }
+    // Si es "Sin título" o vacío: no se muestra ninguna carrera (no requerida)
+  }
+
+  // Cambios en el nivel
+  nivel_formacion.addEventListener('change', syncCarreraConNivel);
+
+  // Estado inicial al cargar la página
+  document.addEventListener('DOMContentLoaded', syncCarreraConNivel);
+
+  // Extra: validación por si acaso (usa los mensajes nativos del navegador)
+  form?.addEventListener('submit', (e) => {
+    // El atributo "required" en #nivel_formacion ya fuerza la elección
+    const sel = mapaCarreras[nivel.value] ? document.querySelector(mapaCarreras[nivel.value]) : null;
+    if (sel && !sel.value) {
+      sel.reportValidity(); // muestra el aviso nativo en el select de carrera
+      e.preventDefault();
+    }
+
+    // Enfoca el primer campo inválido para que se vea el foco rojo al intentar enviar
+document.querySelector('#formEmprendedores')?.addEventListener('submit', (e) => {
+  const form = e.currentTarget;
+  if (!form.checkValidity()) {
+    e.preventDefault();
+    const firstInvalid = form.querySelector(':invalid');
+    firstInvalid?.focus(); // al enfocarlo, tomará el estilo rojo del CSS
+  }
+});
+  });
 
 
 // Restricción dinámica para campo ficha (solo números o 'no aplica')

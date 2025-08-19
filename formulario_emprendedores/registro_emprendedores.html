@@ -192,7 +192,7 @@
             <label for="fecha_nacimiento"
               >7. Fecha de nacimiento <span style="color: red">*</span></label
             ><br />
-            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" require class="form-control" title="Seleccione una fecha válida"/>
+            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" title="Seleccione una fecha válida" required/>
           </div>
 
           <div class="form-grupo">
@@ -313,7 +313,7 @@
             <label for="clasificacion"
               >14. Clasificación de población (si aplica)</label
             ><br />
-            <select id="clasificacion" name="clasificacion" class="form-control">
+            <select id="clasificacion" name="clasificacion" class="form-control" required>
               <option value="" disabled selected>
                 -- Selecciona una opción --
               </option>
@@ -377,7 +377,7 @@
               >15. Si es persona en condición de discapacidad, seleccionar el
               tipo</label
             ><br />
-            <select id="discapacidad" name="discapacidad" class="form-control">
+            <select id="discapacidad" name="discapacidad" class="form-control" required>
               <option value="" disabled selected>
                 -- Selecciona una opción --
               </option>
@@ -406,6 +406,7 @@
                 -- Selecciona una opción --
               </option>
               <option value="Aprendiz">Aprendiz</option>
+              <option value="Instructor">Instructor</option>
               <option value="Egresado de Otras Instituciones">
                 Egresado de Otras Instituciones
               </option>
@@ -423,7 +424,7 @@
 
           <div class="form-grupo">
             <label for="nivel_formacion"
-              >17. Nivel de Formación <span style="color: red">*</span></label
+              >17. Nivel de Formación en el momento actual<span style="color: red">*</span></label
             ><br />
             <!-- Campo 15: Nivel de formación -->
             <select
@@ -696,7 +697,9 @@
           <button type="submit" class="btn-verde">Enviar Formulario</button>
         </div>
       </form>
+    
     </div>
+
     <script>
       function toggleMenu() {
         const menu = document.getElementById("navMenu");
@@ -705,5 +708,7 @@
     </script>
 
     <script src="formulario.js"></script>
+
+    
   </body>
 </html>
