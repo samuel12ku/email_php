@@ -7,3 +7,6 @@ para modificar solo las lineas de codigo donde esta el correo con el que va a en
 ❌ Fallaron:
 correocualquiera@gmail.com (SMTP Error: Could not authenticate.)) fijarse si su correo este bien escrito y la contraseña de aplicacion tambien
 
+para exportar a excel o csv, verificar que en la carpeta servicios/php exista el archivo export_emprendedores_xlsx.php y que este bien escrito, si no existe crearlo y copiar el codigo de export_emprendedores_xlsx.php que se encuentra en el repositorio de github
+
+comando para exportar a excel o csv: composer require phpoffice/phpspreadsheet

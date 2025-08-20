@@ -407,6 +407,24 @@ document.querySelector('#formEmprendedores')?.addEventListener('submit', (e) => 
   });
 
 
+  // "Otro" para tipo_emprendedor
+const selectTipoEmp = document.getElementById('tipo_emprendedor');
+const inputTipoEmpOtro = document.getElementById('tipo_emprendedor_otro');
+
+if (selectTipoEmp && inputTipoEmpOtro) {
+  selectTipoEmp.addEventListener('change', function () {
+    if (this.value === 'Otro') {
+      inputTipoEmpOtro.style.display = 'block';
+      inputTipoEmpOtro.setAttribute('required', 'required');
+    } else {
+      inputTipoEmpOtro.style.display = 'none';
+      inputTipoEmpOtro.removeAttribute('required');
+      inputTipoEmpOtro.value = '';
+    }
+  });
+}
+
+
 // Restricción dinámica para campo ficha (solo números o 'no aplica')
 const inputFicha = document.getElementById('ficha');
 if (inputFicha) {
@@ -445,6 +463,41 @@ if (inputPrograma) {
   });
 }
 
+function ahoraTimestamp() {
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm   = String(d.getMonth() + 1).padStart(2, '0');
+  const dd   = String(d.getDate()).padStart(2, '0');
+  const hh   = String(d.getHours()).padStart(2, '0');
+  const mi   = String(d.getMinutes()).padStart(2, '0');
+  const ss   = String(d.getSeconds()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd} ${hh}:${mi}:${ss}`;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const d = new Date();
+
+  const yyyy = d.getFullYear();
+  const mm   = String(d.getMonth() + 1).padStart(2, '0');
+  const dd   = String(d.getDate()).padStart(2, '0');
+  const hh   = String(d.getHours()).padStart(2, '0');
+  const mi   = String(d.getMinutes()).padStart(2, '0');
+  const ss   = String(d.getSeconds()).padStart(2, '0');
+
+  const soloFecha = `${yyyy}-${mm}-${dd}`;
+  const tsInicio  = `${yyyy}-${mm}-${dd} ${hh}:${mi}:${ss}`;
+
+  const display = document.getElementById('fecha_orientacion_display');
+  if (display) display.value = soloFecha;
+
+  const hiddenFecha = document.getElementById('fecha_orientacion');
+  if (hiddenFecha) hiddenFecha.value = soloFecha;
+
+  const hiddenTs = document.getElementById('ts_inicio');
+  if (hiddenTs) hiddenTs.value = tsInicio;
+});
+
+
 // ORIENTADORES POR CENTRO
 const orientadoresPorCentro = {
   CAB: [
@@ -452,7 +505,8 @@ const orientadoresPorCentro = {
     "Jose Julian Angulo Hernandez",
     "Lina Maria Varela",
     "Harby Arce",
-    "Carlos Andrés Matallana"
+    "Carlos Andrés Matallana",
+    "Albeth  Martinez Valencia"
   ],
   CBI: [
     "Hector James Serrano Ramírez",
@@ -753,8 +807,12 @@ const selectPrograma = document.getElementById('programa');
 
 
 function enviarFormulario() {
+  // marca hora fin
+  const tsFinInput = document.getElementById('ts_fin');
+  if (tsFinInput) tsFinInput.value = ahoraTimestamp();
+
   const form = document.querySelector("form");
-  form.submit();              
+  form.submit();
 }
 
 function actualizarBarra() {

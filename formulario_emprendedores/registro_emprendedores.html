@@ -419,7 +419,23 @@
               <option value="No cuenta con formación">
                 No cuenta con formación
               </option>
+              <option>
+                Otro
+              </option>
             </select>
+
+                        <!-- NUEVO: aparece solo si se elige "Otro" -->
+            <input
+              type="text"
+              id="tipo_emprendedor_otro"
+              name="tipo_emprendedor_otro"
+              class="form-control"
+              placeholder="Escribe tu tipo de emprendedor"
+              style="display:none; margin-top:8px"
+              pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]{3,60}"
+              title="Solo letras, de 3 a 60 caracteres"
+            />
+            
           </div>
 
           <div class="form-grupo">
