@@ -506,7 +506,7 @@ const orientadoresPorCentro = {
     "Lina Maria Varela",
     "Harby Arce",
     "Carlos Andrés Matallana",
-    "Albeth  Martinez Valencia"
+    "Albeth Martinez Valencia"
   ],
   CBI: [
     "Hector James Serrano Ramírez",
