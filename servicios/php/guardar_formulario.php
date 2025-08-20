@@ -1,5 +1,4 @@
 <?php
-// Conexión
 $host = 'localhost';
 $user = 'root';
 $pass = '';
@@ -31,12 +30,12 @@ $numero_id = mb_strtoupper(trim($_POST['numero_id'] ?? ''), 'UTF-8');
 
 // Reglas de número de identificación
 $reglas = [
-  'TI'  => ['min' => 6, 'max' => 10, 'soloNumeros' => true ],
-  'CC'  => ['min' => 6, 'max' => 10, 'soloNumeros' => true ],
-  'CE'  => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
-  'PEP' => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
-  'PPT' => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
-  'PAS' => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
+    'TI'  => ['min' => 6, 'max' => 10, 'soloNumeros' => true ],
+    'CC'  => ['min' => 6, 'max' => 10, 'soloNumeros' => true ],
+    'CE'  => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
+    'PEP' => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
+    'PPT' => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
+    'PAS' => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
 ];
 if (!isset($reglas[$tipo_id])) { http_response_code(422); exit('Tipo de identificación inválido.'); }
 $rg  = $reglas[$tipo_id];
@@ -62,7 +61,13 @@ $fecha_expedicion   = (string)($_POST['fecha_expedicion'] ?? ''); // nueva colum
 // Tiempos
 date_default_timezone_set('America/Bogota');
 $ts_inicio      = $_POST['ts_inicio']   ?? date('Y-m-d H:i:s'); // fecha_orientacion (inicio de diligenciamiento)
-$fecha_registro = date('Y-m-d H:i:s');                          // nueva columna a guardar (servidor)
+$fecha_registro = date('Y-m-d H:i:s');
+
+// Momento en que empezó a diligenciar (puedes usar ts_inicio si ya lo tienes)
+$hora_inicio = $_POST['ts_inicio'] ?? date('Y-m-d H:i:s');
+
+// Momento en que guardó (cuando ejecuta este PHP)
+$hora_fin = date('Y-m-d H:i:s');
 
 // País y nacionalidad
 $pais_origen  = (string)($_POST['pais_origen']  ?? '');
@@ -89,9 +94,42 @@ $orientador_nombre = preg_replace('/\s+/', ' ', trim($_POST['orientador'] ?? '')
 if ($orientador_nombre === '') {
     http_response_code(422);
     ?>
-    <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Falta el orientador</title>
-    <style>body{font-family:sans-serif;background:#fff7f7;color:#b71c1c;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}.card{background:#fff;padding:28px 32px;border-radius:10px;box-shadow:0 10px 25px rgba(0,0,0,.08);max-width:640px;text-align:center}.btn{display:inline-block;margin-top:14px;padding:10px 18px;background:#b71c1c;color:#fff;border-radius:6px;text-decoration:none}</style>
-    </head><body><div class="card"><h2>Debes seleccionar un orientador</h2><a class="btn" href="javascript:history.back()">Volver</a></div></body></html>
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Falta el orientador</title>
+        <style>
+            body{
+                font-family:sans-serif;
+                background:#fff7f7;
+                color:#b71c1c;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                height:100vh;
+                margin:0
+                }
+            .card{
+                background:#fff;
+                padding:28px 32px;
+                border-radius:10px;
+                box-shadow:0 10px 25px rgba(0,0,0,.08);
+                max-width:640px;
+                text-align:center
+                }
+            .btn{
+                display:inline-block;
+                margin-top:14px;
+                padding:10px 18px;
+                background:#b71c1c;
+                color:#fff;
+                border-radius:6px;
+                text-decoration:none
+                }
+        </style>
+    </head>
+    <body><div class="card"><h2>Debes seleccionar un orientador</h2><a class="btn" href="javascript:history.back()">Volver</a></div></body></html>
     <?php
     exit;
 }
@@ -171,24 +209,24 @@ $orientador_id = $orientador_id ?? 0;  // si no lo encuentra, 0
 // ------- INSERT principal (ORDEN EXACTO requerido) -------
 // Incluye: fecha_expedicion, fecha_registro y orientador_id ANTES de 'orientador'
 $sql = "INSERT INTO orientacion_rcde2025_valle
-        (nombres, apellidos, tipo_id, numero_id, correo,
+        (hora_inicio, hora_fin, nombres, apellidos, tipo_id, numero_id, correo,
          celular, pais, nacionalidad, departamento, municipio, fecha_nacimiento,
          fecha_orientacion, sexo, clasificacion, discapacidad, tipo_emprendedor,
          nivel_formacion, ficha, carrera, programa, situacion_negocio, centro_orientacion,
          fecha_expedicion, fecha_registro, orientador_id, orientador, pais_origen, rol,
          ejercer_actividad_proyecto, empresa_formalizada, contrasena, estado_proceso, acceso_panel)
         VALUES
-        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
 
 // 24 's' (hasta fecha_registro), 1 'i' (orientador_id), 7 's' (incluye estado_proceso), 1 'i' (acceso_panel)
-$types = str_repeat('s', 24) . 'i' . str_repeat('s', 7) . 'i';
+$types = str_repeat('s', 26) . 'i' . str_repeat('s', 7) . 'i';
  
 
 $stmt->bind_param(
     $types,
-    $nombres, $apellidos, $tipo_id, $numero_id, $correo,
+    $hora_inicio, $hora_fin, $nombres, $apellidos, $tipo_id, $numero_id, $correo,
     $celular, $pais, $nacionalidad, $departamento,
     $municipio, $fecha_nacimiento, $ts_inicio,
     $sexo, $clasificacion, $discapacidad, $tipo_emprendedor, $nivel_formacion,

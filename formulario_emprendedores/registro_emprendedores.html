@@ -717,6 +717,14 @@
     </div>
 
     <script>
+      // Guardar la hora de inicio apenas abran el formulario
+      document.getElementById("hora_inicio").value = new Date().toISOString().slice(0,19).replace('T',' ');
+
+      // Cuando el usuario envíe el formulario, se guarda la hora de fin
+      function setHoraFin(){
+      document.getElementById("hora_fin").value = new Date().toISOString().slice(0,19).replace('T',' ');
+      }
+      
       function toggleMenu() {
         const menu = document.getElementById("navMenu");
         menu.classList.toggle("show");
