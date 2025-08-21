@@ -123,7 +123,10 @@ if (isset($usuario['acceso_panel']) && (int)$usuario['acceso_panel'] === 0) {
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <div class="modal">
-        <div class="modal-contenido">
+        
+    
+    
+    <div class="modal-contenido">
             <p>Tu proceso está en revisión. Aún no puedes acceder a las herramientas. Te enviaremos una notificación cuando tu orientador confirme la siguiente cita.</p>
             <a href="login.php"><button>Cerrar sesión</button></a>
         </div>
