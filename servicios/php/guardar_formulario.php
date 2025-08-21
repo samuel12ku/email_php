@@ -76,7 +76,16 @@ $pais         = $pais_origen;
 
 $clasificacion       = ucfirst(mb_strtolower(trim($_POST['clasificacion']      ?? ''), 'UTF-8'));
 $discapacidad        = ucfirst(mb_strtolower(trim($_POST['discapacidad']       ?? ''), 'UTF-8'));
-$tipo_emprendedor    = ucfirst(mb_strtolower(trim($_POST['tipo_emprendedor']   ?? ''), 'UTF-8'));
+// Tipo de emprendedor con soporte "Otro"
+$tipo_emp_post = trim($_POST['tipo_emprendedor'] ?? '');
+$tipo_emp_otro = trim($_POST['tipo_emprendedor_otro'] ?? '');
+
+if ($tipo_emp_post !== '' && strcasecmp($tipo_emp_post, 'otro') !== 0) {
+    $tipo_emprendedor = ucfirst(mb_strtolower($tipo_emp_post, 'UTF-8'));
+} else {
+    // Si seleccionó "Otro" o viene vacío, usa el input
+    $tipo_emprendedor = ucfirst(mb_strtolower($tipo_emp_otro, 'UTF-8'));
+}
 $programa = (($_POST['programa'] ?? '') === 'Otro' && !empty($_POST['programa_especial_otro']))
     ? ucfirst(mb_strtolower(trim($_POST['programa_especial_otro'] ?? ''), 'UTF-8'))
     : ucfirst(mb_strtolower(trim($_POST['programa']                ?? ''), 'UTF-8'));
@@ -87,10 +96,30 @@ $situacion_negocio = (($_POST['situacion_negocio'] ?? '') === 'Otro' && !empty($
 $ejercer_actividad   = mb_strtoupper(trim($_POST['ejercer_actividad_proyecto'] ?? ''), 'UTF-8');
 $empresa_formalizada = mb_strtoupper(trim($_POST['empresa_formalizada']        ?? ''), 'UTF-8');
 $ficha               = ucfirst(mb_strtolower(trim($_POST['ficha']              ?? ''), 'UTF-8'));
-$centro_orientacion  = mb_strtoupper(trim($_POST['centro_orientacion']         ?? ''), 'UTF-8');
+// $centro_orientacion  = mb_strtoupper(trim($_POST['centro_orientacion']         ?? ''), 'UTF-8');
 
-// Orientador (obligatorio por nombre) y búsqueda de orientador_id
-$orientador_nombre = preg_replace('/\s+/', ' ', trim($_POST['orientador'] ?? ''));
+// // Orientador (obligatorio por nombre) y búsqueda de orientador_id
+// $orientador_nombre = preg_replace('/\s+/', ' ', trim($_POST['orientador'] ?? ''));
+// Centro: si vino desde QR (hidden), úsalo
+$centro_orientacion_qr = trim($_POST['centro_orientacion'] ?? ''); // el hidden que agregamos
+if ($centro_orientacion_qr !== '') {
+    $centro_orientacion = mb_strtoupper($centro_orientacion_qr, 'UTF-8');
+} else {
+    $centro_orientacion = mb_strtoupper(trim($_POST['centro_orientacion'] ?? ''), 'UTF-8');
+}
+
+// Orientador (nombre completo) priorizando lo del QR
+$orientador_nombre_qr = preg_replace('/\s+/', ' ', trim($_POST['orientador'] ?? ''));
+if ($orientador_nombre_qr !== '') {
+    $orientador_nombre = $orientador_nombre_qr;
+} else {
+    $orientador_nombre = preg_replace('/\s+/', ' ', trim($_POST['orientador'] ?? ''));
+}
+
+// (Opcional) Si mandaste orientador_id_prefill en hidden:
+$orientador_id = (int)($_POST['orientador_id_prefill'] ?? 0);
+// Si no vino, realiza tu búsqueda por nombre como ya lo haces.
+
 if ($orientador_nombre === '') {
     http_response_code(422);
     ?>

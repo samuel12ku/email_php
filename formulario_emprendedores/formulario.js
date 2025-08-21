@@ -279,7 +279,7 @@ setupCampoOtro('situacion_negocio', 'negocio_otro');
 document.addEventListener('DOMContentLoaded', function () {
   const hoy = new Date();
   const minFecha = '1900-01-01';
-  const fecha18 = new Date(hoy.getFullYear() - 16, hoy.getMonth(), hoy.getDate()).toISOString().split('T')[0];
+  const fecha18 = new Date(hoy.getFullYear() - 14, hoy.getMonth(), hoy.getDate()).toISOString().split('T')[0];
 
 
   const campoNacimiento = document.getElementById('fecha_nacimiento');
@@ -495,6 +495,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const hiddenTs = document.getElementById('ts_inicio');
   if (hiddenTs) hiddenTs.value = tsInicio;
+});
+
+// ==== Tipo de emprendedor: mostrar input y enviar su valor ====
+const selTipo   = document.getElementById('tipo_emprendedor');
+const inpOtro   = document.getElementById('tipo_emprendedor_otro');
+const formMain  = document.getElementById('MIformulario');
+
+function toggleTipoEmprendedor() {
+  if (selTipo.value === 'Otro') {
+    inpOtro.style.display = 'block';
+    inpOtro.required = true;
+    inpOtro.focus();
+  } else {
+    inpOtro.required = false;
+    inpOtro.value = '';
+    inpOtro.style.display = 'none';
+  }
+}
+
+selTipo.addEventListener('change', toggleTipoEmprendedor);
+
+// Antes de enviar, si está “Otro”, reemplazamos la opción seleccionada
+formMain.addEventListener('submit', function(e){
+  if (selTipo.value === 'Otro') {
+    const otroVal = (inpOtro.value || '').trim();
+    if (otroVal.length < 3) {
+      e.preventDefault();
+      inpOtro.focus();
+      return;
+    }
+    // Cambiamos value y label de la opción seleccionada
+    const opt = selTipo.options[selTipo.selectedIndex];
+    opt.value = otroVal;
+    opt.text  = otroVal;
+  }
 });
 
 

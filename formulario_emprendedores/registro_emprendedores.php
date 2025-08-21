@@ -1,3 +1,19 @@
+<?php
+require_once '../servicios/php/config_qr.php';
+
+$oid    = isset($_GET['oid'])    ? (int)$_GET['oid'] : 0;
+$center = isset($_GET['center']) ? trim($_GET['center']) : '';
+$name   = isset($_GET['name'])   ? trim($_GET['name'])   : '';
+$sig    = $_GET['sig'] ?? '';
+
+$PREFILL_OK = false;
+if ($oid && $center && $name && $sig) {
+    $params = ['oid'=>$oid,'center'=>$center,'name'=>$name];
+    $calc   = sign_params($params);
+    if (hash_equals($calc, $sig)) $PREFILL_OK = true;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -10,6 +26,16 @@
       href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+      <script>
+  window.PREFILL = <?=
+    json_encode([
+      'ok'     => $PREFILL_OK,
+      'oid'    => $oid,
+      'center' => $center,
+      'name'   => $name,
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+  ?>;
+  </script>
   </head>
   <body>
     <!-- Encabezado institucional -->
@@ -198,10 +224,10 @@
           <div class="form-grupo">
             <label for="fecha_expedicion"></label>
             <label for="fecha_expedicion"
-              >8.Fecha de expedición del documento
+              >8.Fecha de expedición del documento (opcional)
               <span style="color: red">*</span></label
             ><br />
-            <input type="date" id="fecha_expedicion" name="fecha_expedicion" required class="form-control" title="Seleccione una fecha válida"/>
+            <input type="date" id="fecha_expedicion" name="fecha_expedicion" class="form-control" title="Seleccione una fecha válida"/>
           </div>
         </div>
 
@@ -660,55 +686,54 @@
               >23. ¿Cuál es el Centro de Desarrollo Empresarial que brinda la
               orientación? <span style="color: red">*</span></label
             ><br />
-            <select
-              id="centro_orientacion"
-              name="centro_orientacion"
-              required
-              class="form-control"
-              onchange="actualizarOrientadores()"
-            >
-              <option value="" disabled selected>
-                -- Selecciona un centro --
-              </option>
-              <option value="CAB">Centro Agropecuario de Buga (CAB)</option>
-              <option value="CBI">
-                Centro de Biotecnología Industrial (CBI Palmira)
-              </option>
-              <option value="CDTI">
-                Centro de Diseño Tecnológico Industrial (CDTI CALI)
-              </option>
-              <option value="CEAI">
-                Centro de Electricidad y Automatización Industrial (CEAI Cali)
-              </option>
-              <option value="CGTS">
-                Centro de Gestión Tecnológica de Servicios (CGTS CALI)
-              </option>
-              <option value="ASTIN">
-                Centro Nacional de Asistencia Técnica a la Industria (ASTIN -
-                CALI)
-              </option>
-              <option value="CTA">
-                Centro de Tecnologías Agroindustriales (CTA Cartago)
-              </option>
-              <option value="CLEM">
-                Centro Latinoamericano de Especies Menores (CLEM Tulúa)
-              </option>
-              <option value="CNP">
-                Centro Náutico y Pesquero (CNP Buenaventura)
-              </option>
-              <option value="CC">Centro de la Construcción (CC Cali)</option>
-            </select>
+              <select
+                id="centro_orientacion"
+                name="centro_orientacion"
+                class="form-control"
+                required
+                onchange="actualizarOrientadores()"
+                <?= $PREFILL_OK ? 'disabled title="Preseleccionado desde QR"' : '' ?>
+              >
+                <option value="" disabled <?= $PREFILL_OK ? '' : 'selected' ?>>
+                  -- Selecciona un centro --
+                </option>
+                <option value="CAB">Centro Agropecuario de Buga (CAB)</option>
+                <option value="CBI">Centro de Biotecnología Industrial (CBI Palmira)</option>
+                <option value="CDTI">Centro de Diseño Tecnológico Industrial (CDTI CALI)</option>
+                <option value="CEAI">Centro de Electricidad y Automatización Industrial (CEAI Cali)</option>
+                <option value="CGTS">Centro de Gestión Tecnológica de Servicios (CGTS CALI)</option>
+                <option value="ASTIN">Centro Nacional de Asistencia Técnica a la Industria (ASTIN - CALI)</option>
+                <option value="CTA">Centro de Tecnologías Agroindustriales (CTA Cartago)</option>
+                <option value="CLEM">Centro Latinoamericano de Especies Menores (CLEM Tulúa)</option>
+                <option value="CNP">Centro Náutico y Pesquero (CNP Buenaventura)</option>
+                <option value="CC">Centro de la Construcción (CC Cali)</option>
+              </select>
+              <?php if ($PREFILL_OK): ?>
+                <input type="hidden" name="centro_orientacion" value="<?= htmlspecialchars($center, ENT_QUOTES, 'UTF-8') ?>">
+              <?php endif; ?>
           </div>
           <div class="form-grupo">
             <label for="orientador"
               >24. ¿Cuál fue el orientador que brindó la orientación?
               <span style="color: red">*</span></label
             ><br />
-            <select id="orientador" name="orientador" required class="form-control">
-              <option value="" disabled selected>
-                -- Selecciona primero un centro --
-              </option>
-            </select>
+              <select
+                id="orientador"
+                name="orientador"
+                class="form-control"
+                required
+                <?= $PREFILL_OK ? 'disabled title="Preseleccionado desde QR"' : '' ?>
+              >
+                <option value="" disabled <?= $PREFILL_OK ? '' : 'selected' ?>>
+                  -- Selecciona primero un centro --
+                </option>
+              </select>
+              <?php if ($PREFILL_OK): ?>
+                <input type="hidden" name="orientador" value="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8') ?>">
+                <input type="hidden" name="orientador_id_prefill" value="<?= (int)$oid ?>">
+                <!-- Opcional: firma por si deseas verificar en el backend -->
+                <input type="hidden" name="qr_sig" value="<?= htmlspecialchars($sig, ENT_QUOTES, 'UTF-8') ?>">
+              <?php endif; ?>
           </div>
           <button type="submit" class="btn-verde">Enviar Formulario</button>
         </div>
@@ -732,6 +757,60 @@
     </script>
 
     <script src="formulario.js"></script>
+
+  <script>
+  (function(){
+    const pre = window.PREFILL || {};
+    if(!pre.ok) return;
+
+    const selCentro = document.getElementById('centro_orientacion');
+    const selOri    = document.getElementById('orientador');
+
+    if (!selCentro || !selOri) return;
+
+    // 1) Seleccionar el centro por value
+    if (pre.center) {
+      selCentro.value = pre.center;
+    }
+
+    // 2) Cargar orientadores del centro y seleccionar el indicado
+    const tryPick = () => {
+      // a) Si los <option> usan value = id de orientador, intenta por id
+      let match = Array.from(selOri.options).find(o => String(o.value) === String(pre.oid));
+
+      // b) Si no hay match por id, intenta por texto exacto (nombre)
+      if (!match && pre.name) {
+        const targetName = pre.name.trim().toLowerCase().replace(/\s+/g,' ');
+        match = Array.from(selOri.options).find(o => o.text.trim().toLowerCase().replace(/\s+/g,' ') === targetName);
+      }
+
+      if (match) {
+        selOri.value = match.value;
+        return true;
+      }
+      return false;
+    };
+
+    const maybe = window.actualizarOrientadores?.(); // tu función que rellena #orientador según el centro
+
+    const waitAndPick = () => {
+      if (tryPick()) return;
+      setTimeout(waitAndPick, 120); // reintenta hasta que aparezca la opción
+    };
+
+    if (maybe && typeof maybe.then === 'function') {
+      // Si tu función devuelve una promesa (AJAX/fetch), espera a que termine
+      maybe.then(waitAndPick).catch(() => setTimeout(waitAndPick, 120));
+    } else {
+      // Si es síncrona, empieza a probar ya
+      waitAndPick();
+    }
+
+    // (Opcional) ya no necesitamos crear inputs hidden aquí porque los pusimos en el HTML con PHP
+
+  })();
+  </script>
+
 
     
   </body>
