@@ -3,7 +3,7 @@
 $host = 'localhost';
 $user = 'root';     // cambia si tu usuario es distinto
 $pass = '';         // cambia si tienes contraseña
-$db   = 'fondo_emprender';  // <<-- pon aquí el nombre real de tu base
+$db   = 'bdd_fondo';  // <<-- pon aquí el nombre real de tu base
 
 // 2. Conexión MySQLi
 $conn = mysqli_connect($host, $user, $pass, $db);

@@ -1,2 +1,17 @@
 /uploads/*  
 /.vscode/
+
+# Imágenes
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.svg
+
+# Archivos sensibles
+.env
+*.key
+*.pem
+
+servicios/php/config_qr.php

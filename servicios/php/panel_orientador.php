@@ -45,9 +45,10 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] !== 'orientador') {
     <section class="acciones-orientador">
       <ul class="lista-opciones">
         <li>
-          <a class="btn-opcion" href="lista_emprendedores.php">
+          <a class="btn-opcion"  href="lista_emprendedores.php">
             Ver lista de emprendedores
           </a>
+
         </li>
 
         <!-- BTN: Exportar (XLSX) como acción rápida -->
@@ -74,6 +75,20 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] !== 'orientador') {
           <div class="tarjeta-desc">
             Descarga la base completa de emprendedores (solo orientadores).
           </div>
+        </a>
+      </div>
+    </section>
+    <section class="grupo-seccion">
+      <legend class="titulo-seccion">QR de Orientadores</legend>
+      <div class="dashboard-tarjetas">
+        <a class="tarjeta-interactiva exportar"
+           href="../../servicios/php/qr_orientadores.php"
+           target="_blank" rel="noopener">
+          <div class="tarjeta-icono">⬛</div>
+          <div class="tarjeta-titulo">Mostrar QR de los orientadores</div>
+          <div class="tarjeta-desc">
+            Visualizar los QR de los orientadores para el formulario de registro de emprendedores.
+        </div>
         </a>
       </div>
     </section>
