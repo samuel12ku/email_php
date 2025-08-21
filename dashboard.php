@@ -209,18 +209,58 @@ $fases = [
     ],
 ];
 
-$fases_completadas0 = [];
-// Consultar qué fases ya están completadas
-$stmt = $conexion->prepare("SELECT fase, completado_en FROM progreso_herramientas WHERE usuario_id = ?");
+$total_fases = 4;
+
+// ✅ Mapa: [1=>false, 2=>false, 3=>false, 4=>false]
+$fases_completadas = array_fill(1, $total_fases, false);
+
+$stmt = $conexion->prepare("
+  SELECT fase, completado_en
+  FROM progreso_herramientas
+  WHERE usuario_id = ?
+");
 $stmt->bind_param("i", $id_usuario);
 $stmt->execute();
 $res = $stmt->get_result();
 while ($row = $res->fetch_assoc()) {
-    if (!empty($row['completado_en'])) {
-        $fases_completadas[(int)$row['fase']] = 1;
+    $f = (int)$row['fase'];
+    if ($f >= 1 && $f <= $total_fases && !empty($row['completado_en'])) {
+        $fases_completadas[$f] = true;
     }
 }
 $stmt->close();
+
+// # Fases totales que dibuja la ruta (deben coincidir con $fases)
+$total_fases = 4;
+
+// Asegura booleanos
+for ($i = 1; $i <= $total_fases; $i++) {
+    $fases_completadas[$i] = !empty($fases_completadas[$i]);
+}
+
+// Primera fase pendiente
+$primera_pendiente = null;
+for ($i = 1; $i <= $total_fases; $i++) {
+    if (!$fases_completadas[$i]) { $primera_pendiente = $i; break; }
+}
+if ($primera_pendiente === null) { // todo completo
+    $primera_pendiente = $total_fases + 1;
+}
+
+// Arreglo para el front
+$etapas = [];
+for ($i = 1; $i <= $total_fases; $i++) {
+    $estado = $fases_completadas[$i] ? 'done'
+            : (($i === $primera_pendiente) ? 'active' : 'locked');
+
+    $etapas[] = [
+        'id'      => $i,
+        'nombre'  => $fases[$i]['nombre'],
+        'url'     => $fases[$i]['url'],
+        'estado'  => $estado
+    ];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -297,36 +337,6 @@ $stmt->close();
       </nav>
     </header>
 
-    <div class="bg-white shadow-lg rounded-2xl p-6 mb-6">
-  <h2 class="text-xl font-bold text-center mb-6">Ruta de Herramientas de Ideación</h2>
-
-  <div class="ruta">
-    <?php for ($i = 1; $i <= $total_fases; $i++): ?>
-      <div class="nodo <?php echo isset($fases_completadas[$i]) && $fases_completadas[$i] ? 'completado' : 'pendiente'; ?>">
-        <?php echo $i; ?>
-      </div>
-      <?php if ($i < $total_fases): ?>
-        <div class="linea"></div>
-      <?php endif; ?>
-    <?php endfor; ?>
-
-    <?php if (count($fases_completadas) == $total_fases && array_sum($fases_completadas) == $total_fases): ?>
-      <div class="linea"></div>
-      <div class="nodo meta">🏁</div>
-    <?php endif; ?>
-  </div>
-
-  <div class="mt-6 text-center">
-    <?php for ($i = 1; $i <= $total_fases; $i++): ?>
-      <p>
-        Fase <?php echo $i; ?> -
-        <?php echo (isset($fases_completadas[$i]) && $fases_completadas[$i]) 
-          ? "<span class='text-green-600'>Completada</span>" 
-          : "<span class='text-gray-500'>Pendiente</span>"; ?>
-      </p>
-    <?php endfor; ?>
-  </div>
-</div>
 
 
     <div class="dashboard-contenedor">
@@ -355,16 +365,99 @@ $stmt->close();
         </ul>
       </div>
 
+      <div class="ruta-header">
+  <h3>Ruta de Herramientas de Ideación</h3>
+  <p id="ruta-sub">Fase activa: <span id="faseActivaTxt">—</span></p>
+</div>
+
+
+      <!-- RUTA CARRETERA (standalone, dentro del contenedor) -->
+<div class="ruta-standalone-card">
+  <div class="ruta-standalone-wrap">
+    <svg id="rutaCarreteraSVG" viewBox="0 0 1000 260" preserveAspectRatio="none">
+      <!-- sombra exterior (más gruesa) -->
+      <path id="road-shadow"
+            d="M 40 200 C 180 180 220 120 340 110 S 560 140 700 100 S 880 120 960 80"
+            fill="none" stroke="#4b5563" stroke-width="76" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- carretera -->
+      <path id="road"
+            d="M 40 200 C 180 180 220 120 340 110 S 560 140 700 100 S 880 120 960 80"
+            fill="none" stroke="#6b7280" stroke-width="56" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- línea discontinua central -->
+      <path id="road-center"
+            d="M 40 200 C 180 180 220 120 340 110 S 560 140 700 100 S 880 120 960 80"
+            fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"
+            stroke-dasharray="18 18"/>
+
+      <!-- meta -->
+      <g id="meta" transform="">
+        <circle r="28" fill="#fbbf24"></circle>
+        <text x="0" y="8" text-anchor="middle" font-size="22" style="font-family:'Work Sans';">🏁</text>
+      </g>
+
+      <!-- coche (escala 1.3 para verse más grande) -->
+      <g id="car" transform="">
+        <g transform="scale(1.3)">
+          <ellipse cx="0" cy="18" rx="16" ry="4" fill="rgba(0,0,0,.18)"></ellipse>
+          <g transform="translate(0,-4)">
+            <rect x="-22" y="-14" width="44" height="18" rx="6" fill="#ef4444"></rect>
+            <rect x="-14" y="-24" width="28" height="12" rx="3" fill="#dc2626"></rect>
+            <path d="M -12 -14 L -12 -22 L 12 -22 L 14 -14 Z" fill="#a1e0ff"></path>
+          </g>
+        </g>
+      </g>
+
+      <!-- nodos (se agregan por JS) -->
+      <g id="nodes"></g>
+    </svg>
+
+    <!-- leyenda -->
+    <div class="ruta-legend">
+      <span><i class="dot dot-green"></i>Completada</span>
+      <span><i class="dot dot-yellow"></i>Activa</span>
+      <span><i class="dot dot-gray"></i>Bloqueada</span>
+    </div>
+  </div>
+</div>
+<!-- FIN RUTA CARRETERA -->
+
+
+      <fieldset class="grupo-seccion" id="grupo-ideacion">
+  <legend class="titulo-seccion">🧠 Herramientas de Ideación</legend>
+
+  <!-- (tus tarjetas) -->
+  <div class="dashboard-tarjetas">
+    <?php
+      foreach ($fases as $num => $fase) {
+        $icono = $fase['icono'];
+        $descripcion = $fase['descripcion'];
+        $completada = !empty($fases_completadas[$num]);
+        $bloqueada  = ($num > 1 && empty($fases_completadas[$num - 1]));
+        if ($completada) {
+          echo "<a class='tarjeta-interactiva fase-completada' href='{$fase['url']}' id='fase-$num' data-fase='{$num}' data-url='{$fase['url']}'><div class='tarjeta-icono'>{$icono}</div><div class='tarjeta-titulo'>{$fase['nombre']}</div><div class='desc'>{$descripcion}</div><div class='tarjeta-desc'>Completada ✔️</div></a>";
+        } elseif ($bloqueada) {
+          echo "<div class='tarjeta-bloqueada' id='fase-$num'><div class='tarjeta-icono'>{$icono}</div><div class='tarjeta-titulo'>{$fase['nombre']}</div><div class='desc'>{$descripcion}</div><div class='tarjeta-desc'>Fase bloqueada. Completa la anterior. 🔒</div></div>";
+        } else {
+          echo "<a class='tarjeta-interactiva fase-activa' href='{$fase['url']}' id='fase-$num'><div class='tarjeta-icono'>{$icono}</div><div class='tarjeta-titulo'>{$fase['nombre']}</div><div class='desc'>{$descripcion}</div><div class='tarjeta-desc'>Haz clic en la tarjeta para comenzar</div></a>";
+        }
+      }
+    ?>
+    <a class="tarjeta-interactiva" href="#"><div class="tarjeta-icono">🚧</div><div class="tarjeta-titulo">Próximamente...</div><div class="tarjeta-desc">En construcción…</div></a>
+  </div>
+</fieldset>
+
+
       <!-- Grupo: Herramientas de Ideación -->
-      <fieldset class="grupo-seccion">
+      <!-- <fieldset class="grupo-seccion">
         <legend class="titulo-seccion">🧠 Herramientas de Ideación</legend>
         <div class="dashboard-tarjetas">
           <?php
             foreach ($fases as $num => $fase) {
                 $icono = $fase['icono'];
                 $descripcion = $fase['descripcion'];
-                $completada = in_array($num, $fases_completadas, true);
-                $bloqueada = ($num > 1 && !in_array($num - 1, $fases_completadas, true));
+                // ❌ NO usar in_array(...)
+                $completada = !empty($fases_completadas[$num]);
+                $bloqueada  = ($num > 1 && empty($fases_completadas[$num - 1]));
 
                 if ($completada) {
                     echo "
@@ -400,7 +493,7 @@ $stmt->close();
             <div class="tarjeta-desc">En construcción…</div>
           </a>
         </div>
-      </fieldset>
+      </fieldset> -->
 
       <!-- Grupo: Pitch -->
       <fieldset class="grupo-seccion" id="grupo-pitch">
@@ -461,6 +554,76 @@ $stmt->close();
           urlParaAbrir = null;
         });
       });
+      
+   // === Data que viene del servidor ===
+const ETAPAS = <?= json_encode($etapas, JSON_UNESCAPED_UNICODE) ?>;
+
+  // Distribución sobre la ruta (4 fases)
+  const POS_T = [0.08, 0.33, 0.63, 0.92];
+
+  const path      = document.getElementById('road-center');
+  const nodesWrap = document.getElementById('nodes');
+  const car       = document.getElementById('car');
+  const meta      = document.getElementById('meta');
+
+  function pointAtT(t){ const L=path.getTotalLength(); return path.getPointAtLength(Math.max(0,Math.min(L,t*L))); }
+
+  // Meta
+  (function(){ const p=pointAtT(0.985); meta.setAttribute('transform', `translate(${p.x},${p.y})`); })();
+
+  // Detectar activa y pintar texto arriba
+  let idxActiva = ETAPAS.findIndex(e=>e.estado==='active');
+  if (idxActiva < 0) idxActiva = ETAPAS.length - 1;
+  const subEl = document.getElementById('faseActivaTxt');
+  if (subEl) {
+    subEl.textContent = ETAPAS.every(e=>e.estado==='done')
+      ? 'Meta superada'
+      : `#${ETAPAS[idxActiva].id} · ${ETAPAS[idxActiva].nombre}`;
+  }
+
+  // Nodos
+  nodesWrap.innerHTML='';
+  ETAPAS.forEach((et,i)=>{
+    const t = POS_T[i] ?? (i/(ETAPAS.length+1));
+    const p = pointAtT(t);
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('transform',`translate(${p.x},${p.y})`);
+    g.style.cursor = (et.estado==='locked')?'not-allowed':'pointer';
+    g.setAttribute('data-url', et.url); g.setAttribute('data-estado', et.estado);
+
+    const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('r','28'); c.setAttribute('stroke-width','5');
+    if(et.estado==='done'){ c.setAttribute('fill','rgba(16,185,129,.95)'); c.setAttribute('stroke','#065f46'); }
+    else if(et.estado==='active'){ c.setAttribute('fill','rgba(251,191,36,.95)'); c.setAttribute('stroke','#b45309'); }
+    else { c.setAttribute('fill','rgba(156,163,175,.95)'); c.setAttribute('stroke','#6b7280'); }
+    g.appendChild(c);
+
+    const tx = document.createElementNS('http://www.w3.org/2000/svg','text');
+    tx.setAttribute('x','0'); tx.setAttribute('y','8'); tx.setAttribute('text-anchor','middle'); tx.setAttribute('font-size','18');
+    tx.setAttribute('style',"font-family:'Work Sans'; fill:#111827;");
+    tx.textContent = (et.estado==='locked') ? '🔒' : (et.estado==='done' ? '✓' : (i+1));
+    g.appendChild(tx);
+
+    const title = document.createElementNS('http://www.w3.org/2000/svg','title');
+    title.textContent = `${et.id}. ${et.nombre} (${et.estado})`; g.appendChild(title);
+
+    g.addEventListener('click', ()=>{
+      if(g.getAttribute('data-estado')==='locked'){ alert('Fase bloqueada. Completa la anterior para continuar.'); return; }
+      const url=g.getAttribute('data-url'); if(url) window.location.href=url;
+    });
+
+    nodesWrap.appendChild(g);
+  });
+
+  // Coche (activa o meta)
+  (function(){
+    let t = ETAPAS.every(e=>e.estado==='done') ? 0.985 : POS_T[idxActiva];
+    const p  = pointAtT(t);
+    const L  = path.getTotalLength();
+    const p2 = path.getPointAtLength(Math.min(t*L+1, L));
+    const a  = Math.atan2(p2.y-p.y, p2.x-p.x)*180/Math.PI;
+    car.setAttribute('transform', `translate(${p.x},${p.y}) rotate(${a})`);
+  })();
     </script>
   </body>
 </html>
