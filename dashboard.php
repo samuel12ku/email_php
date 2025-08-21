@@ -14,7 +14,7 @@ if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'orientador') {
 }
 
 $conexion = ConectarDB();
-$id_usuario = (int) $_SESSION['usuario_id'];
+$id_usuario = (int) $_SESSION['usuario_id'] ?? 1;
 
 // ===== OJO: ahora leemos al EMPRENDEDOR desde orientacion_rcde2025_valle =====
 $stmt = $conexion->prepare("SELECT * FROM orientacion_rcde2025_valle WHERE id = ?");
@@ -23,6 +23,10 @@ $stmt->execute();
 $resultado = $stmt->get_result();
 $usuario = $resultado->fetch_assoc();
 $stmt->close();
+
+$total_fases = 4;
+$fases_completadas = array_fill(1, $total_fases, 0);
+
 
 if (!$usuario) {
     // Si no existe, sesión inconsistente
@@ -202,14 +206,16 @@ $fases = [
     ],
 ];
 
-// Fases completadas del usuario (misma tabla de progreso)
-$fases_completadas = [];
-$stmt = $conexion->prepare("SELECT fase FROM progreso_herramientas WHERE usuario_id = ?");
+$fases_completadas0 = [];
+// Consultar qué fases ya están completadas
+$stmt = $conexion->prepare("SELECT fase, completado_en FROM progreso_herramientas WHERE usuario_id = ?");
 $stmt->bind_param("i", $id_usuario);
 $stmt->execute();
 $res = $stmt->get_result();
 while ($row = $res->fetch_assoc()) {
-    $fases_completadas[] = (int)$row['fase'];
+    if (!empty($row['completado_en'])) {
+        $fases_completadas[(int)$row['fase']] = 1;
+    }
 }
 $stmt->close();
 ?>
@@ -221,6 +227,45 @@ $stmt->close();
     <title>Panel de Control Fondo Emprender SENA</title>
     <link rel="stylesheet" href="componentes/estilo_dashboard.css" />
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
+    <style>
+
+    .ruta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px 0;
+}
+.nodo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  position: relative;
+  z-index: 1;
+}
+.linea {
+  height: 6px;
+  flex: 1;
+  background-color: #d1d5db;
+  margin: 0 -2px;
+  z-index: 0;
+}
+.completado {
+  background-color: #10b981; 
+  color: white;
+}
+.pendiente {
+  background-color: #9ca3af; 
+  color: white;
+}
+.meta {
+  background-color: #fbbf24; 
+  color: black;
+}
+    </style>
   </head>
 
   <body>
@@ -248,6 +293,38 @@ $stmt->close();
         </div>
       </nav>
     </header>
+
+    <div class="bg-white shadow-lg rounded-2xl p-6 mb-6">
+  <h2 class="text-xl font-bold text-center mb-6">Ruta de Herramientas de Ideación</h2>
+
+  <div class="ruta">
+    <?php for ($i = 1; $i <= $total_fases; $i++): ?>
+      <div class="nodo <?php echo isset($fases_completadas[$i]) && $fases_completadas[$i] ? 'completado' : 'pendiente'; ?>">
+        <?php echo $i; ?>
+      </div>
+      <?php if ($i < $total_fases): ?>
+        <div class="linea"></div>
+      <?php endif; ?>
+    <?php endfor; ?>
+
+    <?php if (count($fases_completadas) == $total_fases && array_sum($fases_completadas) == $total_fases): ?>
+      <div class="linea"></div>
+      <div class="nodo meta">🏁</div>
+    <?php endif; ?>
+  </div>
+
+  <div class="mt-6 text-center">
+    <?php for ($i = 1; $i <= $total_fases; $i++): ?>
+      <p>
+        Fase <?php echo $i; ?> -
+        <?php echo (isset($fases_completadas[$i]) && $fases_completadas[$i]) 
+          ? "<span class='text-green-600'>Completada</span>" 
+          : "<span class='text-gray-500'>Pendiente</span>"; ?>
+      </p>
+    <?php endfor; ?>
+  </div>
+</div>
+
 
     <div class="dashboard-contenedor">
       <div class="dashboard-header">
