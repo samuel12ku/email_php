@@ -1,16 +1,7 @@
 <?php
-// Configuración de conexión
-$host = 'localhost';
-$user = 'root';         // Cambia si es necesario
-$pass = '';             // Cambia si es necesario
-$db   = 'fondo_emprender'; // Cambia si es necesario
+include_once "../conexion.php";
+$conn = ConectarDB();
 
-// Conexión MySQLi
-$conn = mysqli_connect($host, $user, $pass, $db);
-if (!$conn) {
-    http_response_code(500);
-    die("Error de conexión: " . mysqli_connect_error());
-}
 mysqli_set_charset($conn, "utf8mb4");
 
 // Recibir datos del formulario
