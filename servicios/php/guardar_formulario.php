@@ -1,11 +1,8 @@
 <?php
-$host = 'localhost';
-$user = 'root';
-$pass = '';
-$db   = 'bdd_fondo';
 
-$conn = mysqli_connect($host, $user, $pass, $db);
-if (!$conn) { http_response_code(500); exit('Error de conexión'); }
+include_once "../conexion.php";
+$conn = ConectarDB();
+
 mysqli_set_charset($conn, 'utf8mb4');
 
 // ------- Nivel de formación y carrera -------
