@@ -4,10 +4,10 @@ require_once __DIR__.'/config_qr.php';
 
 $cn = ConectarDB();
 
-// Debes tener tabla orientadores: id_orientador, nombres, apellidos, centro (código: CAB, CBI, etc.)
+// Ordenados por el número de ID (funciona si es INT o VARCHAR)
 $sql = "SELECT id_orientador, TRIM(CONCAT(nombres,' ',apellidos)) AS nombre, centro
         FROM orientadores
-        ORDER BY centro, apellidos, nombres";
+        ORDER BY CAST(id_orientador AS UNSIGNED) ASC";
 $rs  = $cn->query($sql);
 if(!$rs){ die('Error SQL: '.$cn->error); }
 
@@ -48,8 +48,8 @@ body{font-family:system-ui,Arial,sans-serif;background:#f7faf7;margin:24px}
     <span class="badge"><?=htmlspecialchars($row['centro'])?></span>
     <h3><?=htmlspecialchars($row['nombre'])?></h3>
     <small>ID: <?= (int)$row['id_orientador']?></small>
-    <img src="<?=$qr?>" alt="QR <?=$row['nombre']?>">
-    <a class="link" href="<?=$url?>" target="_blank"><?=$url?></a>
+    <img src="<?=$qr?>" alt="QR <?=htmlspecialchars($row['nombre'])?>">
+    <a class="link" href="<?=$url?>" target="_blank"><?=htmlspecialchars($url)?></a>
   </div>
 <?php endwhile; ?>
 </div>
