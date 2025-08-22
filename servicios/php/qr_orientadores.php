@@ -5,7 +5,7 @@ require_once __DIR__.'/config_qr.php';
 $cn = ConectarDB();
 
 // Ajusta aquí el tamaño del QR (px)
-$QR_SIZE = 500;
+$QR_SIZE = 420;
 
 $sql = "SELECT id_orientador, TRIM(CONCAT(nombres,' ',apellidos)) AS nombre, centro
         FROM orientadores
