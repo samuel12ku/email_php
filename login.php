@@ -54,6 +54,9 @@
         <?php endif; ?>
 
         <button type="submit" class="btn-enviar">Ingresar</button>
+        <a href="servicios/php_login/verificar_identidad.php" class="btn btn-primary">Verificar identidad(si no tienes Contraseña)</a>
+        <a href="formulario_emprendedores/registro_emprendedores.php" class="btn btn-primary">¿No tienes cuenta?, registrate aqui</a>
+
     </form>
 </div>
 

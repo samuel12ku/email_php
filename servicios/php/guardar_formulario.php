@@ -194,7 +194,6 @@ if (!empty($duplicados)) {
 
 // ------- Defaults solicitados -------
 $rol                = 'emprendedor';
-$contrasena_hash    = password_hash($numero_id, PASSWORD_DEFAULT);
 $estado_proceso_def = 'pendiente';
 $acceso_panel_def   = 0; // INT
 

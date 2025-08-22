@@ -53,7 +53,7 @@ if ($stmt->execute()) {
         $_SESSION['apellido'] = $apellidos;
     }
 
-    $ruta_redireccion = ($rol === 'orientador') ? "../php/panel_orientador.php" : "../../dashboard.php";
+    $ruta_redireccion = ($rol === 'orientador') ? "../php/panel_orientador.php" : "../../login.php";
     ?>
     <!DOCTYPE html>
     <html lang="es">
@@ -105,6 +105,6 @@ if ($stmt->execute()) {
     <?php
     exit;
 } else {
-    echo "❌ Error al actualizar: " . $stmt->error;
+    echo " Error al actualizar: " . $stmt->error;
 }
 ?>
