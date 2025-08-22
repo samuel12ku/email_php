@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (campoExpedicion) {  
     const fechaExpedicion = hoy.toISOString().split('T')[0];
     campoExpedicion.setAttribute('max', fechaExpedicion);
-    campoExpedicion.setAttribute('min', minFecha);
+    campoExpedicion.setAttribute('min', campoNacimiento ? campoNacimiento.value : minFecha);
     campoExpedicion.addEventListener('input', () => {
       const seleccionada = campoExpedicion.value;
       if (seleccionada > fechaExpedicion) {
