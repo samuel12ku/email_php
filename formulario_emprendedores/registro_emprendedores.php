@@ -116,7 +116,7 @@ if ($prefill_ok) {
       </div>
     </div>
 
-    <form action="../servicios/php/guardar_formulario.php" method="post" id="MIformulario">
+    <form action="servicio/php/guardar_formulario.php" method="post" id="MIformulario">
 
       <!-- ===== FASE 1 ===== -->
       <div class="fase">

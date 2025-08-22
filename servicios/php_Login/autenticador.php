@@ -1,6 +1,7 @@
 <?php
 session_start();
-include "../conexion.php";
+include "../conexion.php";//no incluir conexion arriba si no depues de recoger los datos
+//hacer la filtracion correcto 
 
 if ($_SERVER['REQUEST_METHOD'] != "POST") {
     echo "Tu petición ha sido rechazada";

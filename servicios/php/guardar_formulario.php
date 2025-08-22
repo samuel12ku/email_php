@@ -1,6 +1,6 @@
 <?php
 
-include_once "../conexion.php";
+include_once "../conexion.php"; //primera vez no incluir include_once
 $conn = ConectarDB();
 
 mysqli_set_charset($conn, 'utf8mb4');
@@ -25,7 +25,31 @@ $apellidos  = mb_convert_case(trim($_POST['apellidos'] ?? ''), MB_CASE_TITLE, "U
 $tipo_id   = mb_strtoupper(trim($_POST['tipo_id']   ?? ''), 'UTF-8');
 $numero_id = mb_strtoupper(trim($_POST['numero_id'] ?? ''), 'UTF-8');
 
-// Reglas de número de identificación
+
+// Definir variables primero
+$tipo_id = trim($_POST['tipo_id'] ?? '');
+$numero_id = trim($_POST['numero_id'] ?? '');
+
+// DEBUG - ahora sí puedes usar las variables
+echo "<pre>";
+echo "tipo_id recibido: "; var_dump($tipo_id);
+echo "numero_id recibido: "; var_dump($numero_id);
+echo "POST completo: "; print_r($_POST);
+echo "</pre>";
+// exit; // Descomenta para ver solo el debug
+
+// Validaciones básicas
+if (empty($tipo_id)) {
+    http_response_code(422);
+    exit('Debe seleccionar un tipo de identificación.');
+}
+
+if (empty($numero_id)) {
+    http_response_code(422);
+    exit('Debe ingresar un número de identificación.');
+}
+
+// Reglas de validación (solo una vez)
 $reglas = [
     'TI'  => ['min' => 6, 'max' => 10, 'soloNumeros' => true ],
     'CC'  => ['min' => 6, 'max' => 10, 'soloNumeros' => true ],
@@ -34,14 +58,34 @@ $reglas = [
     'PPT' => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
     'PAS' => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
 ];
-if (!isset($reglas[$tipo_id])) { http_response_code(422); exit('Tipo de identificación inválido.'); }
-$rg  = $reglas[$tipo_id];
-$len = mb_strlen($numero_id, 'UTF-8');
-if ($len < $rg['min'] || $len > $rg['max'])                   { http_response_code(422); exit("Número de identificación inválido: debe tener entre {$rg['min']} y {$rg['max']} caracteres."); }
-if ($rg['soloNumeros'] && !preg_match('/^\d+$/', $numero_id)) { http_response_code(422); exit("Número de identificación inválido: solo se permiten dígitos."); }
-if (!$rg['soloNumeros'] && !preg_match('/^[A-Za-z0-9]+$/', $numero_id)) { http_response_code(422); exit("Número de identificación inválido: solo letras y/o números, sin espacios ni símbolos."); }
 
-$correo  = filter_var(strtolower(trim($_POST['correo'] ?? '')), FILTER_SANITIZE_EMAIL);
+if (!isset($reglas[$tipo_id])) {
+    http_response_code(422);
+    exit("Tipo de identificación inválido: '$tipo_id'. Tipos válidos: " . implode(', ', array_keys($reglas)));
+}
+
+$rg = $reglas[$tipo_id];
+$len = mb_strlen($numero_id, 'UTF-8');
+
+if ($len < $rg['min'] || $len > $rg['max']) {
+    http_response_code(422);
+    exit("Número de identificación inválido: debe tener entre {$rg['min']} y {$rg['max']} caracteres.");
+}
+
+if ($rg['soloNumeros'] && !preg_match('/^\d+$/', $numero_id)) {
+    http_response_code(422);
+    exit("Número de identificación inválido: solo se permiten dígitos.");
+}
+
+if (!$rg['soloNumeros'] && !preg_match('/^[A-Za-z0-9]+$/', $numero_id)) {
+    http_response_code(422);
+    exit("Número de identificación inválido: solo letras y/o números, sin espacios ni símbolos.");
+}
+
+// Si llega aquí, la validación pasó
+echo "✅ Validación exitosa!";
+
+$correo  = filter_var(strtolower(trim($_POST['correo'] ?? '')), FILTER_SANITIZE_EMAIL);//muicipio mayusculas, tambien nombres, apellidos numero de documento 
 $celular = (string)trim($_POST['celular'] ?? '');
 
 // Aceptar 'sexo' o 'genero' desde el front
@@ -105,17 +149,10 @@ if ($centro_orientacion_qr !== '') {
     $centro_orientacion = mb_strtoupper(trim($_POST['centro_orientacion'] ?? ''), 'UTF-8');
 }
 
-// Orientador (nombre completo) priorizando lo del QR
-$orientador_nombre_qr = preg_replace('/\s+/', ' ', trim($_POST['orientador'] ?? ''));
-if ($orientador_nombre_qr !== '') {
-    $orientador_nombre = $orientador_nombre_qr;
-} else {
-    $orientador_nombre = preg_replace('/\s+/', ' ', trim($_POST['orientador'] ?? ''));
-}
-
-// (Opcional) Si mandaste orientador_id_prefill en hidden:
+$orientador_nombre = preg_replace('/\s+/', ' ', trim($_POST['orientador'] ?? ''));
 $orientador_id = (int)($_POST['orientador_id_prefill'] ?? 0);
-// Si no vino, realiza tu búsqueda por nombre como ya lo haces.
+
+
 
 if ($orientador_nombre === '') {
     http_response_code(422);
