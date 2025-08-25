@@ -390,22 +390,94 @@ if ($prefill_ok) {
           </select>
 
           <select id="carrera_tecnologo" name="carrera_tecnologo" style="display:none;margin-top:8px" class="form-control">
-            <option value="" disabled selected>-- Elige tu Tecnólogo --</option>
-            <option>Análisis y desarrollo de software</option>
-            <option>Gestión de talento humano</option>
-            <option>Gestión empresarial</option>
+              <option value="" disabled selected>
+                -- Elige tu Tecnólogo --
+              </option>
+              <option>Análisis y desarrollo de software</option>
+              <option>Gestión de talento humano</option>
+              <option>Gestión agroempresarial</option>
+              <option>Gestión de recursos naturales</option>
+              <option>Prevención y control ambiental</option>
+              <option>Desarrollo multimedia y web</option>
+              <option>Gestión contable y de información financiera</option>
+              <option>Desarrollo publicitario</option>
+              <option>Gestión de la seguridad y salud en el trabajo</option>
+              <option>Gestión de redes de datos</option>
+              <option>Mantenimiento electromecánico industrial</option>
+              <option>Producción de multimedia</option>
+              <option>Animación digital</option>
+              <option>Gestión empresarial</option>
+              <option>Gestión documental</option>
+              <option>Actividad física y entrenamiento deportivo</option>
+              <option>Regencia de farmacia</option>
+              <option>Producción ganadera</option>
+              <option>Gestión de empresas agropecuarias</option>
+              <option>
+                Supervisión de redes de distribución de energía eléctrica
+              </option>
+              <option>Procesamiento de alimentos</option>
+              <option>Control de calidad de alimentos</option>
+              <option>Gestión logística</option>
+              <option>Mecanización agrícola y producción agrícola</option>
           </select>
 
           <select id="carrera_tecnico" name="carrera_tecnico" style="display:none;margin-top:8px" class="form-control">
             <option value="" disabled selected>-- Elige tu Técnico --</option>
-            <option>Asistencia administrativa</option>
-            <option>Programación de software</option>
-            <option>Enfermería</option>
+      <option value="" disabled selected>-- Elige tu Técnico --</option>
+              <option>Asistencia administrativa</option>
+              <option>Cocina</option>
+              <option>Conservación de recursos naturales</option>
+              <option>
+                Contabilización de operaciones comerciales y financieras
+              </option>
+              <option>Ejecución de programas deportivos</option>
+              <option>Enfermería</option>
+              <option>Monitoreo ambiental</option>
+              <option>Operación turística local</option>
+              <option>Sistemas agropecuarios ecológicos</option>
+              <option>Sistemas teleinformáticos</option>
+              <option>Sistemas atención integral al cliente</option>
+              <option>Cultivo de agrícolas</option>
+              <option>Elaboración de productos alimenticios</option>
+              <option>
+                Instalación de sistemas eléctricos residenciales y comerciales
+              </option>
+              <option>Programación de software</option>
+              <option>Proyectos agropecuarios</option>
+              <option>
+                Recursos humanos y comercialización de productos masivos
+              </option>
+              <option>Integración de operaciones logísticas</option>
+              <option>Manejo de viveros</option>
+              <option>Mecánica de maquinaria industrial</option>
+              <option>Integración de contenidos digitales</option>
+              <option>Electricista industrial</option>
+              <option>Mantenimiento de motocicletas y motocarros</option>
+              <option>Mantenimiento de vehículos livianos</option>
+              <option>Soldadura de productos metalócios en platina</option>
+              <option>Producción pecuario</option>
+              <option>Operaciones de comercio exterior</option>
+              <option>Servicios comerciales y financieros</option>
+              <option>Servicios farmacéuticos</option>
+              <option>Servicio de restaurante y bar</option>
+              <option>Operaciones comerciales en retail</option>
+              <option>Operaciones de maquinaria agrícola</option>
+              <option>Procesamiento de carnes</option>
+              <option>
+                Técnico en operaciones forestales y producción ovino-caprina
+              </option>
           </select>
 
           <select id="carrera_operario" name="carrera_operario" style="display:none;margin-top:8px" class="form-control">
             <option value="" disabled selected>-- Elige tu Operario --</option>
-            <option>Procesos de panadería</option>
+              <option value="" disabled selected>
+                -- Elige tu Operario --
+              </option>
+              <option>Procesos de panadería</option>
+              <option>
+                Cuidado básico de personas con dependencia funcional
+              </option>
+              <option>Instalaciones eléctricas para viviendas</option>
           </select>
 
           <select id="carrera_auxiliar" name="carrera_auxiliar" style="display:none;margin-top:8px" class="form-control">
