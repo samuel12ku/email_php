@@ -22,15 +22,16 @@ $reglas = [
 $nivel_formacion = mb_strtoupper(trim($_POST['nivel_formacion'] ?? ''), 'UTF-8');
 $carrera = '';
 switch ($nivel_formacion) {
-    case 'TECNICO':    $carrera = trim($_POST['carrera_tecnico']   ?? ''); break;
-    case 'TECNOLOGO':  $carrera = trim($_POST['carrera_tecnologo'] ?? ''); break;
+    case 'TÉCNICO':    $carrera = trim($_POST['carrera_tecnico']   ?? ''); break;
+    case 'TECNÓLOGO':  $carrera = trim($_POST['carrera_tecnologo'] ?? ''); break;
     case 'OPERARIO':   $carrera = trim($_POST['carrera_operario']  ?? ''); break;
     case 'AUXILIAR':   $carrera = trim($_POST['carrera_auxiliar']  ?? ''); break;
+    case 'PROFESIONAL': $carrera = trim($_POST['carrera_profesional'] ?? ''); break;
 }
 
-// Nombre y apellido
-$nombres   = mb_convert_case(trim($_POST['nombres']   ?? ''), MB_CASE_TITLE, "UTF-8");
-$apellidos = mb_convert_case(trim($_POST['apellidos'] ?? ''), MB_CASE_TITLE, "UTF-8");
+// ------- Variables del formulario (strings normalizados) -------
+$nombres    = mb_convert_case(trim($_POST['nombres']   ?? ''), MB_CASE_TITLE, "UTF-8");
+$apellidos  = mb_convert_case(trim($_POST['apellidos'] ?? ''), MB_CASE_TITLE, "UTF-8");
 
 // Tipo y número de identificación
 $tipo_id   = mb_strtoupper(trim($_POST['tipo_id']   ?? ''), 'UTF-8');
@@ -73,9 +74,9 @@ $departamento = (($_POST['departamento'] ?? '') === 'Otro' && !empty($_POST['dep
     ? ucfirst(mb_strtolower(trim($_POST['departamento_otro'] ?? ''), 'UTF-8'))
     : ucfirst(mb_strtolower(trim($_POST['departamento'] ?? ''), 'UTF-8'));
 
-$municipio        = ucfirst(mb_strtolower(trim($_POST['municipio'] ?? ''), 'UTF-8'));
-$fecha_nacimiento = (string)($_POST['fecha_nacimiento'] ?? '');
-$fecha_expedicion = (string)($_POST['fecha_expedicion'] ?? '');
+$municipio          = ucfirst(mb_strtolower(trim($_POST['municipio']        ?? ''), 'UTF-8'));
+$fecha_nacimiento   = (string)($_POST['fecha_nacimiento'] ?? '');
+// $fecha_expedicion   = (string)($_POST['fecha_expedicion'] ?? ''); // nueva columna a guardar
 
 // Tiempos
 date_default_timezone_set('America/Bogota');
@@ -176,23 +177,26 @@ $sql = "INSERT INTO orientacion_rcde2025_valle
          celular, pais, nacionalidad, departamento, municipio, fecha_nacimiento,
          fecha_orientacion, sexo, clasificacion, discapacidad, tipo_emprendedor,
          nivel_formacion, ficha, carrera, programa, situacion_negocio, centro_orientacion,
-         fecha_expedicion, fecha_registro, orientador_id, orientador, pais_origen, rol,
+        fecha_registro, orientador_id, orientador, pais_origen, rol,
          ejercer_actividad_proyecto, empresa_formalizada, contrasena, estado_proceso, acceso_panel)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        VALUES
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
 
-$types = str_repeat('s', 26) . 'i' . str_repeat('s', 7) . 'i';
+// 24 's' (hasta fecha_registro), 1 'i' (orientador_id), 7 's' (incluye estado_proceso), 1 'i' (acceso_panel)
+$types = str_repeat('s', 25) . 'i' . str_repeat('s', 7) . 'i';
+ 
 
 $stmt->bind_param(
     $types,
     $hora_inicio, $hora_fin, $nombres, $apellidos, $tipo_id, $numero_id, $correo,
-    $celular, $pais, $nacionalidad, $departamento, $municipio, $fecha_nacimiento,
-    $ts_inicio, $sexo, $clasificacion, $discapacidad, $tipo_emprendedor,
-    $nivel_formacion, $ficha, $carrera, $programa, $situacion_negocio,
-    $centro_orientacion, $fecha_expedicion, $fecha_registro, $orientador_id,
-    $orientador_nombre, $pais_origen, $rol, $ejercer_actividad,
-    $empresa_formalizada, $contrasena_hash, $estado_proceso_def, $acceso_panel_def
+    $celular, $pais, $nacionalidad, $departamento,
+    $municipio, $fecha_nacimiento, $ts_inicio,
+    $sexo, $clasificacion, $discapacidad, $tipo_emprendedor, $nivel_formacion,
+    $ficha, $carrera, $programa, $situacion_negocio, $centro_orientacion,
+    $fecha_registro, $orientador_id, $orientador_nombre, $pais_origen, $rol,
+    $ejercer_actividad, $empresa_formalizada, $contrasena_hash, $estado_proceso_def, $acceso_panel_def
 );
 
 $exito = $stmt->execute();
@@ -201,7 +205,8 @@ $stmt->close();
 if ($exito) {
     echo "✅ Registro exitoso de $nombres $apellidos";
 } else {
-    echo "❌ Error al guardar: " . htmlspecialchars(mysqli_error($conn));
+    $err = mysqli_error($conn);
+    $conn->close();
+    echo "❌ Error al guardar en la base de datos. Detalle: " . htmlspecialchars($err);
 }
-$conn->close();
-?>
+
