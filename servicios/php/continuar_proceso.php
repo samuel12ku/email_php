@@ -7,7 +7,7 @@ include "../conexion.php";
 include "../../correos_masivos/correo_util.php"; // Función enviarCorreo
 
 if (!isset($_SESSION['usuario_id'])) {
-    header("Location: login.php");
+    header("Location: index.php");
     exit;
 }
 

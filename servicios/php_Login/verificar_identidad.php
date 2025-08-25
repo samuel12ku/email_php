@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $usuario = $res->fetch_assoc();
 
         if ($usuario) {
-            // ✅ Guardamos sesión, pero sin redirigir aún
             $_SESSION['usuario_id'] = $usuario['id'];
             $_SESSION['rol'] = 'emprendedor';
         } else {
@@ -41,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="text" class="form-control" name="numero_id" required>
         </div>
         <button type="submit" class="btn btn-success">Revisar</button>
-        <a href="../../login.php">Volver al Inicio</a>
+        <a href="../../index.php">Volver al Inicio</a>
     </form>
 
     <?php if ($mensaje): ?>

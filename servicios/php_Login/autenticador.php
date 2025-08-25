@@ -1,6 +1,7 @@
 <?php
 session_start();
-include "../conexion.php";
+include "../conexion.php";//no incluir conexion arriba si no depues de recoger los datos
+//hacer la filtracion correcto 
 
 if ($_SERVER['REQUEST_METHOD'] != "POST") {
     echo "Tu petición ha sido rechazada";
@@ -39,7 +40,7 @@ if ($result->num_rows > 0) {
         header("Location: ../php/panel_orientador.php");
         exit;
     } else {
-        header("Location: ../../login.php?error=" . urlencode("Contraseña incorrecta") . "&documento=" . urlencode($num_documento));
+        header("Location: ../../index.php?error=" . urlencode("Contraseña incorrecta") . "&documento=" . urlencode($num_documento));
         exit;
     }
 }
@@ -218,7 +219,7 @@ if ($result->num_rows > 0) {
                 <h2>👋 ¡Bienvenido/a, {$usuario['nombres']} {$usuario['apellidos']}!</h2>
                 <p>Estuviste en la orientación y queremos saber si deseas continuar con el proceso de emprendimiento.</p>
                 <a href='../php/continuar_proceso.php'> Sí, deseo continuar</a>
-                <a href='../../login.php'> No deseo continuar por ahora</a>
+                <a href='../../index.php'> No deseo continuar por ahora</a>
             </div>
         </body>
         </html>
@@ -226,7 +227,7 @@ if ($result->num_rows > 0) {
         exit;
 
     } else {
-        header("Location: ../../login.php?error=" . urlencode("Contraseña incorrecta") . "&documento=" . urlencode($num_documento));
+        header("Location: ../../index.php?error=" . urlencode("Contraseña incorrecta") . "&documento=" . urlencode($num_documento));
         exit;
     }
 }
@@ -272,7 +273,7 @@ echo "
         <p>¿Desea registrarse?</p>
         <a href='../../formulario_emprendedores/registro_emprendedores.html'>Registrarse aquí</a>
         <br><br>
-        <a href='../../login.php' style='background:#ccc; color:#333;'>Volver al inicio</a>
+        <a href='../../index.php' style='background:#ccc; color:#333;'>Volver al inicio</a>
     </div>
 </body>
 </html>

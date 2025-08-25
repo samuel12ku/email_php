@@ -3,7 +3,7 @@ session_start();
 include "../conexion.php";
 
 if (!isset($_SESSION['usuario_id'])) {
-    header("Location: ../../login.php");
+    header("Location: ../../index.php");
     exit;
 }
 
@@ -48,7 +48,7 @@ if (!$usuario) {
 // 4) Si tampoco existe, cerramos sesión por seguridad
 if (!$usuario) {
     session_destroy();
-    header("Location: ../../login.php");
+    header("Location: ../../index.php");
     exit;
 }
 

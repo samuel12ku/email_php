@@ -13,4 +13,7 @@ function ConectarDB() {
 
     return $conn;
 }
-
+/*$host = "localhost";
+    $user = "arcanoposada_adso_emprender";
+    $password = "F8nd83mpr3nd3r2025"; 
+    $dbname = "arcanoposada_fondo";*/

@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div style="background:#fff; padding:20px; border-radius:10px; text-align:center; max-width:400px;">
                 <h2 style="color:green;">✅ Datos guardados exitosamente</h2>
                 <p>Puedes volver al login para iniciar sesión.</p>
-                <a href="../../login.php" 
+                <a href="../../index.php" 
                     style="display:inline-block; margin-top:15px; padding:10px 20px; background:#007BFF; color:white; border-radius:5px; text-decoration:none;">
                     volver al Login
                 </a>
