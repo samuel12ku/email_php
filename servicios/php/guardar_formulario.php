@@ -1,9 +1,7 @@
 <?php
 
-include_once "../conexion.php";
+include "../conexion.php";
 $conn = ConectarDB();
-
-mysqli_set_charset($conn, 'utf8mb4');
 
 // ------- Nivel de formación y carrera -------
 $nivel_formacion = isset($_POST['nivel_formacion']) ? mb_strtoupper(trim($_POST['nivel_formacion']), 'UTF-8') : '';
@@ -26,20 +24,22 @@ $tipo_id   = mb_strtoupper(trim($_POST['tipo_id']   ?? ''), 'UTF-8');
 $numero_id = mb_strtoupper(trim($_POST['numero_id'] ?? ''), 'UTF-8');
 
 // Reglas de número de identificación
-$reglas = [
-    'TI'  => ['min' => 6, 'max' => 10, 'soloNumeros' => true ],
-    'CC'  => ['min' => 6, 'max' => 10, 'soloNumeros' => true ],
-    'CE'  => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
-    'PEP' => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
-    'PPT' => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
-    'PAS' => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
-];
-if (!isset($reglas[$tipo_id])) { http_response_code(422); exit('Tipo de identificación inválido.'); }
-$rg  = $reglas[$tipo_id];
-$len = mb_strlen($numero_id, 'UTF-8');
-if ($len < $rg['min'] || $len > $rg['max'])                   { http_response_code(422); exit("Número de identificación inválido: debe tener entre {$rg['min']} y {$rg['max']} caracteres."); }
-if ($rg['soloNumeros'] && !preg_match('/^\d+$/', $numero_id)) { http_response_code(422); exit("Número de identificación inválido: solo se permiten dígitos."); }
-if (!$rg['soloNumeros'] && !preg_match('/^[A-Za-z0-9]+$/', $numero_id)) { http_response_code(422); exit("Número de identificación inválido: solo letras y/o números, sin espacios ni símbolos."); }
+// $reglas = [
+//     'TI'  => ['min' => 6, 'max' => 10, 'soloNumeros' => true ],
+//     'CC'  => ['min' => 6, 'max' => 10, 'soloNumeros' => true ],
+//     'CE'  => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
+//     'PEP' => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
+//     'PPT' => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
+//     'PAS' => ['min' => 6, 'max' => 15, 'soloNumeros' => false],
+// ];
+// función depreciada
+// if (!isset($reglas[$tipo_id])) { http_response_code(422); exit('Tipo de identificación inválido.'); }
+// // Validar número de identificación según las reglas
+// $rg  = $reglas[$tipo_id];
+// $len = mb_strlen($numero_id, 'UTF-8');
+// if ($len < $rg['min'] || $len > $rg['max'])                   { http_response_code(422); exit("Número de identificación inválido: debe tener entre {$rg['min']} y {$rg['max']} caracteres."); }
+// if ($rg['soloNumeros'] && !preg_match('/^\d+$/', $numero_id)) { http_response_code(422); exit("Número de identificación inválido: solo se permiten dígitos."); }
+// if (!$rg['soloNumeros'] && !preg_match('/^[A-Za-z0-9]+$/', $numero_id)) { http_response_code(422); exit("Número de identificación inválido: solo letras y/o números, sin espacios ni símbolos."); }
 
 $correo  = filter_var(strtolower(trim($_POST['correo'] ?? '')), FILTER_SANITIZE_EMAIL);
 $celular = (string)trim($_POST['celular'] ?? '');
@@ -94,7 +94,7 @@ $ejercer_actividad   = mb_strtoupper(trim($_POST['ejercer_actividad_proyecto'] ?
 $empresa_formalizada = mb_strtoupper(trim($_POST['empresa_formalizada']        ?? ''), 'UTF-8');
 $ficha               = ucfirst(mb_strtolower(trim($_POST['ficha']              ?? ''), 'UTF-8'));
 // $centro_orientacion  = mb_strtoupper(trim($_POST['centro_orientacion']         ?? ''), 'UTF-8');
-
+$contrasena_hash = '';
 // // Orientador (obligatorio por nombre) y búsqueda de orientador_id
 // $orientador_nombre = preg_replace('/\s+/', ' ', trim($_POST['orientador'] ?? ''));
 // Centro: si vino desde QR (hidden), úsalo
@@ -201,8 +201,12 @@ $orientador_id = 0;
 // Normaliza espacios a uno solo
 $orientador_nombre_normal = preg_replace('/\s+/', ' ', trim($orientador_nombre));
 
-// 1) Match por nombre completo: CONCAT(nombres, ' ', apellidos)
-if ($q1 = $conn->prepare(" SELECT id_orientador FROM orientadores WHERE CONCAT_WS(' ', TRIM(nombres), TRIM(apellidos)) COLLATE utf8mb4_spanish_ci = ? LIMIT 1
+// 1) Match por nombre completo
+if ($q1 = $conn->prepare("
+  SELECT id_orientador
+  FROM orientadores
+  WHERE LOWER(TRIM(CONCAT(nombres,' ',apellidos))) = LOWER(?)
+  LIMIT 1
 ")) {
     $q1->bind_param("s", $orientador_nombre_normal);
     $q1->execute();
@@ -211,13 +215,17 @@ if ($q1 = $conn->prepare(" SELECT id_orientador FROM orientadores WHERE CONCAT_W
     $q1->close();
 }
 
-// 2) Fallback: primer token como 'nombres', resto como 'apellidos'
+// 2) Fallback por partes
 if ($orientador_id === 0) {
     $partes = explode(' ', $orientador_nombre_normal, 2);
     $nombre_primero = $partes[0] ?? '';
     $apellidos_rest = $partes[1] ?? '';
     if ($nombre_primero !== '' && $apellidos_rest !== '') {
-        if ($q2 = $conn->prepare(" SELECT id_orientador FROM orientadores WHERE TRIM(nombres)   COLLATE utf8mb4_spanish_ci = ? AND TRIM(apellidos) COLLATE utf8mb4_spanish_ci = ? LIMIT 1
+        if ($q2 = $conn->prepare("
+          SELECT id_orientador
+          FROM orientadores
+          WHERE LOWER(TRIM(nombres)) = LOWER(?) AND LOWER(TRIM(apellidos)) = LOWER(?)
+          LIMIT 1
         ")) {
             $q2->bind_param("ss", $nombre_primero, $apellidos_rest);
             $q2->execute();
@@ -298,4 +306,6 @@ if ($exito) {
     $err = mysqli_error($conn);
     $conn->close();
     echo "❌ Error al guardar en la base de datos. Detalle: " . htmlspecialchars($err);
+}
+
 }
