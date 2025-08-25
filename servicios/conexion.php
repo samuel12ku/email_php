@@ -1,9 +1,9 @@
 <?php
 function ConectarDB() {
     $host = "localhost";
-    $user = "arcanoposada_adso_emprender";
-    $password = "F8nd83mpr3nd3r2025"; 
-    $dbname = "arcanoposada_fondo";
+    $user = "root";
+    $password = ""; 
+    $dbname = "bdd_fondo";
 
     $conn = new mysqli($host, $user, $password, $dbname);
 

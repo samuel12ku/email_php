@@ -1,5 +1,5 @@
 <?php
-include '../servicios/conexion.php';
+require_once '../servicios/conexion.php';
 require_once '../servicios/php/config_qr.php';
 
 $cn = ConectarDB();
@@ -116,7 +116,7 @@ if ($prefill_ok) {
       </div>
     </div>
 
-    <form action="servicios/php/guardar_formulario.php" method="post" id="MIformulario" accept-charset="UTF-8">
+    <form action="../servicios/php/guardar_formulario.php" method="post" id="MIformulario">
 
       <!-- ===== FASE 1 ===== -->
       <div class="fase">
@@ -174,11 +174,10 @@ if ($prefill_ok) {
           <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" required />
         </div>
 
-        <!-- eliminnar  -->
-        <div class="form-grupo">
+        <!-- <div class="form-grupo">
           <label for="fecha_expedicion">8. Fecha de expedición del documento (opcional)</label><br />
           <input type="date" id="fecha_expedicion" name="fecha_expedicion" class="form-control" />
-        </div>
+        </div>-->
       </div>
 
       <!-- ===== FASE 2 ===== -->
@@ -188,8 +187,7 @@ if ($prefill_ok) {
         <div class="form-grupo">
           <label for="pais">9. País <span style="color:red">*</span></label><br />
           <select id="pais" name="pais_origen" class="form-control" required>
-            <option value="" disabled>-- Selecciona un país --</option>
-            <option value="Colombia" selected>Colombia</option>
+            <option value="" disabled selected>-- Selecciona un país --</option>
           </select>
         </div>
 
@@ -256,7 +254,7 @@ if ($prefill_ok) {
 
         <div class="form-grupo">
           <label for="fecha_orientacion">13. Fecha de orientación</label><br />
-          <input type="text" id="fecha_orientacion_display" value="" readonly class="form-control" />
+          <input type="text" id="fecha_orientacion_display" value="" readonly class="form-control" style="border:none;"/>
           <input type="hidden" name="fecha_orientacion" id="fecha_orientacion" />
           <input type="hidden" name="ts_inicio" id="ts_inicio" />
         </div>
@@ -385,99 +383,97 @@ if ($prefill_ok) {
             <option value="Tecnólogo">Tecnólogo</option>
             <option value="Operario">Operario</option>
             <option value="Auxiliar">Auxiliar</option>
-            <option value="Auxiliar">Profesional</option>
+            <option value="Profesional">Profesional</option>
             <option value="Sin título">Sin título</option>
           </select>
 
           <select id="carrera_tecnologo" name="carrera_tecnologo" style="display:none;margin-top:8px" class="form-control">
-              <option value="" disabled selected>
-                -- Elige tu Tecnólogo --
-              </option>
-              <option>Análisis y desarrollo de software</option>
-              <option>Gestión de talento humano</option>
-              <option>Gestión agroempresarial</option>
-              <option>Gestión de recursos naturales</option>
-              <option>Prevención y control ambiental</option>
-              <option>Desarrollo multimedia y web</option>
-              <option>Gestión contable y de información financiera</option>
-              <option>Desarrollo publicitario</option>
-              <option>Gestión de la seguridad y salud en el trabajo</option>
-              <option>Gestión de redes de datos</option>
-              <option>Mantenimiento electromecánico industrial</option>
-              <option>Producción de multimedia</option>
-              <option>Animación digital</option>
-              <option>Gestión empresarial</option>
-              <option>Gestión documental</option>
-              <option>Actividad física y entrenamiento deportivo</option>
-              <option>Regencia de farmacia</option>
-              <option>Producción ganadera</option>
-              <option>Gestión de empresas agropecuarias</option>
-              <option>
-                Supervisión de redes de distribución de energía eléctrica
-              </option>
-              <option>Procesamiento de alimentos</option>
-              <option>Control de calidad de alimentos</option>
-              <option>Gestión logística</option>
-              <option>Mecanización agrícola y producción agrícola</option>
+            <option value="" disabled selected>
+              -- Elige tu Tecnólogo --
+            </option>
+            <option>Análisis y desarrollo de software</option>
+            <option>Gestión de talento humano</option>
+            <option>Gestión agroempresarial</option>
+            <option>Gestión de recursos naturales</option>
+            <option>Prevención y control ambiental</option>
+            <option>Desarrollo multimedia y web</option>
+            <option>Gestión contable y de información financiera</option>
+            <option>Desarrollo publicitario</option>
+            <option>Gestión de la seguridad y salud en el trabajo</option>
+            <option>Gestión de redes de datos</option>
+            <option>Mantenimiento electromecánico industrial</option>
+            <option>Producción de multimedia</option>
+            <option>Animación digital</option>
+            <option>Gestión empresarial</option>
+            <option>Gestión documental</option>
+            <option>Actividad física y entrenamiento deportivo</option>
+            <option>Regencia de farmacia</option>
+            <option>Producción ganadera</option>
+            <option>Gestión de empresas agropecuarias</option>
+            <option>
+              Supervisión de redes de distribución de energía eléctrica
+            </option>
+            <option>Procesamiento de alimentos</option>
+            <option>Control de calidad de alimentos</option>
+            <option>Gestión logística</option>
+            <option>Mecanización agrícola y producción agrícola</option>
           </select>
 
           <select id="carrera_tecnico" name="carrera_tecnico" style="display:none;margin-top:8px" class="form-control">
             <option value="" disabled selected>-- Elige tu Técnico --</option>
-      <option value="" disabled selected>-- Elige tu Técnico --</option>
-              <option>Asistencia administrativa</option>
-              <option>Cocina</option>
-              <option>Conservación de recursos naturales</option>
-              <option>
-                Contabilización de operaciones comerciales y financieras
-              </option>
-              <option>Ejecución de programas deportivos</option>
-              <option>Enfermería</option>
-              <option>Monitoreo ambiental</option>
-              <option>Operación turística local</option>
-              <option>Sistemas agropecuarios ecológicos</option>
-              <option>Sistemas teleinformáticos</option>
-              <option>Sistemas atención integral al cliente</option>
-              <option>Cultivo de agrícolas</option>
-              <option>Elaboración de productos alimenticios</option>
-              <option>
-                Instalación de sistemas eléctricos residenciales y comerciales
-              </option>
-              <option>Programación de software</option>
-              <option>Proyectos agropecuarios</option>
-              <option>
-                Recursos humanos y comercialización de productos masivos
-              </option>
-              <option>Integración de operaciones logísticas</option>
-              <option>Manejo de viveros</option>
-              <option>Mecánica de maquinaria industrial</option>
-              <option>Integración de contenidos digitales</option>
-              <option>Electricista industrial</option>
-              <option>Mantenimiento de motocicletas y motocarros</option>
-              <option>Mantenimiento de vehículos livianos</option>
-              <option>Soldadura de productos metalócios en platina</option>
-              <option>Producción pecuario</option>
-              <option>Operaciones de comercio exterior</option>
-              <option>Servicios comerciales y financieros</option>
-              <option>Servicios farmacéuticos</option>
-              <option>Servicio de restaurante y bar</option>
-              <option>Operaciones comerciales en retail</option>
-              <option>Operaciones de maquinaria agrícola</option>
-              <option>Procesamiento de carnes</option>
-              <option>
-                Técnico en operaciones forestales y producción ovino-caprina
-              </option>
+            <option>Asistencia administrativa</option>
+            <option>Cocina</option>
+            <option>Conservación de recursos naturales</option>
+            <option>
+              Contabilización de operaciones comerciales y financieras
+            </option>
+            <option>Ejecución de programas deportivos</option>
+            <option>Enfermería</option>
+            <option>Monitoreo ambiental</option>
+            <option>Operación turística local</option>
+            <option>Sistemas agropecuarios ecológicos</option>
+            <option>Sistemas teleinformáticos</option>
+            <option>Sistemas atención integral al cliente</option>
+            <option>Cultivo de agrícolas</option>
+            <option>Elaboración de productos alimenticios</option>
+            <option>
+              Instalación de sistemas eléctricos residenciales y comerciales
+            </option>
+            <option>Programación de software</option>
+            <option>Proyectos agropecuarios</option>
+            <option>
+              Recursos humanos y comercialización de productos masivos
+            </option>
+            <option>Integración de operaciones logísticas</option>
+            <option>Manejo de viveros</option>
+            <option>Mecánica de maquinaria industrial</option>
+            <option>Integración de contenidos digitales</option>
+            <option>Electricista industrial</option>
+            <option>Mantenimiento de motocicletas y motocarros</option>
+            <option>Mantenimiento de vehículos livianos</option>
+            <option>Soldadura de productos metalócios en platina</option>
+            <option>Producción pecuario</option>
+            <option>Operaciones de comercio exterior</option>
+            <option>Servicios comerciales y financieros</option>
+            <option>Servicios farmacéuticos</option>
+            <option>Servicio de restaurante y bar</option>
+            <option>Operaciones comerciales en retail</option>
+            <option>Operaciones de maquinaria agrícola</option>
+            <option>Procesamiento de carnes</option>
+            <option>
+              Técnico en operaciones forestales y producción ovino-caprina
+            </option>
           </select>
 
           <select id="carrera_operario" name="carrera_operario" style="display:none;margin-top:8px" class="form-control">
-            <option value="" disabled selected>-- Elige tu Operario --</option>
-              <option value="" disabled selected>
-                -- Elige tu Operario --
-              </option>
-              <option>Procesos de panadería</option>
-              <option>
-                Cuidado básico de personas con dependencia funcional
-              </option>
-              <option>Instalaciones eléctricas para viviendas</option>
+            <option value="" disabled selected>
+              -- Elige tu Operario --
+            </option>
+            <option>Procesos de panadería</option>
+            <option>
+              Cuidado básico de personas con dependencia funcional
+            </option>
+            <option>Instalaciones eléctricas para viviendas</option>
           </select>
 
           <select id="carrera_auxiliar" name="carrera_auxiliar" style="display:none;margin-top:8px" class="form-control">
@@ -485,6 +481,195 @@ if ($prefill_ok) {
             <option>Servicios de apoyo al cliente</option>
           </select>
         </div>
+
+        <select id="carrera_profesional" name="carrera_profesional" required class="form-control" style="display:none;">
+          <option value="" disabled selected>-- Selecciona tu carrera profesional --</option>
+
+          <optgroup label="Ingenierías y Tecnología">
+            <option>Ingeniería de Sistemas</option>
+            <option>Ingeniería de Software</option>
+            <option>Ingeniería Informática</option>
+            <option>Ingeniería en Computación</option>
+            <option>Ingeniería Electrónica</option>
+            <option>Ingeniería Eléctrica</option>
+            <option>Ingeniería en Telecomunicaciones</option>
+            <option>Ingeniería Mecánica</option>
+            <option>Ingeniería Mecatrónica</option>
+            <option>Ingeniería Industrial</option>
+            <option>Ingeniería Civil</option>
+            <option>Ingeniería Ambiental</option>
+            <option>Ingeniería Química</option>
+            <option>Ingeniería Biomédica</option>
+            <option>Ingeniería Aeroespacial</option>
+            <option>Ingeniería Naval</option>
+            <option>Ingeniería Geológica</option>
+            <option>Ingeniería de Petróleos</option>
+            <option>Ingeniería de Minas</option>
+            <option>Ingeniería Agroindustrial</option>
+            <option>Ingeniería de Alimentos</option>
+            <option>Ingeniería en Energías Renovables</option>
+            <option>Ingeniería en Materiales</option>
+            <option>Ingeniería Topográfica</option>
+            <option>Ingeniería de Transporte</option>
+            <option>Ingeniería de Datos</option>
+            <option>Ciencia de Datos</option>
+            <option>Analítica de Negocios</option>
+            <option>Inteligencia Artificial</option>
+            <option>Ciberseguridad</option>
+            <option>Robótica</option>
+            <option>Geomática</option>
+            <option>Logística e Ingeniería Logística</option>
+          </optgroup>
+
+          <optgroup label="Ciencias de la Salud">
+            <option>Medicina</option>
+            <option>Enfermería</option>
+            <option>Odontología</option>
+            <option>Fisioterapia</option>
+            <option>Terapia Ocupacional</option>
+            <option>Fonoaudiología</option>
+            <option>Nutrición y Dietética</option>
+            <option>Instrumentación Quirúrgica</option>
+            <option>Bacteriología</option>
+            <option>Microbiología</option>
+            <option>Química Farmacéutica (Farmacia)</option>
+            <option>Optometría</option>
+            <option>Terapia Respiratoria</option>
+            <option>Salud Pública</option>
+            <option>Radiología e Imágenes Diagnósticas</option>
+          </optgroup>
+
+          <optgroup label="Ciencias Sociales y Humanas">
+            <option>Psicología</option>
+            <option>Sociología</option>
+            <option>Antropología</option>
+            <option>Trabajo Social</option>
+            <option>Filosofía</option>
+            <option>Historia</option>
+            <option>Geografía</option>
+            <option>Ciencia Política</option>
+            <option>Relaciones Internacionales</option>
+            <option>Arqueología</option>
+            <option>Lingüística</option>
+            <option>Literatura</option>
+            <option>Estudios Culturales</option>
+            <option>Teología</option>
+            <option>Desarrollo Territorial</option>
+          </optgroup>
+
+          <optgroup label="Economía, Negocios y Gestión">
+            <option>Administración de Empresas</option>
+            <option>Contaduría Pública</option>
+            <option>Economía</option>
+            <option>Finanzas</option>
+            <option>Mercadeo</option>
+            <option>Negocios Internacionales</option>
+            <option>Comercio Exterior</option>
+            <option>Administración Pública</option>
+            <option>Gestión Empresarial</option>
+            <option>Banca y Finanzas</option>
+            <option>Dirección de Empresas</option>
+            <option>Emprendimiento</option>
+            <option>Gerencia Logística</option>
+            <option>Gestión de Proyectos</option>
+            <option>Gestión del Talento Humano</option>
+            <option>Administración Turística y Hotelera</option>
+          </optgroup>
+
+          <optgroup label="Educación (Licenciaturas)">
+            <option>Licenciatura en Educación Preescolar</option>
+            <option>Licenciatura en Educación Básica Primaria</option>
+            <option>Licenciatura en Lengua Castellana</option>
+            <option>Licenciatura en Matemáticas</option>
+            <option>Licenciatura en Ciencias Naturales</option>
+            <option>Licenciatura en Educación Física</option>
+            <option>Licenciatura en Idiomas (Inglés)</option>
+            <option>Licenciatura en Educación Especial</option>
+            <option>Licenciatura en Artes</option>
+            <option>Licenciatura en Música</option>
+            <option>Licenciatura en Tecnología e Informática</option>
+          </optgroup>
+
+          <optgroup label="Artes, Arquitectura y Diseño">
+            <option>Arquitectura</option>
+            <option>Diseño Gráfico</option>
+            <option>Diseño Industrial</option>
+            <option>Diseño de Modas</option>
+            <option>Diseño de Interiores</option>
+            <option>Artes Plásticas</option>
+            <option>Artes Visuales</option>
+            <option>Fotografía</option>
+            <option>Cine y Televisión</option>
+            <option>Animación Digital</option>
+            <option>Música</option>
+            <option>Danza</option>
+            <option>Teatro</option>
+            <option>Producción Multimedia</option>
+          </optgroup>
+
+          <optgroup label="Ciencias Básicas y Naturales">
+            <option>Matemáticas</option>
+            <option>Estadística</option>
+            <option>Física</option>
+            <option>Química</option>
+            <option>Biología</option>
+            <option>Bioquímica</option>
+            <option>Geología</option>
+            <option>Ciencias de la Tierra</option>
+            <option>Astronomía</option>
+            <option>Nanociencia y Nanotecnología</option>
+            <option>Ciencias del Mar</option>
+          </optgroup>
+
+          <optgroup label="Agropecuarias y Ambiente">
+            <option>Medicina Veterinaria</option>
+            <option>Zootecnia</option>
+            <option>Agronomía</option>
+            <option>Ingeniería Agronómica</option>
+            <option>Ingeniería Forestal</option>
+            <option>Ingeniería Agroecológica</option>
+            <option>Ingeniería Agrícola</option>
+            <option>Ingeniería Pesquera</option>
+            <option>Acuicultura</option>
+            <option>Administración Ambiental</option>
+            <option>Gestión Ambiental</option>
+            <option>Ciencias Ambientales</option>
+            <option>Hidrología</option>
+            <option>Meteorología</option>
+          </optgroup>
+
+          <optgroup label="Comunicación y Medios">
+            <option>Comunicación Social</option>
+            <option>Periodismo</option>
+            <option>Publicidad</option>
+            <option>Relaciones Públicas</option>
+            <option>Comunicación Audiovisual</option>
+            <option>Comunicación Digital</option>
+            <option>Producción de Radio y TV</option>
+            <option>Comunicación Organizacional</option>
+          </optgroup>
+
+          <optgroup label="Derecho, Gobierno y Seguridad">
+            <option>Derecho</option>
+            <option>Criminología</option>
+            <option>Criminalística</option>
+            <option>Gobierno y Asuntos Públicos</option>
+            <option>Gestión Pública</option>
+            <option>Seguridad y Salud en el Trabajo</option>
+            <option>Gestión de la Seguridad</option>
+            <option>Investigación Criminal</option>
+          </optgroup>
+
+          <optgroup label="Turismo, Gastronomía y Deporte">
+            <option>Turismo</option>
+            <option>Administración Turística y Hotelera</option>
+            <option>Gastronomía</option>
+            <option>Guianza Turística</option>
+            <option>Gestión Deportiva</option>
+            <option>Recreación y Deporte</option>
+          </optgroup>
+        </select>
+
 
         <div class="form-grupo">
           <label for="ficha">18. Si eres aprendiz o egresado SENA, escribe tu <b>número de ficha</b>.
@@ -591,7 +776,7 @@ if ($prefill_ok) {
 
           <?php if ($prefill_ok): ?>
             <input type="hidden" name="orientador" value="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8') ?>">
-            <input type="hidden" name="orientador_id_prefill" value="<?= (int)$oid_resuelto ?>">
+            <input type="hidden" name="orientador_id_prefill" value="<?= (int)$oid ?>">
             <input type="hidden" name="qr_sig" value="<?= htmlspecialchars($sig, ENT_QUOTES, 'UTF-8') ?>">
             <input type="hidden" name="regional_prefill" value="<?= htmlspecialchars($region, ENT_QUOTES, 'UTF-8') ?>">
           <?php endif; ?>

@@ -77,7 +77,6 @@ $HEADER_MAP = [
   'departamento'             => 'Departamento',
   'municipio'                => 'Municipio',
   'fecha_nacimiento'         => 'Fecha de nacimiento',
-  'fecha_expedicion'         => 'Fecha de expedición',
   'fecha_orientacion'        => 'Fecha de orientación',
   'sexo'                     => 'Sexo',
   'clasificacion'            => 'Clasificación',
@@ -241,7 +240,7 @@ $SHRINK_COLS = ['nombres','apellidos']; // quita correo
     }
 
     // Alineaciones útiles
-    $CENTER_COLS = ['id','hora_inicio','hora_fin','fecha_registro','fecha_nacimiento','fecha_expedicion','fecha_orientacion','sexo','tipo_id'];
+    $CENTER_COLS = ['id','hora_inicio','hora_fin','fecha_registro','fecha_nacimiento','fecha_orientacion','sexo','tipo_id'];
     $LEFT_TEXT_COLS = ['numero_id','celular','ficha'];
     $colIdx = 2;
     foreach ($HEADER_MAP as $dbCol => $_) {
@@ -258,7 +257,7 @@ $SHRINK_COLS = ['nombres','apellidos']; // quita correo
     }
 
     // Formatos de fecha/hora (strings -> formato)
-    $DATE_COLS = ['fecha_registro','fecha_nacimiento','fecha_expedicion','fecha_orientacion'];
+    $DATE_COLS = ['fecha_registro','fecha_nacimiento','fecha_orientacion'];
     $DATETIME_COLS = ['hora_inicio','hora_fin'];
     $colIdx = 2;
     foreach ($HEADER_MAP as $dbCol => $_) {
