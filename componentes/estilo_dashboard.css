@@ -576,7 +576,12 @@ img.encabezado-logo {
   50%     { transform: translateY(-6px); }
 }
 
+@media (max-width: 900px){
+  #rutaCarreteraSVG{ aspect-ratio: 1000 / 300; } /* un poco más alto para más legibilidad */
+  .ruta-standalone-card{ padding: 12px; }
+}
 
+/* --- Móvil --- */
 @media (max-width: 700px) {
   .encabezado-sena {
     grid-template-columns: 1fr;
@@ -634,3 +639,14 @@ img.encabezado-logo {
   padding: 0 12px;
   margin-left: 12px;
 }
+
+
+@media (max-width: 480px){
+  #rutaCarreteraSVG{ aspect-ratio: 1000 / 340; } /* más alto: nodos/iconos se ven claros */
+  .ruta-standalone-card{ padding: 10px; }
+  .ruta-legend{ gap: 12px; font-size: .9rem; }
+  .ruta-legend .dot{ width:10px; height:10px; }
+}
+
+/* Evitar que el coche bloquee toques en móvil */
+#car{ pointer-events:none }

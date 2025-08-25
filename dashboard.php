@@ -3,7 +3,7 @@ session_start();
 include "servicios/conexion.php";
 
 if (!isset($_SESSION['usuario_id'])) {
-  header("Location: login.php");
+  header("Location: index.php");
   exit;
 }
 
@@ -29,7 +29,7 @@ $fases_completadas = array_fill(1, $total_fases, 0);
 
 if (!$usuario) {
   session_destroy();
-  header("Location: login.php?error=" . urlencode("Usuario no encontrado"));
+  header("Location: index.php?error=" . urlencode("Usuario no encontrado"));
   exit;
 }
 
@@ -39,7 +39,7 @@ if (isset($usuario['acceso_panel']) && (int)$usuario['acceso_panel'] === 0) {
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <div class="modal"><div class="modal-contenido">
         <p>Tu proceso está en revisión. Aún no puedes acceder a las herramientas. Te enviaremos una notificación cuando tu orientador confirme la siguiente cita.</p>
-        <a href="login.php"><button>Cerrar sesión</button></a>
+        <a href="index.php"><button>Cerrar sesión</button></a>
     </div></div>
     <style>
       .modal{position:fixed;z-index:9999;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6)}

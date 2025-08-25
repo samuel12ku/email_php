@@ -1,5 +1,5 @@
 <?php
-require_once '../servicios/conexion.php';
+include '../servicios/conexion.php';
 require_once '../servicios/php/config_qr.php';
 
 $cn = ConectarDB();
@@ -116,7 +116,7 @@ if ($prefill_ok) {
       </div>
     </div>
 
-    <form action="servicio/php/guardar_formulario.php" method="post" id="MIformulario">
+    <form action="../servicios/php/guardar_formulario.php" method="post" id="MIformulario" accept-charset="UTF-8">
 
       <!-- ===== FASE 1 ===== -->
       <div class="fase">
@@ -174,6 +174,7 @@ if ($prefill_ok) {
           <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" required />
         </div>
 
+        <!-- eliminnar  -->
         <div class="form-grupo">
           <label for="fecha_expedicion">8. Fecha de expedición del documento (opcional)</label><br />
           <input type="date" id="fecha_expedicion" name="fecha_expedicion" class="form-control" />
@@ -187,7 +188,8 @@ if ($prefill_ok) {
         <div class="form-grupo">
           <label for="pais">9. País <span style="color:red">*</span></label><br />
           <select id="pais" name="pais_origen" class="form-control" required>
-            <option value="" disabled selected>-- Selecciona un país --</option>
+            <option value="" disabled>-- Selecciona un país --</option>
+            <option value="Colombia" selected>Colombia</option>
           </select>
         </div>
 
@@ -383,6 +385,7 @@ if ($prefill_ok) {
             <option value="Tecnólogo">Tecnólogo</option>
             <option value="Operario">Operario</option>
             <option value="Auxiliar">Auxiliar</option>
+            <option value="Auxiliar">Profesional</option>
             <option value="Sin título">Sin título</option>
           </select>
 
@@ -489,7 +492,7 @@ if ($prefill_ok) {
           <select id="centro_orientacion" name="centro_orientacion" class="form-control" required
             onchange="actualizarOrientadores()"
             <?= $prefill_ok ? 'disabled title="Preseleccionado desde QR"' : '' ?>>
-            <option value="" disabled <?= $PREFILL_OK ? '' : 'selected' ?>>-- Selecciona un centro --</option>
+            <option value="" disabled <?= $prefill_ok ? '' : 'selected' ?>>-- Selecciona un centro --</option>
             <option value="CAB">Centro Agropecuario de Buga (CAB)</option>
             <option value="CBI">Centro de Biotecnología Industrial (CBI Palmira)</option>
             <option value="CDTI">Centro de Diseño Tecnológico Industrial (CDTI Cali)</option>
@@ -511,12 +514,12 @@ if ($prefill_ok) {
             <span style="color:red">*</span></label><br />
           <select id="orientador" name="orientador" class="form-control" required
             <?= $prefill_ok ? 'disabled title="Preseleccionado desde QR"' : '' ?>>
-            <option value="" disabled <?= $PREFILL_OK ? '' : 'selected' ?>>-- Selecciona primero un centro --</option>
+            <option value="" disabled <?= $prefill_ok ? '' : 'selected' ?>>-- Selecciona primero un centro --</option>
           </select>
 
           <?php if ($prefill_ok): ?>
             <input type="hidden" name="orientador" value="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8') ?>">
-            <input type="hidden" name="orientador_id_prefill" value="<?= (int)$oid ?>">
+            <input type="hidden" name="orientador_id_prefill" value="<?= (int)$oid_resuelto ?>">
             <input type="hidden" name="qr_sig" value="<?= htmlspecialchars($sig, ENT_QUOTES, 'UTF-8') ?>">
             <input type="hidden" name="regional_prefill" value="<?= htmlspecialchars($region, ENT_QUOTES, 'UTF-8') ?>">
           <?php endif; ?>

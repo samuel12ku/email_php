@@ -3,7 +3,7 @@ session_start();
 include "../conexion.php";
 
 if (!isset($_SESSION['usuario_id']) || !isset($_SESSION['rol'])) {
-    header("Location: ../../login.php");
+    header("Location: ../../index.php");
     exit;
 }
 
@@ -53,7 +53,7 @@ if ($stmt->execute()) {
         $_SESSION['apellido'] = $apellidos;
     }
 
-    $ruta_redireccion = ($rol === 'orientador') ? "../php/panel_orientador.php" : "../../login.php";
+    $ruta_redireccion = ($rol === 'orientador') ? "../php/panel_orientador.php" : "../../index.php";
     ?>
     <!DOCTYPE html>
     <html lang="es">
