@@ -482,7 +482,7 @@ if ($prefill_ok) {
           </select>
         </div>
 
-        <select id="carrera_profesional" name="carrera_profesional" required class="form-control" style="display:none;">
+        <select id="carrera_profesional" name="carrera_profesional" class="form-control" style="display:none;">
           <option value="" disabled selected>-- Selecciona tu carrera profesional --</option>
 
           <optgroup label="Ingenierías y Tecnología">

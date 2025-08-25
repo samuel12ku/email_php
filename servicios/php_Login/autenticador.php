@@ -5,7 +5,7 @@ include "../conexion.php";
 if ($_SERVER['REQUEST_METHOD'] != "POST") {
     echo "Tu petición ha sido rechazada";
     exit;
-}
+} else{
 
 if (
     empty($_POST['numeroDocumento']) ||
@@ -277,3 +277,4 @@ echo "
 </body>
 </html>
 ";
+}
